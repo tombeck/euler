@@ -23,9 +23,7 @@
  */
 package com.thomas.problem0xx.problem1x;
 
-import static java.math.BigInteger.ZERO;
-
-import java.math.BigInteger;
+import static java.lang.Long.parseLong;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -149,19 +147,19 @@ class Problem13 implements Problem {
      * @since 30.12.2009
      */
     @Override
-    public String solve() {
+    public Long solve() {
 
-        BigInteger sum = ZERO;
+        long sum = 0;
         
-        for (int i = 0, l = NUMBERS.length; i < l; ++i) {
-            sum = sum.add(new BigInteger(NUMBERS[i]));
+        for (int i = 0; i < NUMBERS.length; ++i) {
+            sum += parseLong(NUMBERS[i].substring(0, 11));
         }
-
-        return sum.toString().substring(0, 10);
+        
+        return sum / 1000;
     }
 
     /**
-     * TODO Method documentation
+     * TODO Method documentation 5537376230
      * 
      * @param args
      * @author Thomas

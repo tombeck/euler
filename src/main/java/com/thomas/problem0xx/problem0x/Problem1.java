@@ -43,7 +43,7 @@ class Problem1 implements Problem {
      * @since 26.12.2009
      */
     @Override
-    public Object solve() {
+    public Integer solve() {
 
         return 3 * sum(999 / 3) + 5 * sum(999 / 5) - 15 * sum(999 / 15);
     }

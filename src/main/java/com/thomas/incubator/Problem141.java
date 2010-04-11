@@ -27,8 +27,6 @@ import com.thomas.util.Euler;
 import com.thomas.util.PrimeUtils;
 import com.thomas.util.Euler.Problem;
 
-import static java.lang.Math.*;
-
 /**
  * TODO Type documentation
  * 

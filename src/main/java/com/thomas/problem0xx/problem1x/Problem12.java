@@ -48,11 +48,9 @@ class Problem12 implements Problem {
     @Override
     public Integer solve() {
 
-        int n = 0;
-        
-        for (int i = 1; numberOfDivisors(n += i) <= 500; ++i) { /**/ }
-        
-        return n;
+        for (int i = 0, n = 0; ; n += ++i) {
+            if (numberOfDivisors(n) > 500) return n;
+        }
     }
 
     /**

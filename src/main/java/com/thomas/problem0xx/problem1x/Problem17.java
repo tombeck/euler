@@ -63,18 +63,26 @@ class Problem17 implements Problem {
     private int countWords(int n) {
         
         if (n == 1000) {
+            
             return WORDS1[1].length() + "thousend".length();
         }
         if (n >= 100) {
+            
             final int rest = n % 100;
+            
             if (rest == 0) return WORDS1[n / 100].length() + "hundred".length();
+            
             return WORDS1[n / 100].length() + "hundredand".length() + countWords(rest);
         }
         if (n >= 20) {
+            
             final int rest = n % 10;
+            
             if (rest == 0) return WORDS10[n /10].length();
+            
             return WORDS10[n / 10].length() + countWords(rest);
         }
+        
         return WORDS1[n].length();
     }
     

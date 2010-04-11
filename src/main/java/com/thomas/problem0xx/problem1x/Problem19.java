@@ -62,7 +62,7 @@ class Problem19 implements Problem {
         switch(month) {
         case  1: return 31; //Januar
         case  2: return (year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) ? 29 : 28; // Februar
-        case  3: return 31; // März
+        case  3: return 31; // MÃ¤rz
         case  4: return 30; // April
         case  5: return 31; // Mai
         case  6: return 30; // Juni

@@ -26,7 +26,7 @@ package com.thomas.problem0xx.problem3x;
 import java.util.List;
 
 import com.thomas.util.Euler;
-import com.thomas.util.PrimeUtils;
+import static com.thomas.util.PrimeUtils.*;
 import com.thomas.util.Euler.Problem;
 
 /**
@@ -48,7 +48,7 @@ class Problem35 implements Problem {
     @Override
     public Integer solve() {
 
-        final List<Integer> primes = PrimeUtils.primes(1000);
+        final List<Integer> primes = primes(1000);
         final int [] digits = {1, 3, 7, 9};
         
         int sum = 4; // 2, 3, 5, 7
@@ -76,10 +76,10 @@ class Problem35 implements Problem {
 
     private boolean isCircularPrime(int p, int length, int magnitude, List<Integer> primes) {
     
-        if (!PrimeUtils.isPrime(p)) return false;
+        if (!isPrime(p, primes)) return false;
 
         for (int i = 1; i < length; ++i) {
-            if (!PrimeUtils.isPrime(p = p / 10 + (p % 10) * magnitude, primes)) return false;
+            if (!isPrime(p = p / 10 + (p % 10) * magnitude, primes)) return false;
         }
         
         return true;

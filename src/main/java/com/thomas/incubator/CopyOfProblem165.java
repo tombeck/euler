@@ -23,14 +23,11 @@
  */
 package com.thomas.incubator;
 
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
 import com.thomas.util.Euler;
-import com.thomas.util.NumberUtils;
 import com.thomas.util.Euler.Problem;
 import com.thomas.util.random.BlumBlumShub;
 import com.thomas.util.random.IntGenerator;

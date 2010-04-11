@@ -46,16 +46,16 @@ class Problem14 implements Problem {
     public Integer solve() {
 
         final int max = 1000000;
-        final long[] cache = new long[max];
+        final int[] cache = new int[max];
         
         cache[1] = 1;
         
         int i_max = 1;
-        long len_max = 1;
+        int len_max = 1;
         
         for (int i = 2; i < max; ++i) {
             
-            long len = 1;
+            int len = 1;
             long n = i;
             
             for (; n >= i; ++len) {

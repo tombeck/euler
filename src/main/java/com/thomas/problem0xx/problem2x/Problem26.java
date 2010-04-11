@@ -23,7 +23,7 @@
  */
 package com.thomas.problem0xx.problem2x;
 
-import java.util.Arrays;
+import static java.util.Arrays.fill;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -52,14 +52,17 @@ class Problem26 implements Problem {
         
         int length_max = 0;
         int d_max = 0;
+        
         for (int d = 2; d < limit; ++d) {
             
             int n = 1;
             int index = 0;
             
-            Arrays.fill(pos, 0);
+            fill(pos, 0);
             for (; pos[n = (10 * n) % d] == 0; pos[n] = index++) { /**/ }
+            
             final int l = index - pos[n];
+            
             if (l > length_max) {
                 length_max = l;
                 d_max = d;

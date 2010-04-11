@@ -43,7 +43,7 @@ class Problem3 implements Problem {
      * @since 27.12.2009
      */
     @Override
-    public Object solve() {
+    public Long solve() {
         
         long n = 600851475143L;
         long factor = 1;

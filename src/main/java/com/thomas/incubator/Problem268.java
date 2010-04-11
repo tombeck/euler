@@ -23,10 +23,7 @@
  */
 package com.thomas.incubator;
 
-import java.util.List;
-
 import com.thomas.util.Euler;
-import com.thomas.util.PrimeUtils;
 import com.thomas.util.Euler.Problem;
 
 /**

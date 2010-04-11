@@ -23,9 +23,6 @@
  */
 package com.thomas.incubator;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
 

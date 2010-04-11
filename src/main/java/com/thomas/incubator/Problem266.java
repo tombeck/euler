@@ -23,16 +23,10 @@
  */
 package com.thomas.incubator;
 
-import static com.thomas.util.PrimeUtils.primes;
-import static java.math.BigInteger.ONE;
-
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.thomas.util.Euler;
-import com.thomas.util.NumberUtils;
 import com.thomas.util.PrimeUtils;
 import com.thomas.util.Euler.Problem;
 
