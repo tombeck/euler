@@ -21,9 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.incubator;
+package com.thomas.problem165;
 
-import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -31,6 +30,7 @@ import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
 import com.thomas.util.random.BlumBlumShub;
 import com.thomas.util.random.IntGenerator;
+import com.thomas.util.rational.IntRational;
 
 /**
  * TODO Type documentation
@@ -40,20 +40,43 @@ import com.thomas.util.random.IntGenerator;
  */
 class Problem165 implements Problem {
 
+    static class Point implements Comparable<Point> {
+        
+        final IntRational x;
+        final IntRational y;
+
+        public Point(IntRational x, IntRational y) {
+
+            this.x = x;
+            this.y = y;
+        }
+        
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int compareTo(Point other) {
+
+            final int diff = this.x.compareTo(other.x);
+            
+            return diff == 0 ? this.y.compareTo(other.y) : diff;
+        }
+        
+    }
+    
     /**
      * TODO Method documentation
      * 
      * @return
      * @see com.thomas.util.Euler.Problem#solve()
      * @author Thomas
-     * @throws InterruptedException 
      * @since 28.12.2009
      */
     @Override
-    public Object solve() throws InterruptedException {
+    public Integer solve() {
 
         final IntGenerator gen = new BlumBlumShub(500);
-        final long[][][] segs = new long[5000][2][2];
+        final int[][][] segs = new int[5000][2][2];
         
         for (int i = 0; i < 5000; ++i) {
             segs[i][0][0] = gen.next();
@@ -62,75 +85,39 @@ class Problem165 implements Problem {
             segs[i][1][1] = gen.next() - segs[i][0][1];
         }
 
-        final Comparator<long[]> comp = new Comparator<long[]>() {
+        final Set<Point> intersections = new TreeSet<Point>();
 
-            @Override
-            public int compare(long[] o1, long[] o2) {
+        for (int i = 0; i < segs.length; ++i) {
 
-                final long diff = o1[0] * o2[2] - o2[0] * o1[2];
-
-                return Long.signum(diff == 0 ? o1[1] * o2[2] - o2[1] * o1[2] : diff);
-            }
-            
-        };
-        
-        final Set<long[]> intersections = new TreeSet<long[]>(comp);
-
-        for (int i = segs.length; i-- > 0; ) {
-            for (int j = segs.length; j-- > i; ) {
-                final long[] u = segs[i][0];
-                final long[] x = segs[i][1];
-                final long[] v = segs[j][0];
-                final long[] y = segs[j][1];
+            for (int j = 0; j < i; ++j) {
                 
-                final long[] w = subtract(v, u);
+                final int[] x = segs[i][1];
+                final int[] y = segs[j][1];
                 
-                final long det_wy = det(w, y);
-                final long det_wx = det(w, x);
-                final long det_xy = det(x, y);
-                
-                if (det_xy > 0) {
-                    if (det_wy > 0 && det_wy < det_xy && det_wx > 0 && det_wx < det_xy) {
-                        long[] intersection = {(u[0] * det_xy + det_wy * x[0]) , (u[1] * det_xy + det_wy * x[1]) , det_xy};
-                        intersections.add(intersection);
-                    }
-                } else if (det_xy < 0) {
-                    if (det_wy < 0 && det_wy > det_xy && det_wx < 0 && det_wx > det_xy) {
-                        long[] intersection = {(u[0] * det_xy + det_wy * x[0]) , (u[1] * det_xy + det_wy * x[1]) , det_xy};
-                        intersections.add(intersection);
+                final int det_xy = x[0] * y[1] - x[1] * y[0];
+
+                if (det_xy != 0) {
+                    
+                    final int[] u = segs[i][0];
+                    final int[] v = segs[j][0];
+                    
+                    final int[] w = new int[] {v[0] - u[0], v[1] - u[1]};
+                    
+                    final int det_wy = w[0] * y[1] - w[1] * y[0];
+                    final int det_wx = w[0] * x[1] - w[1] * x[0];
+                    
+                    if (det_xy > 0 ? (det_wy > 0 && det_wy < det_xy && det_wx > 0 && det_wx < det_xy) : (det_wy < 0 && det_wy > det_xy && det_wx < 0 && det_wx > det_xy)) {
+                        intersections.add(new Point(new IntRational(u[0] * det_xy + det_wy * x[0], det_xy), new IntRational(u[1] * det_xy + det_wy * x[1], det_xy)));
                     }
                 }
             }
-            System.out.println(i + ": " + intersections.size());
-            Thread.sleep(1);
         }
         
         return intersections.size();
     }
 
-    private long det(long[] u, long[] v) {
-    
-        return u[0] * v[1] - u[1] * v[0];
-    }
-    
-    private long[] subtract(long[] u, long[] v) {
-    
-        return new long[] {u[0] - v[0], u[1] - v[1]};
-    }
-    
     /**
      * TODO Method documentation
-     * 
-     * 1419181
-     * 2178108
-     * 2178047
-     * 2781503
-     * 2781478
-     * 2868959
-     * 2868972
-     * 2868921
-     * 
-     * 2868868
      * 
      * @param args
      * @author Thomas
