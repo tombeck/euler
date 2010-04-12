@@ -58,14 +58,14 @@ class Problem99 implements Problem {
 
         try {
 
-            int ln = 0;
+            int ln = 1;
             int ln_max = 0;
-            int[] n = null;
             int[] n_max = {1, 0};
             
-            for (String line; (line = reader.readLine()) != null; ) {
-                ++ln;
-                n = parseInt(line.split(","));
+            for (String line; (line = reader.readLine()) != null; ++ln) {
+                
+                final int[] n = parseInt(line.split(","));
+                
                 if (n[1] * log(n[0]) > n_max[1] * log(n_max[0])) {
                     n_max = n;
                     ln_max = ln;

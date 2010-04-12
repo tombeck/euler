@@ -81,7 +81,7 @@ class Problem92 implements Problem {
             if (next ==  1) return false;
             
             for (int i = 0; i < c.length; ++i) {
-                c[i] = (next % 10);
+                c[i] = next % 10;
                 next /= 10;
             }
         }        

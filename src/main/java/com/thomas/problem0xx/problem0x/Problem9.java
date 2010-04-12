@@ -47,10 +47,7 @@ class Problem9 implements Problem {
         
         for (int a = 1; a < 1000/3; ++a) {
             for (int b = a + 1, c; b < (c = 1000 - (a + b)); ++b) {
-                if (a * a + b * b == c * c) {
-                    
-                    return a * b * c;
-                }
+                if (a * a + b * b == c * c) return a * b * c;
             }
         }
         

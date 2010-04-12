@@ -23,10 +23,12 @@
  */
 package com.thomas.problem0xx.problem3x;
 
+import static com.thomas.util.PrimeUtils.isPrime;
+import static com.thomas.util.PrimeUtils.primes;
+
 import java.util.List;
 
 import com.thomas.util.Euler;
-import static com.thomas.util.PrimeUtils.*;
 import com.thomas.util.Euler.Problem;
 
 /**
