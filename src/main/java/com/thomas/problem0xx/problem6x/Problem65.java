@@ -21,12 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.problem65;
+package com.thomas.problem0xx.problem6x;
 
 import static com.thomas.util.Digit.sumOfDigits;
-import static java.math.BigInteger.valueOf;
+import static java.math.BigInteger.ONE;
 
 import java.math.BigInteger;
+
+import com.thomas.util.Euler;
+import com.thomas.util.Euler.Problem;
 
 /**
  * TODO Type documentation
@@ -34,8 +37,32 @@ import java.math.BigInteger;
  * @author Thomas
  * @since 23.11.2009
  */
-public class Main {
+class Problem65 implements Problem {
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Integer solve() {
+        
+        BigInteger[] num = {BigInteger.valueOf(2), BigInteger.valueOf(3)}; // n1, n2
+        
+        for (int n = 3; n <= 100; ++n) {
+            /*
+             * continued fraction of e = [2;1,2,1,1,4,1,1,6,1,...,1,(n / 3) * 2,1,...]
+             * and num(n) = a(n)*num(n-1)+num(n-2)
+             */
+            num = new BigInteger[] {num[1], a(n).multiply(num[1]).add(num[0])};
+        }
+        
+        return sumOfDigits(num[1]);
+    }
+    
+    private BigInteger a(int n) {
+    
+        return n % 3 == 0 ? BigInteger.valueOf((n / 3) * 2) : ONE;
+    }
+    
     /**
      * TODO Method documentation
      * 
@@ -45,22 +72,7 @@ public class Main {
      */
     public static void main(String[] args) {
 
-        BigInteger prev = valueOf(2); // n = 1
-        BigInteger cur = valueOf(3);  // n = 2
-        
-        for (int n = 3; n <= 100; ++n) {
-            
-            /*
-             * continued fraction of e = [2;1,2,1,1,4,1,1,6,1,...,1,(n / 3) * 2,1,...]
-             * and num(n+1) = a(n+1)*num(n)+num(n-1)
-             */
-            final BigInteger next = valueOf(n % 3 == 0 ? (n / 3) * 2 : 1).multiply(cur).add(prev);
-            
-            prev = cur;
-            cur = next;
-        }
-        
-        System.out.println(sumOfDigits(cur.toString()));
+        Euler.run(new Problem65());
     }
 
 }

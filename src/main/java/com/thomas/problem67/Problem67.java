@@ -56,6 +56,7 @@ class Problem67 implements Problem {
             return maxPathSum(reader)[0];
             
         } finally {
+            
             closeQuietly(reader);
         }
     }
@@ -67,15 +68,15 @@ class Problem67 implements Problem {
         return line == null ? null : joinRows(parseInt(line.split(" ")), maxPathSum(reader));
     }
     
-    private int[] joinRows(int[] row, int[] next) {
+    private int[] joinRows(int[] cur, int[] next) {
         
         if (next != null) {
-            for (int i = 0; i < row.length; ++i) {
-                row[i] += max(next[i], next[i + 1]);
+            for (int i = 0; i < cur.length; ++i) {
+                cur[i] += max(next[i], next[i + 1]);
             }
         }
         
-        return row;
+        return cur;
     }
     
     /**
