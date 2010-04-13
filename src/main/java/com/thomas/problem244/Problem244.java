@@ -27,7 +27,6 @@ import static com.thomas.util.BitUtils.nextPermutation;
 import static com.thomas.util.BitUtils.rotateLeft;
 import static com.thomas.util.BitUtils.rotateRight;
 
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -43,7 +42,7 @@ import com.thomas.util.Euler.Problem;
  */
 class Problem244 implements Problem {
 
-    static class Vertex {
+    static class Vertex implements Comparable<Vertex> {
     
         final int configuration;
         final Vertex[] neighbors = new Vertex[4]; // up, down, left, right
@@ -55,11 +54,17 @@ class Problem244 implements Problem {
             
             this.configuration = configuration;
         }
+
+        @Override
+        public int compareTo(Vertex o) {
+
+            return this.dist - o.dist;
+        }
         
     }
     
     /**
-     * TODO Method documentation 96356848
+     * TODO Method documentation
      * 
      * @return
      * @see com.thomas.util.Euler.Problem#solve()
@@ -67,7 +72,7 @@ class Problem244 implements Problem {
      * @since 14.03.2010
      */
     @Override
-    public Long solve() {
+    public Integer solve() {
         
         final Map<Integer, Vertex> vertices = new HashMap<Integer, Vertex>();
         
@@ -83,20 +88,14 @@ class Problem244 implements Problem {
             
             final int gap = vertex.configuration & 0xf;
 
-            vertex.neighbors[0] = vertices.get((gap < 4 ? 0 : rotateLeft(vertex.configuration, gap, 4) - 4));
-            vertex.neighbors[1] = vertices.get((gap >= 12 ? 0 : rotateRight(vertex.configuration, 4 + gap, 4) + 4));
-            vertex.neighbors[2] = vertices.get(((gap & 0x3) == 0 ? 0 : vertex.configuration - 1));
-            vertex.neighbors[3] = vertices.get(((gap & 0x3) == 3 ? 0 : vertex.configuration + 1));
+            vertex.neighbors[0] = gap < 4 ? null : vertices.get(rotateLeft(vertex.configuration, gap, 4) - 4);
+            vertex.neighbors[1] = gap >= 12 ? null : vertices.get(rotateRight(vertex.configuration, 4 + gap, 4) + 4);
+            vertex.neighbors[2] = (gap & 0x3) == 0 ? null : vertices.get(vertex.configuration - 1);
+            vertex.neighbors[3] = (gap & 0x3) == 3 ? null : vertices.get(vertex.configuration + 1);
         }
         
-        final PriorityQueue<Vertex> queue = new PriorityQueue<Vertex>(vertices.size(), new Comparator<Vertex>() {
-
-            @Override
-            public int compare(Vertex o1, Vertex o2) {
-
-                return o1.dist - o2.dist;
-            }
-        });
+        final PriorityQueue<Vertex> queue = new PriorityQueue<Vertex>(vertices.size());
+        
         final Vertex source = vertices.get(185040);
         
         source.dist = 0;
@@ -126,7 +125,7 @@ class Problem244 implements Problem {
 
     private static final int[] MOVE = {85, 68, 76, 82};
     
-    private long sum(Vertex target, Vertex source, int cks) {
+    private int sum(Vertex target, Vertex source, int cks) {
     
         if (target.equals(source)) return cks;
         
@@ -136,9 +135,7 @@ class Problem244 implements Problem {
             
             final Vertex v = target.previous[i];
             
-            if (v != null) {
-                sum += sum(v, source, (int)((cks * 243L + MOVE[i]) % 100000007));
-            }
+            if (v != null) sum += sum(v, source, (int)((cks * 243L + MOVE[i]) % 100000007));
         }
         
         return sum;

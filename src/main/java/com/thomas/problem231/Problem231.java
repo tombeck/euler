@@ -39,7 +39,7 @@ class Problem231 implements Problem {
 
     /**
      * TODO Method documentation
-     * 5000000
+     * 
      * @return
      * @see com.thomas.util.Euler.Problem#solve()
      * @author Thomas

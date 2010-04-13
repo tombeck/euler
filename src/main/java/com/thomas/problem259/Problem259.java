@@ -33,6 +33,7 @@ import java.util.TreeSet;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
+import com.thomas.util.function.Function0;
 import com.thomas.util.rational.LongRational;
 
 /**
@@ -43,11 +44,7 @@ import com.thomas.util.rational.LongRational;
  */
 class Problem259 implements Problem {
 
-    static interface Function {
-        
-        Set<LongRational> call();
-        
-    }
+    static interface Function extends Function0<Set<LongRational>> {}
     
     static final class Constant implements Function {
         
@@ -151,11 +148,10 @@ class Problem259 implements Problem {
      * @return
      * @see com.thomas.util.Euler.Problem#solve()
      * @author Thomas
-     * @throws InterruptedException 
      * @since 01.04.2010
      */
     @Override
-    public Object solve() throws InterruptedException {
+    public Long solve() {
 
         final int[] digits = {1, 2, 3, 4, 5, 6, 7, 8, 9};
         final Map<Function, Function> cache = new HashMap<Function, Function>();
@@ -173,7 +169,6 @@ class Problem259 implements Problem {
                     reacheable.add(r.numerator());
                 }
             }
-            Thread.sleep(1);
         }
 
         for (Long r : reacheable) sum += r;

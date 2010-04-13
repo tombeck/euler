@@ -21,39 +21,53 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.problem273;
+package com.thomas.incubator;
 
+import com.thomas.Util;
 import com.thomas.util.Euler;
-import com.thomas.util.PrimeUtils;
 import com.thomas.util.Euler.Problem;
 
 /**
  * TODO Type documentation
  * 
  * @author Thomas
- * @since 09.01.2010
+ * @since 07.03.2010
  */
-class Problem273 implements Problem {
+class Problem276 implements Problem {
 
     /**
      * TODO Method documentation
      * 
+     * see {@link http://www.research.att.com/~njas/sequences/A051493 }
+     * see {@link http://mathworld.wolfram.com/MoebiusTransform.html }
+     * 
      * @return
-     * @throws Exception
      * @see com.thomas.util.Euler.Problem#solve()
      * @author Thomas
-     * @since 09.01.2010
+     * @since 07.03.2010
      */
     @Override
-    public Object solve() throws Exception {
+    public Object solve() {
 
-        for (int p : PrimeUtils.primes(150)) {
-            if ((p - 1) % 4 == 0) {
-                System.out.println(p + ", " + ((p - 1) / 4));
+        final int max = 20;//10000000;
+        
+        long count = 0;
+
+        for (int p = 0; p <= max; ++p) {
+
+            for (int a = 1, am = p / 3; a <= am; ++a) {
+                for (int b = Math.max(a, (p - 2 * a) / 2 + 1), bm = (p - a) / 2; b <= bm; ++b) {
+                    int c = p - (a + b);
+                    if (Util.gcd(a, Util.gcd(b, c)) == 1) {
+                        System.out.println(p + ": " + a + ", " + b + ", " + c);
+                        ++count;
+                    }
+                }
             }
+            //System.out.println(p + ": " + count);
         }
 
-        return null;
+        return count;
     }
 
     /**
@@ -61,11 +75,11 @@ class Problem273 implements Problem {
      * 
      * @param args
      * @author Thomas
-     * @since 09.01.2010
+     * @since 07.03.2010
      */
     public static void main(String[] args) {
 
-        Euler.run(new Problem273());
+        Euler.run(new Problem276());
     }
 
 }

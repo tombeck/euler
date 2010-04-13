@@ -21,7 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.problem220;
+package com.thomas.incubator;
+
+import com.thomas.util.Euler;
+import com.thomas.util.Euler.Problem;
 
 /**
  * TODO Type documentation
@@ -29,7 +32,7 @@ package com.thomas.problem220;
  * @author Thomas
  * @since 06.12.2009
  */
-public class Main {
+public class Problem220 implements Problem {
 
     static class Chain {
     
@@ -158,6 +161,26 @@ public class Main {
     }
     
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object solve() throws Exception {
+
+        Chain init = new Chain("Fa");
+
+        for (int i = 0; i < 9; ++i) {
+            init = init.replace();
+            init = init.clean();
+        }
+        final Cursor cursor = new Cursor();
+        
+        init.move(cursor, 500);
+        System.out.println(cursor);
+        
+        return 0;
+    }
+
+    /**
      * TODO Method documentation
      * 
      * FRF R
@@ -181,16 +204,7 @@ public class Main {
      */
     public static void main(String[] args) {
 
-        Chain init = new Chain("Fa");
-
-        for (int i = 0; i < 9; ++i) {
-            init = init.replace();
-            init = init.clean();
-        }
-        final Cursor cursor = new Cursor();
-        
-        init.move(cursor, 500);
-        System.out.println(cursor);
+        Euler.run(new Problem220());
     }
 
 }

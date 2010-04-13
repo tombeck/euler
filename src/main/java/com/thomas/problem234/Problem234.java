@@ -45,7 +45,7 @@ class Problem234 implements Problem {
      * @since 13.03.2010
      */
     @Override
-    public Object solve() {
+    public Long solve() {
 
         final long max = 999966663333L;
         

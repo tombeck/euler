@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.problem263;
+package com.thomas.incubator;
 
 import static com.thomas.util.PrimeUtils.isPrime;
 import static com.thomas.util.PrimeUtils.primes;

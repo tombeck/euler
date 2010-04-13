@@ -32,6 +32,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.thomas.util.Euler;
+import com.thomas.util.NumberUtils;
 import com.thomas.util.Euler.Problem;
 
 /**
@@ -48,13 +49,12 @@ class Problem248 implements Problem {
      * @return
      * @see com.thomas.util.Euler.Problem#solve()
      * @author Thomas
-     * @throws InterruptedException
      * @since 31.01.2010
      */
     @Override
-    public Object solve() throws InterruptedException {
+    public Object solve() {
 
-        List<Long> primes = new ArrayList<Long>();
+        List<long[]> primes = new ArrayList<long[]>();
         
         for (int p2 = 0; p2 <= 10; ++p2) {
             for (int p3 = 0; p3 <= 5; ++p3) {
@@ -66,13 +66,26 @@ class Problem248 implements Problem {
                                 final long prime = pow(2L, p2) * pow(3L, p3) * pow(5L, p5) * pow(7L, p7) * pow(11L, p11) * pow(13L, p13) + 1;
                                 
                                 if (isPrime(prime)) {
-                                    primes.add(prime);
-                                    if (prime ==  2L) for (int i = 1; i <= 10; ++i) primes.add(2L * pow(2L, i));
-                                    else if (prime ==  3L) for (int i = 1; i <= 5; ++i) primes.add(3L * pow(3L, i));
-                                    else if (prime ==  5L) for (int i = 1; i <= 2; ++i) primes.add(5L * pow(5L, i));
-                                    else if (prime ==  7) primes.add(49L);
-                                    else if (prime == 11) primes.add(121L);
-                                    else if (prime == 13) primes.add(169L);
+                                    primes.add(new long[] {prime, encode(p13, p11, p7, p5, p3, p2)});
+                                    if (prime ==  2L) {
+                                        for (int i = 1; i <= 10; ++i) {
+                                            primes.add(new long[] {2L * pow(2L, i), encode(p13, p11, p7, p5, p3, p2 + i)});
+                                        }
+                                    } else if (prime ==  3L) {
+                                        for (int i = 1; i <= 5; ++i) {
+                                            primes.add(new long[] {3L * pow(3L, i), encode(p13, p11, p7, p5, p3 + i, p2)});
+                                        }
+                                    } else if (prime ==  5L) {
+                                        for (int i = 1; i <= 2; ++i) {
+                                            primes.add(new long[] {5L * pow(5L, i), encode(p13, p11, p7, p5 + i, p3, p2)});
+                                        }
+                                    } else if (prime ==  7) {
+                                        primes.add(new long[] {prime * prime, encode(p13, p11, p7 + 1, p5, p3, p2)});
+                                    } else if (prime == 11) {
+                                        primes.add(new long[] {prime * prime, encode(p13, p11 + 1, p7, p5, p3, p2)});
+                                    } else if (prime == 13) {
+                                        primes.add(new long[] {prime * prime, encode(p13 + 1, p11, p7, p5, p3, p2)});
+                                    }
                                 }
                             }
                         }
@@ -81,53 +94,79 @@ class Problem248 implements Problem {
             }
         }
         
-        Collections.sort(primes, new Comparator<Long>() {
+        Collections.sort(primes, new Comparator<long[]>() {
 
             @Override
-            public int compare(Long o1, Long o2) {
+            public int compare(long[] o1, long[] o2) {
 
-                return Long.signum(o2 - o1);
+                return Long.signum(o2[1] - o1[1]);
             }
             
         });
         
-//        for (long[] a : primes) {
-//            System.out.println(Arrays.toString(a));
-//        }
         final List<Long> numbers = new ArrayList<Long>();
         
-        findNumbers(primes, 0, 6227020800L, 1L, numbers, 1);
+        findNumbers(primes, 0, 1, 0, numbers, 1);
         Collections.sort(numbers);
         
         return numbers.get(150000 - 1);
     }
 
-    private void findNumbers(List<Long> factors, int first, long rem, long number, List<Long> numbers, int iteration) throws InterruptedException {
+    private static long encode(long p13, long p11, long p7, long p5, long p3, long p2) {
+    
+        return (((((((((p13 << 8) + p11) << 8) + p7) << 8) + p5) << 8) + p3) << 8) + p2;
+    }
+    
+    protected int compareFactors(long[] o1, long[] o2) {
+
+        long diff = 0;
         
-        //System.out.println(Prime.getPrimeFactors(Numbers.totient(cur[0])));
+        if (diff == 0) diff = o1[6] - o2[6];
+        if (diff == 0) diff = o1[5] - o2[5];
+        if (diff == 0) diff = o1[4] - o2[4];
+        if (diff == 0) diff = o1[3] - o2[3];
+        if (diff == 0) diff = o1[2] - o2[2];
+        if (diff == 0) diff = o1[1] - o2[1];
+
+        return Long.signum(diff);
+    }
+
+    private static long MAX = encode(1, 1, 1, 2, 5, 10);
+    
+    private void findNumbers(List<long[]> factors, int first, long number, long dist, List<Long> numbers, int iteration) {
         
-        if (rem == 1L) {
+        if (MAX == dist && NumberUtils.totient(number) == 6227020800L) {
             numbers.add(number);
-            Thread.sleep(1);
         }
         
         int i = first;
         
-//        while(i < factors.size() && factors.get(i)[1] + dist > MAX) { ++i; }
-        int j = factors.size();
-//        long max = getMax(dist);
-//        while(j < factors.size() && factors.get(j)[1] >= max) { ++j; }
+        while(i < factors.size() && factors.get(i)[1] + dist > MAX) { ++i; }
+        int j = i;
+        long max = getMax(dist);
+        while(j < factors.size() && factors.get(j)[1] >= max) { ++j; }
         
         for ( ; i < j; ++i) {
             
-            if (iteration < 2) System.out.println(iteration + ": " + i + "/" + factors.size());
-
-            final long factor = factors.get(i);
+            final long[] factor = factors.get(i);
             
-            if (rem % (factor - 1) == 0) {
-                findNumbers(factors, i + 1, rem / (factor - 1), number * factor, numbers, iteration + 1);
-            }
+            findNumbers(factors, i + 1, number * factor[0], dist + factor[1], numbers, iteration + 1);
         }
+    }
+    
+    private long getMax(long n) {
+    
+        long max = 1;
+        
+        long m = MAX;
+        
+        while (n != m) {
+            n >>= 8;
+            m >>= 8;
+            max <<= 8;
+        }
+
+        return max >> 8;
     }
     
     /**
