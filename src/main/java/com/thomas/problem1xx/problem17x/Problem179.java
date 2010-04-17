@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.problem179;
+package com.thomas.problem1xx.problem17x;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -45,14 +45,13 @@ class Problem179 implements Problem {
     @Override
     public Integer solve() {
 
-        final int[] n = new int[10000001];
+        final int max = 10000000;
+        final int[] n = new int[max + 1];
         
         int sum = 0;
         
-        for (int i = 2; i <= 10000000; ++i) {
-            for (int j = i; j <= 10000000; j += i) {
-                ++n[j];
-            }
+        for (int i = 2; i <= max; ++i) {
+            for (int j = i; j <= max; j += i) ++n[j];
             if (n[i - 1] == n[i]) ++sum;
         }
         
