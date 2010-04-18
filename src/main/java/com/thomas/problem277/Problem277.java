@@ -38,7 +38,7 @@ import com.thomas.util.rational.LongRational;
  * @author Thomas
  * @since 07.02.2010
  */
-class Problem277 implements Problem {
+public class Problem277 implements Problem {
 
     /**
      * TODO Method documentation

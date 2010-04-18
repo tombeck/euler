@@ -23,10 +23,9 @@
  */
 package com.thomas.problem231;
 
-import java.util.List;
+import static com.thomas.util.PrimeUtils.primes;
 
 import com.thomas.util.Euler;
-import com.thomas.util.PrimeUtils;
 import com.thomas.util.Euler.Problem;
 
 /**
@@ -35,7 +34,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 23.01.2010
  */
-class Problem231 implements Problem {
+public class Problem231 implements Problem {
 
     /**
      * TODO Method documentation
@@ -43,42 +42,29 @@ class Problem231 implements Problem {
      * @return
      * @see com.thomas.util.Euler.Problem#solve()
      * @author Thomas
-     * @throws InterruptedException 
      * @since 23.01.2010
      */
     @Override
-    public Object solve() throws InterruptedException {
+    public Long solve() {
 
-        final List<Integer> primes = PrimeUtils.primes(4473);
-        
-        int n = 20000000;
-        int k = n - 15000000;
-        
-        long[] cache = new long[k + 1];
-        
         long sum = 0;
-        
-        for (int i = 1; i <= k; ++i) {
-            int num = (n + 1) - i;
-            int den = i;
-            for (int p : PrimeUtils.getPrimeFactors(num, primes)) {
-                if (p > k) sum += p;
-                else ++cache[p];
-            }
-            for (int p : PrimeUtils.getPrimeFactors(den, primes)) {
-                --cache[p];
-            }
-            System.out.println(i);
-            if (i % 200 == 0) Thread.sleep(1);
-        }
-        
-        for (int i = 1; i <= k; ++i) {
-            sum += i * cache[i];
-        }
 
+        for (int p : primes(20000000)) {
+            sum += p * (count(20000000, p) - count(15000000, p) - count(5000000, p));
+        }
+        
         return sum;
     }
 
+    private long count(int n, int p) {
+        
+        long count = 0;
+        
+        for (long m = p; m <= n; m *= p) count += n / m;
+        
+        return count;
+    }
+    
     /**
      * TODO Method documentation
      * 

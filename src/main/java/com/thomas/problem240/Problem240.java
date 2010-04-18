@@ -32,7 +32,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 29.03.2010
  */
-class Problem240 implements Problem {
+public class Problem240 implements Problem {
 
     private static final long[] FACTORIAL = {
         1L, 1L, 2L, 6L, 24L, 120L, 720L, 5040L, 40320L, 362880L, 3628800L,

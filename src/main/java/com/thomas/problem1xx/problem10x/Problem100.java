@@ -32,7 +32,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 16.11.2009
  */
-class Problem100 implements Problem {
+public class Problem100 implements Problem {
 
     /**
      * total t
@@ -49,7 +49,7 @@ class Problem100 implements Problem {
      * => x^2 - 2y^2 = -1   mit x = 2t - 1, y = 2b - 1 bzw. t = (x+1)/2, b = (y+1)/2 (1)
      * 
      * x^2 - 2y^2 = -1 ist die negative Pellsche Gleichung x^2 - Dy^2 = -1 mit D = 2
-     * die minimale Lösung ist x = 1, y = 1 und alle weiteren Lösungen erhält man mit
+     * die minimale LÃ¶sung ist x = 1, y = 1 und alle weiteren LÃ¶sungen erhÃ¤t man mit
      * 
      * x(n+1)   | x(0) Dy(0) |   | x(n) |
      *        = |            | * |      |

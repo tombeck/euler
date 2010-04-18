@@ -34,7 +34,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 14.10.2009
  */
-class Problem13 implements Problem {
+public class Problem13 implements Problem {
 
     private static final String[] NUMBERS = {
             "37107287533902102798797998220837590246510135740250",

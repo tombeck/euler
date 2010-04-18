@@ -33,7 +33,7 @@ import static java.lang.Math.*;
  * @author Thomas
  * @since 28.11.2009
  */
-class Problem205 implements Problem {
+public class Problem205 implements Problem {
 
     /**
      * TODO Method documentation

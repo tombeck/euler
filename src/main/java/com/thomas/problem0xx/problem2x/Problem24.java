@@ -38,7 +38,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 31.12.2009
  */
-class Problem24 implements Problem {
+public class Problem24 implements Problem {
 
     /**
      * TODO Method documentation
@@ -49,21 +49,22 @@ class Problem24 implements Problem {
      * @since 31.12.2009
      */
     @Override
-    public String solve() {
+    public Long solve() {
 
         final List<Integer> digits = new ArrayList<Integer>(asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
-        final StringBuilder builder = new StringBuilder();
+        
+        long p = 0;
         
         for(int index = 1000000; !digits.isEmpty(); ) {
             
             final int factorial = FACTORIAL[digits.size() - 1];
             final int i = (index - 1) / factorial;
             
-            builder.append(digits.remove(i));
+            p = p * 10 + digits.remove(i);
             index -= i * factorial;
         }
         
-        return builder.toString();
+        return p;
     }
 
     /**

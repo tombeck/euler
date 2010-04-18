@@ -34,7 +34,7 @@ import static java.lang.Math.*;
  * @author Thomas
  * @since 05.04.2010
  */
-class Problem197 implements Problem {
+public class Problem197 implements Problem {
 
     /**
      * TODO Method documentation

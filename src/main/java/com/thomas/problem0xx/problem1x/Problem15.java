@@ -34,7 +34,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 30.12.2009
  */
-class Problem15 implements Problem {
+public class Problem15 implements Problem {
 
     /**
      * TODO Method documentation
@@ -45,7 +45,7 @@ class Problem15 implements Problem {
      * @since 30.12.2009
      */
     @Override
-    public Object solve() {
+    public BigInteger solve() {
 
         final int size = 20;
         final BigInteger tmp = factorial(size);

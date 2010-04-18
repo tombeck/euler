@@ -25,6 +25,9 @@ package com.thomas.problem66;
 
 import java.math.BigInteger;
 
+import com.thomas.util.Euler;
+import com.thomas.util.Euler.Problem;
+
 
 /**
  * TODO Type documentation
@@ -32,7 +35,7 @@ import java.math.BigInteger;
  * @author Thomas
  * @since 04.12.2009
  */
-public class Main {
+public class Problem66 implements Problem {
 
     /**
      * expression of the form (sqrt(sqr) - n) / d 
@@ -84,13 +87,10 @@ public class Main {
     }
     
     /**
-     * TODO Method documentation
-     * 
-     * @param args
-     * @author Thomas
-     * @since 04.12.2009
+     * {@inheritDoc}
      */
-    public static void main(String[] args) {
+    @Override
+    public Integer solve() throws Exception {
 
         BigInteger max_x = BigInteger.ZERO;
         int max_d = 0;
@@ -118,14 +118,28 @@ public class Main {
                     rem = rem.subtract(rest);
                 } while (true);
             }
-        }        
-        System.out.println(">" + max_d);
+        }
+        
+        return max_d;
     }
-
+    
     public static boolean isSquare(int n) {
         
         final int sqrt = (int)Math.sqrt(n);
         
         return sqrt * sqrt == n;
     }
+    
+    /**
+     * TODO Method documentation
+     * 
+     * @param args
+     * @author Thomas
+     * @since 04.12.2009
+     */
+    public static void main(String[] args) {
+
+        Euler.run(new Problem66());
+    }
+
 }

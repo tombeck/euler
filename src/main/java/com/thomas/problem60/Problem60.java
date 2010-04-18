@@ -42,7 +42,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 29.11.2009
  */
-class Problem60 implements Problem {
+public class Problem60 implements Problem {
 
     static final class Solution implements Comparable<Solution> {
     

@@ -35,7 +35,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 16.10.2009
  */
-class Problem12 implements Problem {
+public class Problem12 implements Problem {
 
     /**
      * TODO Method documentation

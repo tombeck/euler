@@ -37,7 +37,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 12.12.2009
  */
-class Problem88 implements Problem {
+public class Problem88 implements Problem {
 
     private static final int MAX = 12000;
     

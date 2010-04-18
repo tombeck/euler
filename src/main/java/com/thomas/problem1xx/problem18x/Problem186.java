@@ -34,7 +34,7 @@ import com.thomas.util.random.LaggedFibonacciGenerator;
  * @author Thomas
  * @since 30.03.2010
  */
-class Problem186 implements Problem {
+public class Problem186 implements Problem {
 
     final static class Group {
     

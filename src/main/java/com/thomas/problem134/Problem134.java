@@ -36,7 +36,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 22.12.2009
  */
-class Problem134 implements Problem {
+public class Problem134 implements Problem {
 
     private static final int[][] TABLE = {
         {}, // 0

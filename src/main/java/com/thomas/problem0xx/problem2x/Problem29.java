@@ -48,7 +48,7 @@ public class Problem29 implements Problem {
      * @since 12.01.2010
      */
     @Override
-    public Integer solve() throws Exception {
+    public Integer solve() {
 
         final Set<BigInteger> numbers = new HashSet<BigInteger>();
         

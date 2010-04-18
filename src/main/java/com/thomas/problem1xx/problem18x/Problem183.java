@@ -40,7 +40,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 16.01.2010
  */
-class Problem183 implements Problem {
+public class Problem183 implements Problem {
 
     private static final Integer TWO = Integer.valueOf(2);
     private static final Integer FIVE = Integer.valueOf(5);

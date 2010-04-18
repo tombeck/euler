@@ -35,7 +35,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 02.01.2010
  */
-class Problem84 implements Problem {
+public class Problem84 implements Problem {
 
     private static final int GO = 0;
     private static final int CC1 = 2;

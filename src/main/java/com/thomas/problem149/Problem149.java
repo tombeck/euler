@@ -34,7 +34,7 @@ import com.thomas.util.random.LaggedFibonacciGenerator;
  * @author Thomas
  * @since 14.02.2010
  */
-class Problem149 implements Problem {
+public class Problem149 implements Problem {
 
     /** 
      * TODO Method documentation

@@ -30,13 +30,16 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.thomas.util.Euler;
+import com.thomas.util.Euler.Problem;
+
 /**
  * TODO Type documentation
  * 
  * @author Thomas
  * @since 01.12.2009
  */
-public class Main {
+public class Problem68 implements Problem {
 
     static List<Integer> NUMBERS = Arrays.asList(10, 9, 8, 7, 6, 5, 4, 3, 2, 1);
     
@@ -98,13 +101,10 @@ public class Main {
     }
     
     /**
-     * TODO Method documentation
-     * 
-     * @param args
-     * @author Thomas
-     * @since 01.12.2009
+     * {@inheritDoc}
      */
-    public static void main(String[] args) {
+    @Override
+    public String solve() throws Exception {
 
         for (Numbers f : Numbers.INITIAL) {
             for (Numbers g : f) {
@@ -126,8 +126,7 @@ public class Main {
                                             for (Numbers d : b) {
                                                 if (d.head + i.head != j.head + a.head) continue;
                                                 if (b.head + g.head != d.head + h.head) continue;
-                                                System.out.println("> " + f.head + a.head + b.head + g.head + b.head + c.head + h.head + c.head + d.head + i.head + d.head + e.head + j.head + e.head + a.head);
-                                                return;
+                                                return "" + f.head + a.head + b.head + g.head + b.head + c.head + h.head + c.head + d.head + i.head + d.head + e.head + j.head + e.head + a.head;
                                             }
                                         }
                                     }
@@ -138,6 +137,20 @@ public class Main {
                 }
             }
         }
+        
+        return null;
+    }
+
+    /**
+     * TODO Method documentation
+     * 
+     * @param args
+     * @author Thomas
+     * @since 01.12.2009
+     */
+    public static void main(String[] args) {
+
+        Euler.run(new Problem68());
     }
 
 }

@@ -40,7 +40,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 21.02.2010
  */
-class Problem107 implements Problem {
+public class Problem107 implements Problem {
 
     /**
      * Prim's algorithm (find minimal spanning tree)

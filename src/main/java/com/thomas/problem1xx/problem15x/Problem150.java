@@ -27,6 +27,8 @@ import static java.util.Arrays.fill;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
+import com.thomas.util.random.IntGenerator;
+import com.thomas.util.random.LinearCongruentialGenerator;
 
 /**
  * TODO Type documentation
@@ -34,7 +36,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 20.12.2009
  */
-class Problem150 implements Problem {
+public class Problem150 implements Problem {
 
     /**
      * TODO Method documentation
@@ -50,13 +52,13 @@ class Problem150 implements Problem {
         final int max = 1000;
         final int[][] t = new int[max][];
         final int[][] s = new int[max + 2][];
+        final IntGenerator gen = new LinearCongruentialGenerator(615949, 797807, 1 << 20);
         
-        for (int r = 0, n = 0; r < max; ++r) {
+        for (int r = 0; r < max; ++r) {
             s[r] = new int[r + 1];
             t[r] = new int[r + 1];
             for (int c = 0; c <= r; ++c) {
-                n = (int)((615949L * n + 797807) % (1 << 20));
-                t[r][c] = n - (1 << 19);
+                t[r][c] = gen.next() - (1 << 19);
             }
         }
         s[max] = new int[max + 1];

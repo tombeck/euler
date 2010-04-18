@@ -38,7 +38,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 23.01.2010
  */
-class Problem168 implements Problem {
+public class Problem168 implements Problem {
 
     /**
      * 10^p * y + x = q * (10x + y) => x = (y * (10^p - q)) / (10q - 1) 

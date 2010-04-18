@@ -35,7 +35,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 21.11.2009
  */
-class Problem185 implements Problem {
+public class Problem185 implements Problem {
 
     private static final int[][][] GUESSES = {
         {{1<<1,1<<8,1<<4,1<<1,1<<2,1<<3,1<<6,1<<4,1<<5,1<<4,1<<3,1<<2,1<<4,1<<5,1<<8,1<<9}, {3}}, //4

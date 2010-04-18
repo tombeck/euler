@@ -21,43 +21,64 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.problem73;
+package com.thomas.problem74;
 
-import com.thomas.Util;
+import static com.thomas.util.Digit.FACTORIAL;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.thomas.util.Euler;
+import com.thomas.util.Euler.Problem;
 
 /**
  * TODO Type documentation
  * 
  * @author Thomas
- * @since 25.10.2009
+ * @since 26.10.2009
  */
-public class Main {
+public class Problem74 implements Problem {
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Integer solve() {
+        
+        int sum = 0;
+        
+        for (int i = 0; i < 1000000; ++i) {
+            if (isMatch(new ArrayList<Integer>(), i)) ++sum;
+        }
+        
+        return sum;
+    }
+    
+    private boolean isMatch(List<Integer> prev, int c) {
+        
+        if (prev.contains(c)) return false;
+        prev.add(c);
+        
+        if (prev.size() == 60) return true;
+        
+        int next = 0;
+        for (char ch : String.valueOf(c).toCharArray()) {
+            next += FACTORIAL[Character.digit(ch, 10)];
+        }
+        
+        return isMatch(prev, next);
+    }
+    
     /**
      * TODO Method documentation
      * 
      * @param args
      * @author Thomas
-     * @since 25.10.2009
+     * @since 26.10.2009
      */
     public static void main(String[] args) {
 
-        int sum = 0;
-        for (int d = 1; d <= 12000; ++d) {
-            
-            int lo = (int)Math.floor((double)d / 3);
-            int hi = (int)Math.ceil((double)d / 2);
-            
-//            System.out.println("d = " + d + ", [" + lo + ", " + hi + "]");
-            for (int n = lo + 1; n < hi; ++n) {
-                if (Util.gcd(d, n) == 1) {
-                    ++sum;
-                    //System.out.println(n + "/" + d);
-                }
-            }
-        }
-        System.out.println(sum);
+        Euler.run(new Problem74());
     }
 
 }

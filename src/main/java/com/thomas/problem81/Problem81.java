@@ -30,13 +30,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.PriorityQueue;
 
+import com.thomas.util.Euler;
+import com.thomas.util.Euler.Problem;
+
 /**
  * TODO Type documentation
  * 
  * @author Thomas
  * @since 25.10.2009
  */
-public class Main {
+public class Problem81 implements Problem {
 
     interface Node extends Comparable<Node> {
         
@@ -51,20 +54,17 @@ public class Main {
    }
     
     /**
-     * TODO Method documentation
-     * 
-     * @param args
-     * @author Thomas
+     * {@inheritDoc}
      * @throws IOException 
-     * @since 25.10.2009
      */
-    public static void main(String[] args) throws IOException {
+    @Override
+    public Integer solve() throws IOException {
 
         final int[][] matrix = new int[80][80];
         final int[][] graph = new int[80][80];
         final PriorityQueue<Node> queue = new PriorityQueue<Node>();
 
-        final BufferedReader reader = new BufferedReader(new InputStreamReader(Main.class.getResourceAsStream ("matrix.txt")));
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(Problem81.class.getResourceAsStream ("matrix.txt")));
 
         try {
             
@@ -161,7 +161,19 @@ public class Main {
         }
         
         
-        System.out.println(graph[79][79]);
+       return graph[79][79];
+    }
+
+    /**
+     * TODO Method documentation
+     * 
+     * @param args
+     * @author Thomas
+     * @since 25.10.2009
+     */
+    public static void main(String[] args) {
+
+        Euler.run(new Problem81());
     }
 
 }

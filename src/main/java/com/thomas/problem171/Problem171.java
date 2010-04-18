@@ -34,7 +34,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 18.12.2009
  */
-class Problem171 implements Problem {
+public class Problem171 implements Problem {
 
     private static final int LIMIT = 1000000000;
     private static final int LENGTH = 20;

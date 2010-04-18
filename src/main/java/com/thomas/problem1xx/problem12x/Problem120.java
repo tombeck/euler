@@ -32,7 +32,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 28.11.2009
  */
-class Problem120 implements Problem {
+public class Problem120 implements Problem {
 
     /**
      * Binomischer Lehrsatz -> alle Summanden sind ganzzahlig bis auf k = n oder k = n - 1

@@ -40,7 +40,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 14.03.2010
  */
-class Problem244 implements Problem {
+public class Problem244 implements Problem {
 
     static class Vertex implements Comparable<Vertex> {
     

@@ -28,8 +28,8 @@ package com.thomas.util.function;
  * @author $Author: $ (last modification)
  * @version $Date: $
  */
-public interface Function0<T> {
+public interface Function0<R> {
 
-    T call();
+    R call();
     
 }

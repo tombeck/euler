@@ -23,11 +23,12 @@
  */
 package com.thomas.problem0xx.problem6x;
 
+import static com.thomas.util.PrimeUtils.isPrime;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import com.thomas.util.Euler;
-import static com.thomas.util.PrimeUtils.*;
 import com.thomas.util.Euler.Problem;
 
 /**
@@ -36,7 +37,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 13.03.2010
  */
-class Problem69 implements Problem {
+public class Problem69 implements Problem {
 
     /**
      * TODO Method documentation

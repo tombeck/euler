@@ -21,57 +21,74 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.problem78;
+package com.thomas.problem64;
 
-import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
+
+import com.thomas.util.Euler;
+import com.thomas.util.Euler.Problem;
 
 /**
  * TODO Type documentation
  * 
  * @author Thomas
- * @since 27.11.2009
+ * @since 23.11.2009
  */
-public class Main2 {
+public class Problem64 implements Problem {
 
-    private static final Map<Integer, Map<Integer, BigInteger>> CACHE = new HashMap<Integer, Map<Integer, BigInteger>>();
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Integer solve() {
+        
+        int sum = 0;
+        
+        for (int n = 2; n <= 10000; ++n) if (isOdd(n)) ++sum;
+        
+        return sum;
+    }
+    
+    private boolean isOdd(int sqr) {
+    
+        try {
+            final int[] init = {1, isqrt(sqr)};
+            
+            boolean odd = true;
+            for (int[] a = init; !Arrays.equals((a = generate(sqr, a)), init); ) odd = !odd;
+    
+            return odd;
+            
+        } catch (ArithmeticException e) {
+            
+            return false;
+        }
+    }
+    
+    private int[] generate(int sqr, int[] a) {
+    
+        final int den2 = (sqr - a[1] * a[1]) / a[0];
+        final int num2 = (((isqrt(sqr) + a[1]) / den2) * den2) - a[1];
+        
+        return new int[] {den2, num2};
+    }
+    
+    private int isqrt(int n) {
+    
+        return (int)Math.sqrt(n);
+    }
 
     /**
      * TODO Method documentation
      * 
      * @param args
      * @author Thomas
-     * @throws InterruptedException 
-     * @since 27.11.2009
+     * @since 23.11.2009
      */
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
 
-        for (int i = 1; i < 2048; ++i) {
-            CACHE.remove(i - 1);
-            BigInteger sum = BigInteger.ONE;
-            add(i, i, BigInteger.ONE);
-            for (int k = i; k-- > 1;) {
-                if (i >= 2 * k) {
-                    sum = sum.add(CACHE.get(i).get(k));
-                } else {
-                    Thread.sleep(1);
-                }
-                add(k, i, sum);
-            }
-            System.out.println(i + " : " + sum);
-        }
+        Euler.run(new Problem64());
+
     }
 
-    private static void add(int k, int n, BigInteger sum) {
-    
-        Map<Integer, BigInteger> cache = CACHE.get(n + k);
-        
-        if (cache == null) {
-            cache = new HashMap<Integer, BigInteger>();
-            CACHE.put(n + k, cache);
-        }
-        cache.put(k, sum);
-    }
-    
 }

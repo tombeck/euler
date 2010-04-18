@@ -30,7 +30,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.thomas.util.Euler;
 import com.thomas.util.PrimeUtils;
+import com.thomas.util.Euler.Problem;
 
 /**
  * TODO Type documentation
@@ -38,16 +40,36 @@ import com.thomas.util.PrimeUtils;
  * @author Thomas
  * @since 11.11.2009
  */
-public class Main {
+public class Problem77 implements Problem {
+
+    private static boolean isValid(Set<Integer> set, int p) {
+        
+        for (Integer i : set) {
+            if (i < p) return false;
+        }
+        return true;
+    }
+    private static final List<Integer> PRIMES = new ArrayList<Integer>(Arrays.asList(2, 3, 5, 7, 11, 13, 17, 19, 23, 29));
+    
+    private static int getPrime(int i) {
+    
+        if (i < PRIMES.size()) return PRIMES.get(i);
+        
+        for (int n = PRIMES.get(PRIMES.size() - 1) + 1; ; ++n) {
+            if (PrimeUtils.isPrime(n, PRIMES)) {
+                PRIMES.add(n);
+                if (i == PRIMES.size() - 1){
+                    return PRIMES.get(i);
+                }
+            }
+        }
+    }
 
     /**
-     * TODO Method documentation
-     * 
-     * @param args
-     * @author Thomas
-     * @since 11.11.2009
+     * {@inheritDoc}
      */
-    public static void main(String[] args) {
+    @Override
+    public Integer solve() {
 
         final List<List<Set<Integer>>> results = new ArrayList<List<Set<Integer>>>();
         
@@ -73,34 +95,22 @@ public class Main {
                 }
             }
             if (sums.size() > 5000) {
-                System.out.println(n);
-                return;
+                return n;
             }
             results.add(sums);
         }
     }
+    
+    /**
+     * TODO Method documentation
+     * 
+     * @param args
+     * @author Thomas
+     * @since 11.11.2009
+     */
+    public static void main(String[] args) {
 
-    private static boolean isValid(Set<Integer> set, int p) {
-        
-        for (Integer i : set) {
-            if (i < p) return false;
-        }
-        return true;
+        Euler.run(new Problem77());
     }
-    private static final List<Integer> PRIMES = new ArrayList<Integer>(Arrays.asList(2, 3, 5, 7, 11, 13, 17, 19, 23, 29));
-    
-    private static int getPrime(int i) {
-    
-        if (i < PRIMES.size()) return PRIMES.get(i);
-        
-        for (int n = PRIMES.get(PRIMES.size() - 1) + 1; ; ++n) {
-            if (PrimeUtils.isPrime(n, PRIMES)) {
-                PRIMES.add(n);
-                if (i == PRIMES.size() - 1){
-                    return PRIMES.get(i);
-                }
-            }
-        }
-    }
-    
+
 }

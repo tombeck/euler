@@ -84,7 +84,11 @@ public final class LongRational extends Number implements Comparable<LongRationa
         final long gcd = gcd(this.den, other.den);
         final long tmp = this.den / gcd;
         
-        return new LongRational((this.num * (other.den / gcd) - other.num * tmp), (tmp * other.den));
+        try {
+            return new LongRational((this.num * (other.den / gcd) - other.num * tmp), (tmp * other.den));
+        } catch (ArithmeticException e) {
+            return null;
+        }
     }
     
     public LongRational multiply(LongRational other) {

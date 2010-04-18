@@ -36,7 +36,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 24.01.2010
  */
-class Problem48 implements Problem {
+public class Problem48 implements Problem {
 
     private static final BigInteger ONE_THOUSEND = BigInteger.valueOf(1000);
     private static final BigInteger TEN_BILLION = BigInteger.valueOf(10000000000L);

@@ -29,6 +29,8 @@ import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
 
+import com.thomas.util.function.Function2;
+
 
 /**
  * TODO Type documentation

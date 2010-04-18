@@ -32,7 +32,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 18.10.2009
  */
-class Problem17 implements Problem {
+public class Problem17 implements Problem {
 
     private static final String[] WORDS1 = {
         "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",

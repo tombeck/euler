@@ -23,6 +23,7 @@
  */
 package com.thomas.problem259;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,17 +43,20 @@ import com.thomas.util.rational.LongRational;
  * @author Thomas
  * @since 01.04.2010
  */
-class Problem259 implements Problem {
+public class Problem259 implements Problem {
 
-    static interface Function extends Function0<Set<LongRational>> {}
+    static interface Function extends Function0<Collection<LongRational>> {}
     
     static final class Constant implements Function {
         
-        private int value;
+        private final int value;
+        private final Set<LongRational> call;
+        
 
         public Constant(int value) {
 
             this.value = value;
+            this.call = Collections.singleton(new LongRational(this.value));
         }
 
         @Override
@@ -72,14 +76,9 @@ class Problem259 implements Problem {
             return this.value == other.value;
         }
 
-        transient Set<LongRational> call;
-        
         @Override
-        public Set<LongRational> call() {
+        public Collection<LongRational> call() {
 
-            if (this.call == null) {
-                this.call = Collections.singleton(new LongRational(this.value));
-            }
             return this.call;
         }
         
@@ -87,8 +86,8 @@ class Problem259 implements Problem {
     
     static final class Operator implements Function {
     
-        private Function left;
-        private Function right;
+        private final Function left;
+        private final Function right;
         
         public Operator(Function left, Function right) {
 
@@ -101,8 +100,8 @@ class Problem259 implements Problem {
 
             int result = 1;
             
-            result = 31 * result + ((this.left == null) ? 0 : this.left.hashCode());
-            result = 31 * result + ((this.right == null) ? 0 : this.right.hashCode());
+            result = 31 * result + this.left.hashCode();
+            result = 31 * result + this.right.hashCode();
             
             return result;
         }
@@ -118,10 +117,10 @@ class Problem259 implements Problem {
             return this.left.equals(other.left) && this.right.equals(other.right);
         }
         
-        transient Set<LongRational> call;
+        transient Collection<LongRational> call;
         
         @Override
-        public Set<LongRational> call() {
+        public Collection<LongRational> call() {
 
             if (this.call == null) {
                 this.call = new HashSet<LongRational>();
@@ -162,7 +161,6 @@ class Problem259 implements Problem {
         cache.clear();
         
         for (Iterator<Function> i = functions.iterator(); i.hasNext(); i.remove()) {
-            System.out.println(functions.size());
             final Function f = i.next();
             for (LongRational r : f.call()) {
                 if (r.denominator() == 1 && r.numerator() > 0) {
@@ -228,7 +226,7 @@ class Problem259 implements Problem {
     
     /**
      * TODO Method documentation
-     * 20101196798
+     *
      * @param args
      * @author Thomas
      * @since 01.04.2010

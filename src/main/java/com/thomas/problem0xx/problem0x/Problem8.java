@@ -35,7 +35,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 11.10.2009
  */
-class Problem8 implements Problem {
+public class Problem8 implements Problem {
 
     private static final String NUMBER =
               "73167176531330624919225119674426574742355349194934"

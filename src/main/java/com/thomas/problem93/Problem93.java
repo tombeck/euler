@@ -38,7 +38,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 19.12.2009
  */
-class Problem93 implements Problem {
+public class Problem93 implements Problem {
 
     private static interface Operator  { double call(double x, double y); }
     

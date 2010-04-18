@@ -36,7 +36,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 23.01.2010
  */
-class Problem230 implements Problem {
+public class Problem230 implements Problem {
 
     static String A =
         "14159265358979323846264338327950288419716939937510" +

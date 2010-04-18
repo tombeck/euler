@@ -22,7 +22,7 @@ import com.thomas.util.Euler.Problem;
  * @author $Author: $ (last modification)
  * @version $Date: $
  */
-class Problem70 implements Problem {
+public class Problem70 implements Problem {
 
     /**
      * {@inheritDoc}

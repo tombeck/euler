@@ -34,7 +34,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 17.12.2009
  */
-class Problem173 implements Problem {
+public class Problem173 implements Problem {
 
     /**
      * a = side length of outer square

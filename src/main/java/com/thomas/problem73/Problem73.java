@@ -21,62 +21,53 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.problem64;
+package com.thomas.problem73;
 
-import java.util.Arrays;
+import com.thomas.Util;
+import com.thomas.util.Euler;
+import com.thomas.util.Euler.Problem;
+
 
 /**
  * TODO Type documentation
  * 
  * @author Thomas
- * @since 23.11.2009
+ * @since 25.10.2009
  */
-public class Main {
+public class Problem73 implements Problem {
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Integer solve() {
+
+        int sum = 0;
+        for (int d = 1; d <= 12000; ++d) {
+            
+            int lo = (int)Math.floor((double)d / 3);
+            int hi = (int)Math.ceil((double)d / 2);
+            
+            for (int n = lo + 1; n < hi; ++n) {
+                if (Util.gcd(d, n) == 1) {
+                    ++sum;
+                }
+            }
+        }
+        
+        return sum;
+    }
 
     /**
      * TODO Method documentation
      * 
      * @param args
      * @author Thomas
-     * @since 23.11.2009
+     * @since 25.10.2009
      */
     public static void main(String[] args) {
 
-        int sum = 0;
-        
-        for (int n = 2; n <= 10000; ++n) if (isOdd(n)) ++sum;
-        
-        System.out.print(sum);
-
+        Euler.run(new Problem73());
     }
 
-    private static boolean isOdd(int sqr) {
-    
-        try {
-            final int[] init = {1, isqrt(sqr)};
-            
-            boolean odd = true;
-            for (int[] a = init; !Arrays.equals((a = generate(sqr, a)), init); ) odd = !odd;
-    
-            return odd;
-            
-        } catch (ArithmeticException e) {
-            
-            return false;
-        }
-    }
-    
-    private static int[] generate(int sqr, int[] a) {
-    
-        final int den2 = (sqr - a[1] * a[1]) / a[0];
-        final int num2 = (((isqrt(sqr) + a[1]) / den2) * den2) - a[1];
-        
-        return new int[] {den2, num2};
-    }
-    
-    private static int isqrt(int n) {
-    
-        return (int)Math.sqrt(n);
-    }
-    
 }

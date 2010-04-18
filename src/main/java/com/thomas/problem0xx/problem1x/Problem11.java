@@ -34,7 +34,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 13.10.2009
  */
-class Problem11 implements Problem {
+public class Problem11 implements Problem {
 
     private static final byte[][] GRID = {
         { 8,  2, 22, 97, 38, 15,  0, 40,  0, 75,  4,  5,  7, 78, 52, 12, 50, 77, 91,  8},

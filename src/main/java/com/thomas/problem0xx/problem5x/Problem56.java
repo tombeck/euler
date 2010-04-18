@@ -38,7 +38,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 20.10.2009
  */
-class Problem56 implements Problem {
+public class Problem56 implements Problem {
 
     private static final BigInteger ONE_HUNDRED = BigInteger.valueOf(100);
 

@@ -36,7 +36,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 31.03.2010
  */
-class Problem189 implements Problem {
+public class Problem189 implements Problem {
 
     static class Row {
     

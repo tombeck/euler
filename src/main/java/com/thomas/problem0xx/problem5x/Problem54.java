@@ -39,7 +39,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 22.10.2009
  */
-class Problem54 implements Problem {
+public class Problem54 implements Problem {
 
     static enum Suit {
         

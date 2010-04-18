@@ -38,7 +38,7 @@ import com.thomas.util.rational.IntRational;
  * @author Thomas
  * @since 28.12.2009
  */
-class Problem165 implements Problem {
+public class Problem165 implements Problem {
 
     static class Point implements Comparable<Point> {
         

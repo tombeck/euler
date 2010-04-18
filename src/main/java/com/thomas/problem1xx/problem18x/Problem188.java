@@ -36,7 +36,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 16.01.2010
  */
-class Problem188 implements Problem {
+public class Problem188 implements Problem {
 
     /**
      * a^^k mod 10^8 = a^(a^^(k-1)) mod 10^8

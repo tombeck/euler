@@ -28,6 +28,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import com.thomas.util.Euler;
+import com.thomas.util.Euler.Problem;
+import com.thomas.util.function.Function2;
 
 /**
  * TODO Type documentation
@@ -35,16 +38,26 @@ import java.util.List;
  * @author Thomas
  * @since 19.11.2009
  */
-public class Main {
+public class Problem206 implements Problem {
+
+    private static boolean isRepeating(List<Long> list) {
+    
+        if (list.isEmpty()) return false;
+        
+        final int size = list.size();
+        
+        if ((size & 1) == 1) return false;
+        
+        final int mid = size / 2;
+        
+        return list.subList(0, mid).equals(list.subList(mid, list.size()));
+    }
 
     /**
-     * TODO Method documentation
-     * 
-     * @param args
-     * @author Thomas
-     * @since 19.11.2009
+     * {@inheritDoc}
      */
-    public static void main(String[] args) {
+    @Override
+    public Long solve() {
 
         long n = 1010101010L;
         List<Long> steps = Arrays.asList(10L);
@@ -80,20 +93,20 @@ public class Main {
 
             pos *= 100;
         }
-        System.out.println(n);
+        
+        return n;
+    }
+    
+    /**
+     * TODO Method documentation
+     * 
+     * @param args
+     * @author Thomas
+     * @since 19.11.2009
+     */
+    public static void main(String[] args) {
+
+        Euler.run(new Problem206());
     }
 
-    private static boolean isRepeating(List<Long> list) {
-    
-        if (list.isEmpty()) return false;
-        
-        final int size = list.size();
-        
-        if ((size & 1) == 1) return false;
-        
-        final int mid = size / 2;
-        
-        return list.subList(0, mid).equals(list.subList(mid, list.size()));
-    }
-    
 }

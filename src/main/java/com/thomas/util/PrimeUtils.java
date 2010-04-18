@@ -167,7 +167,7 @@ public class PrimeUtils {
         final int index = binarySearch(primes, min);
         
         if (index >= 0) return primes.subList(index, primes.size());
-        return primes.subList(index - 1, primes.size());
+        return primes.subList(-index - 1, primes.size());
     }
     
     private PrimeUtils() {

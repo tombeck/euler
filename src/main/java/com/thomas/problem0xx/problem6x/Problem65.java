@@ -37,7 +37,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 23.11.2009
  */
-class Problem65 implements Problem {
+public class Problem65 implements Problem {
 
     /**
      * {@inheritDoc}

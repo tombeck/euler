@@ -40,7 +40,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 05.01.2010
  */
-class Problem132 implements Problem {
+public class Problem132 implements Problem {
 
     private static final BigInteger BILLION = BigInteger.valueOf(1000000000);
     

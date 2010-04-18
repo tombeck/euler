@@ -21,52 +21,64 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.problem74;
+package com.thomas.problem78;
 
-import static com.thomas.util.Digit.FACTORIAL;
+import com.thomas.util.Euler;
+import com.thomas.util.Euler.Problem;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * TODO Type documentation
  * 
  * @author Thomas
- * @since 26.10.2009
+ * @since 25.10.2009
  */
-public class Main {
+public class Problem78 implements Problem {
 
+    private static int MAX = 100000;
+    private static final int[] CACHE = new int[MAX + 1];
+
+    private static int partition(long n) {
+        
+        if (n < 0) return 0;
+        if (n == 0) return 1;
+        
+        if (CACHE[(int)n] != 0) return CACHE[(int)n];
+        
+        int p = 0;
+        for (int k = 1, sign = -1; k <= n; ++k) {
+            sign *= -1;
+            long i = n - (k * (3 * (long)k - 1)) / 2;
+            long j = n - (k * (3 * (long)k + 1)) / 2;
+            p = (p + (partition(i) + partition(j)) * sign) % 1000000;
+            if (p < 0) p = p + 1000000;
+        }
+        CACHE[(int)n] = p;
+        
+        return p;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Integer solve() throws Exception {
+
+        for (int n = 0; ; ++n) {
+            if (partition(n) == 0) return n;
+        }
+    }
+    
     /**
      * TODO Method documentation
      * 
      * @param args
      * @author Thomas
-     * @since 26.10.2009
+     * @since 25.10.2009
      */
     public static void main(String[] args) {
 
-        int sum = 0;
-
-        for (int i = 0; i < 1000000; ++i) {
-            if (isMatch(new ArrayList<Integer>(), i)) ++sum;
-        }
-        
-        System.out.println(sum);
+        Euler.run(new Problem78());
     }
 
-    private static boolean isMatch(List<Integer> prev, int c) {
-        
-        if (prev.contains(c)) return false;
-        prev.add(c);
-        
-        if (prev.size() == 60) return true;
-        
-        int next = 0;
-        for (char ch : String.valueOf(c).toCharArray()) {
-            next += FACTORIAL[Character.digit(ch, 10)];
-        }
-
-        return isMatch(prev, next);
-    }
-    
 }

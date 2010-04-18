@@ -39,7 +39,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 08.11.2009
  */
-class Problem49 implements Problem {
+public class Problem49 implements Problem {
 
     private static final Comparator<Integer> HASH = new Comparator<Integer>() {
 

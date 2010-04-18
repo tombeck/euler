@@ -26,13 +26,16 @@ package com.thomas.problem215;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.thomas.util.Euler;
+import com.thomas.util.Euler.Problem;
+
 /**
  * TODO Type documentation
  * 
  * @author Thomas
  * @since 13.12.2009
  */
-public class Main {
+public class Problem215 implements Problem {
 
     static final class Row {
     
@@ -54,15 +57,28 @@ public class Main {
         }
     }
     
+    private static void makeRows(List<Row> rows, int row) {
+
+        switch (Integer.numberOfLeadingZeros(row)) {
+        case 2:
+            rows.add(new Row((row | 1) << 3));
+            break;
+        case 3:
+            row = (row | 1) << 2;
+        case 1:
+            rows.add(new Row((row | 1) << 2));
+            break;
+        default:
+            makeRows(rows, (row | 1) << 2);
+            makeRows(rows, (row | 1) << 3);
+        }
+    }
+
     /**
-     * TODO Method documentation
-     * 806844323190414
-     * 
-     * @param args
-     * @author Thomas
-     * @since 13.12.2009
+     * {@inheritDoc}
      */
-    public static void main(String[] args) {
+    @Override
+    public Long solve() {
 
         List<Row> rows = new ArrayList<Row>();
         
@@ -85,24 +101,20 @@ public class Main {
         for (Row row : rows) {
             sum += row.ways[9];
         }
-        System.out.println("> " + sum);
-    }
-
-    private static void makeRows(List<Row> rows, int row) {
-
-        switch (Integer.numberOfLeadingZeros(row)) {
-        case 2:
-            rows.add(new Row((row | 1) << 3));
-            break;
-        case 3:
-            row = (row | 1) << 2;
-        case 1:
-            rows.add(new Row((row | 1) << 2));
-            break;
-        default:
-            makeRows(rows, (row | 1) << 2);
-            makeRows(rows, (row | 1) << 3);
-        }
+        
+        return sum;
     }
     
+    /**
+     * TODO Method documentation
+     * 
+     * @param args
+     * @author Thomas
+     * @since 13.12.2009
+     */
+    public static void main(String[] args) {
+
+        Euler.run(new Problem215());
+    }
+
 }

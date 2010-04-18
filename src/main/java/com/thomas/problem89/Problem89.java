@@ -29,13 +29,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import com.thomas.util.Euler;
+import com.thomas.util.Euler.Problem;
+
 /**
  * TODO Type documentation
  * 
  * @author Thomas
  * @since 25.10.2009
  */
-public class Main {
+public class Problem89 implements Problem {
 
     static enum RomanNumeral {
         
@@ -116,6 +119,32 @@ public class Main {
     }
     
     /**
+     * {@inheritDoc}
+     * @throws IOException 
+     */
+    @Override
+    public Integer solve() throws IOException {
+
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(Problem89.class.getResourceAsStream ("roman.txt")));
+
+        try {
+            
+            int oldSum = 0;
+            int newSum = 0;
+            
+            for (String line; (line = reader.readLine()) != null; ) {
+                oldSum += line.length();
+                newSum += format(toInteger(toRomanNumerals(line))).length();
+            }
+            
+            return oldSum - newSum;
+            
+        } finally {
+            closeQuietly(reader);
+        }
+    }
+
+    /**
      * TODO Method documentation
      * 
      * @param args
@@ -125,28 +154,7 @@ public class Main {
      */
     public static void main(String[] args) throws IOException {
 
-        int oldSum = 0;
-        int newSum = 0;
-        
-        final BufferedReader reader = new BufferedReader(new InputStreamReader(Main.class.getResourceAsStream ("roman.txt")));
-
-        try {
-            
-            String line;
-            while ((line = reader.readLine()) != null) {
-                oldSum += line.length();
-                final String opt = format(toInteger(toRomanNumerals(line)));
-                newSum += opt.length();
-                
-                if (!line.equals(opt))
-                    System.out.println(line + " -> " + opt);
-            }
-        } finally {
-            closeQuietly(reader);
-        }
-        
-        System.out.println(oldSum - newSum);
+        Euler.run(new Problem89());
     }
 
-    
 }

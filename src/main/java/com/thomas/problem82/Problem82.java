@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.problem83;
+package com.thomas.problem82;
 
 import static com.thomas.util.IOUtils.closeQuietly;
 
@@ -30,13 +30,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.PriorityQueue;
 
+import com.thomas.util.Euler;
+import com.thomas.util.Euler.Problem;
+
 /**
  * TODO Type documentation
  * 
  * @author Thomas
  * @since 25.10.2009
  */
-public class Main {
+public class Problem82 implements Problem {
 
     interface Node extends Comparable<Node> {
         
@@ -51,20 +54,17 @@ public class Main {
    }
     
     /**
-     * TODO Method documentation
-     * 
-     * @param args
-     * @author Thomas
+     * {@inheritDoc}
      * @throws IOException 
-     * @since 25.10.2009
      */
-    public static void main(String[] args) throws IOException {
+    @Override
+    public Integer solve() throws IOException {
 
         final int[][] matrix = new int[80][80];
         final int[][] graph = new int[80][80];
         final PriorityQueue<Node> queue = new PriorityQueue<Node>();
 
-        final BufferedReader reader = new BufferedReader(new InputStreamReader(Main.class.getResourceAsStream ("matrix.txt")));
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(Problem82.class.getResourceAsStream ("matrix.txt")));
 
         try {
             
@@ -110,14 +110,13 @@ public class Main {
             }
             
             public void visitNeighbours() {
-                
-                final int sum = graph[this.row][this.column];
-                
+                int sum = graph[this.row][this.column];
                 if (this.column < 80 - 1) new NodeImpl(this.row, this.column + 1).computeDistance(sum);
-                if (this.column > 0) new NodeImpl(this.row, this.column - 1).computeDistance(sum);
+                //if (this.column > 0) new NodeImpl(this.row, this.column - 1).computeDistance(sum);
                 if (this.row < 80 - 1) new NodeImpl(this.row + 1, this.column).computeDistance(sum);
                 if (this.row > 0) new NodeImpl(this.row - 1, this.column).computeDistance(sum);
-                matrix[this.row][this.column] = -1; // mark as visited
+                matrix[this.row][this.column] = -1;
+                //System.out.println(this.row + "/" + this.column);
             }
             
             @Override
@@ -151,17 +150,35 @@ public class Main {
             
         }
         
-        Node currentNode = new NodeImpl(0, 0);
+        for (int i = 0; i < 80; ++i) {
+            new NodeImpl(i, 0).computeDistance(0);
+        }
         
-        currentNode.computeDistance(0);
+        Node currentNode;
         
         while((currentNode = queue.poll()) != null) {
-            if (currentNode.getRow() == 79 && currentNode.getColumn() == 79) break;
+            //if (currentNode.getRow() == 79 && currentNode.getColumn() == 79) break;
             currentNode.visitNeighbours();
         }
         
+        int min = Integer.MAX_VALUE;
+        for (int i = 0; i < 80; ++i) {
+            min = Math.min(min, graph[i][79]);
+        }
         
-        System.out.println(graph[79][79]);
+        return min;
+    }
+
+    /**
+     * TODO Method documentation
+     * 
+     * @param args
+     * @author Thomas
+     * @since 25.10.2009
+     */
+    public static void main(String[] args) {
+
+        Euler.run(new Problem82());
     }
 
 }

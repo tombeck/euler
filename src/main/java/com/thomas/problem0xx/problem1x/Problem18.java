@@ -34,7 +34,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 14.10.2009
  */
-class Problem18 implements Problem {
+public class Problem18 implements Problem {
 
     private static final int[][] TRIANGLE = {
         {75},

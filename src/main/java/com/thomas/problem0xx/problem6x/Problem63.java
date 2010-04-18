@@ -1,7 +1,7 @@
 /**
  * $Id$
  *
- * Copyright (c) 2005 Thomas Beckmann 
+ * Copyright (c) 2010 Thomas Beckmann
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,16 +21,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.problem206;
+package com.thomas.problem0xx.problem6x;
+
+import static java.lang.Math.log;
+
+import com.thomas.util.Euler;
+import com.thomas.util.Euler.Problem;
 
 /**
- * TODO Type documentation
- *
- * @author Thomas
- * @since 04.10.2005
+ * @author thomas (initial creation)
+ * @author $Author: $ (last modification)
+ * @version $Date: $
  */
-public interface Function2<R, T1, T2> {
+public class Problem63 implements Problem {
 
-    public R call(T1 arg1, T2 arg2);
-    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Integer solve() {
+
+        final double ln10 = log(10);
+        
+        int sum = 0;
+        
+        for (int d = 1; d < 10; ++d) sum += (int)(ln10 / (ln10 - log(d)));
+        
+        return sum;
+    }
+
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+
+        Euler.run(new Problem63());
+    }
+
 }

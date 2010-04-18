@@ -34,7 +34,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 25.12.2009
  */
-class Problem178 implements Problem {
+public class Problem178 implements Problem {
 
     private static final int DIGITS = 10;
     

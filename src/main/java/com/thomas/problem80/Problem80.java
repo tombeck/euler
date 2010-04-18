@@ -39,7 +39,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 31.10.2009
  */
-class Problem80 implements Problem {
+public class Problem80 implements Problem {
 
     private static final BigDecimal TWO = valueOf(2);
 

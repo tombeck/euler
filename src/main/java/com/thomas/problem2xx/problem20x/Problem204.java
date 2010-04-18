@@ -32,7 +32,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 21.11.2009
  */
-class Problem204 implements Problem {
+public class Problem204 implements Problem {
 
     private static final int[] PRIMES = {
             2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
