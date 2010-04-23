@@ -23,6 +23,8 @@
  */
 package com.thomas.incubator;
 
+import java.math.BigInteger;
+
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
 
@@ -37,6 +39,7 @@ class Problem160 implements Problem {
     /**
      * TODO Method documentation
      * 
+     * f(100) = 16864
      * @return
      * @see com.thomas.util.Euler.Problem#solve()
      * @author Thomas
@@ -45,13 +48,14 @@ class Problem160 implements Problem {
     @Override
     public Object solve() {
 
-        long p = 1;
+        BigInteger p = BigInteger.ONE;
         
-        for (int i = 100000; i < 200000; ++i) {
-            p *= i;
-            while (p % 10 == 0) p /= 10;
-            p %= 100000;
+        for (int i = 1; i <= 1000; ++i) {
+            p = p.multiply(BigInteger.valueOf(i));
         }
+        while(p.mod(BigInteger.TEN).intValue() == 0) p = p.divide(BigInteger.TEN);
+        
+        p = p.mod(BigInteger.valueOf(100000));
         
         System.out.println(p);
         

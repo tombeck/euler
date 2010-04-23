@@ -27,6 +27,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.thomas.incubator.Problem130;
 import com.thomas.problem0xx.problem0x.Problem1;
 import com.thomas.problem0xx.problem0x.Problem2;
 import com.thomas.problem0xx.problem0x.Problem3;
@@ -109,6 +110,7 @@ import com.thomas.problem115.Problem115;
 import com.thomas.problem118.Problem118;
 import com.thomas.problem119.Problem119;
 import com.thomas.problem122.Problem122;
+import com.thomas.problem129.Problem129;
 import com.thomas.problem132.Problem132;
 import com.thomas.problem134.Problem134;
 import com.thomas.problem135.Problem135;
@@ -343,7 +345,8 @@ public class TestAllProblems {
                 { new Problem125(), "2906969179" },
                 
                 { new Problem128(), "14516824220" },
-                
+                { new Problem129(), "1000023" },
+                { new Problem130(), "149253" },
                 { new Problem131(), "173" },
                 { new Problem132(), "843296" },
                 

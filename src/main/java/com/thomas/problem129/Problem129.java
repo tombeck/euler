@@ -21,13 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.incubator;
+package com.thomas.problem129;
 
-import java.math.BigInteger;
+import static com.thomas.util.NumberUtils.divisors;
+import static com.thomas.util.NumberUtils.modPow;
+import static com.thomas.util.NumberUtils.totient;
 
 import com.thomas.util.Euler;
-import com.thomas.util.NumberUtils;
-import com.thomas.util.PrimeUtils;
 import com.thomas.util.Euler.Problem;
 
 /**
@@ -36,7 +36,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 21.03.2010
  */
-class Problem129 implements Problem {
+public class Problem129 implements Problem {
 
     /**
      * TODO Method documentation
@@ -47,15 +47,16 @@ class Problem129 implements Problem {
      * @since 21.03.2010
      */
     @Override
-    public Object solve() {
+    public Integer solve() {
 
-        System.out.println(NumberUtils.totient(7 * 9));
-        System.out.println(NumberUtils.totient(41 * 9));
-        
-        System.out.println(BigInteger.TEN.pow(240).subtract(BigInteger.ONE).divide(BigInteger.valueOf(9)).mod(BigInteger.valueOf(41)));
-        System.out.println(PrimeUtils.getPrimeFactors(240));
-        System.out.println(PrimeUtils.getPrimeFactors(36));
-        return null;
+       for (int n = 1000002; ; ++n) {
+            for (int k : divisors(totient(9 * n))) {
+                if (modPow(10L, k, 9 * n) == 1) {
+                    if (k > 1000000) return n;
+                    break;
+                }
+            }
+        }
     }
 
     /**

@@ -112,6 +112,16 @@ public class NumberUtils {
         return (tmp * tmp) % m;
     }
     
+    public static long modPow(long a, int b, long m) {
+        
+        if (b == 0) return 1;
+        if ((b & 1) != 0) return (a * modPow(a, b - 1, m)) % m;
+        
+        long tmp = modPow(a, b >> 1, m);
+        
+        return (tmp * tmp) % m;
+    }
+    
     public static int radical(int n) {
         
         int rad = 1;
@@ -324,6 +334,19 @@ public class NumberUtils {
         return true;
     }
 
+    public static int nCk(int n, int k) {
+        
+        if (2 * k > n) k = n - k;
+        
+        int bc = 1;
+        
+        for (int i = 1; i <= k; ++i) {
+            bc = (bc * ((n + 1) - i)) / i;
+        }
+        
+        return bc;
+    }
+    
     private NumberUtils() {
         //
     }

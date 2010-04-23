@@ -72,19 +72,6 @@ class Problem268 implements Problem {
         return p;
     }
     
-    private int nCk(int n, int k) {
-        
-        if (2 * k > n) k = n - k;
-        
-        int bc = 1;
-        
-        for (int i = 1; i <= k; ++i) {
-            bc = (bc * ((n + 1) - i)) / i;
-        }
-        
-        return bc;
-    }
-    
 
     /**
      * TODO Method documentation

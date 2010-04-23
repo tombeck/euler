@@ -30,6 +30,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.thomas.util.Euler;
+import com.thomas.util.NumberUtils;
 import com.thomas.util.Euler.Problem;
 
 /**
@@ -81,7 +82,7 @@ public class Problem103 implements Problem {
         final int[][] masks = new int[n / 2 + 1][];
         
         for (int i = 2; i < masks.length; ++i) {
-            masks[i] = new int[factorial(n) / (factorial(i) * factorial(n - i))];
+            masks[i] = new int[NumberUtils.nCk(n, i)];
             for (int j = 0, k = 0; j < (1 << n); ++j) {
                 if (bitCount(j) == i) masks[i][k++] = j;
             }
@@ -114,15 +115,6 @@ public class Problem103 implements Problem {
         }
         
         return sum;
-    }
-    
-    private int factorial(int n) {
-    
-        int factorial = 1;
-        
-        while (n > 1) factorial *= n--;
-        
-        return factorial;
     }
     
     /**
