@@ -21,7 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.incubator;
+package com.thomas.problem2xx.problem22x;
+
+import java.util.Arrays;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -32,12 +34,10 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 25.03.2010
  */
-class Problem225 implements Problem {
+public class Problem225 implements Problem {
 
     /**
      * TODO Method documentation
-     * 
-     * http://www.research.att.com/~njas/sequences/A000213
      * 
      * @return
      * @see com.thomas.util.Euler.Problem#solve()
@@ -45,16 +45,16 @@ class Problem225 implements Problem {
      * @since 25.03.2010
      */
     @Override
-    public Object solve() {
+    public Integer solve() {
 
-        int[] t = {1, 1, 1};
-        
-        for (int i = 0; i < 30; ++i) {
-            t = new int[] {t[1], t[2], (t[0] + t[1] + t[2])};
-            System.out.println(t[2] % 7);
+        final int[] a = {1, 1, 1};
+
+        outer: for (int n = 27, i = 0; ; n += 2) {
+            for (int[] t = a.clone(); !Arrays.equals(a, t = new int[] {t[1], t[2], (t[0] + t[1] + t[2]) % n}); ) {
+                if (t[2] == 0) continue outer;
+            }
+            if (++i == 124) return n;
         }
-        
-        return null;
     }
 
     /**

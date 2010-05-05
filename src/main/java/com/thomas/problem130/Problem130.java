@@ -21,16 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.incubator;
+package com.thomas.problem130;
 
 import static com.thomas.util.NumberUtils.divisors;
 import static com.thomas.util.NumberUtils.modPow;
 import static com.thomas.util.NumberUtils.totient;
+import static com.thomas.util.PrimeUtils.isPrime;
 
 import com.thomas.util.Euler;
-import static com.thomas.util.PrimeUtils.*;
 import com.thomas.util.Euler.Problem;
-
 
 /**
  * @author thomas (initial creation)
@@ -46,7 +45,7 @@ public class Problem130 implements Problem {
     public Integer solve() {
 
         int sum = 0;
-        
+
         for (int n = 4, i = 0; i < 25; ++n) {
             if (!isPrime(n)) {
                 for (int k : divisors(totient(9 * n))) {
@@ -64,17 +63,6 @@ public class Problem130 implements Problem {
         return sum;
     }
 
-    public int a(int n) {
-        
-        for (int k : divisors(totient(9 * n))) {
-            if (modPow(10L, k, 9 * n) == 1) {
-                return k;
-            }
-        }
-        
-        return 0;
-    }
-    
     /**
      * @param args
      */

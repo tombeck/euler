@@ -26,6 +26,10 @@ package com.thomas.incubator;
 import static com.thomas.util.NumberUtils.modPow;
 
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -38,40 +42,48 @@ import com.thomas.util.Euler.Problem;
  */
 class Problem250 implements Problem {
 
+    static int x = 0;
+    
     /**
      * TODO Method documentation
      * 
      * @return
      * @see com.thomas.util.Euler.Problem#solve()
      * @author Thomas
-     * @throws InterruptedException 
      * @since 13.03.2010
      */
     @Override
-    public Object solve() throws InterruptedException {
+    public Object solve() {
 
-        final int[] rem = new int[250];
-        final long[][] cache = new long[250][250];
+        final int[] mod = new int[250];
+        final long[][] cache = new long[250][251];
+        final Map<Integer, long[]> map = new HashMap<Integer, long[]>();
         
         for (int n = 1; n <= 250250; ++n) {
-            ++rem[modPow(n, n, 250)];
+            ++mod[modPow(n, n, 250)];
         }
 
-        return count(cache, rem, 0, 0);
+        Set<Integer> set = new HashSet<Integer>();
+        for (int x : mod) {
+            set.add(x);
+        }
+        System.out.println(set);
+        return null;
+//        return count(cache, mod, 0, 0);
     }
 
-    private BigInteger count(long[][] cache, int[] mod, int min, int rem) throws InterruptedException {
+    private BigInteger count(long[][] cache, int[] mod, int min, int rem) {
         
-        if (min >= 250) {
+        if (min >= mod.length) {
             return rem == 0 ? BigInteger.ONE : BigInteger.ZERO;
         }
         
         BigInteger count = BigInteger.valueOf(cache[min][rem]);
         
         if (count.equals(BigInteger.ZERO)) {
+            System.out.println(++x);
             for (int i = 0; i <= mod[min]; ++i) {
                 count = count.add(nCk(mod[min], i).multiply(count(cache, mod, min + 1, (i * min + rem) % 250)));
-                Thread.sleep(1);
             }
         }
         cache[min][rem] = count.mod(BigInteger.valueOf(10000000000000000L)).longValue();

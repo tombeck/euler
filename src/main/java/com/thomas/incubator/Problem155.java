@@ -23,6 +23,8 @@
  */
 package com.thomas.incubator;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,8 +39,22 @@ import com.thomas.util.Euler.Problem;
  */
 class Problem155 implements Problem {
 
+    final char[] O = new char[] {'+', '*'};
+    
     /**
      * TODO Method documentation
+     * 
+     * ()
+     * ()+()            ()*()
+     * 
+     * ()+(()+())       ()*(()*())
+     * ()+(()*())       ()*(()+())
+     * 
+     * ()+()+()+()      ()*()*()*()
+     * ()+()+(()*())    ()*()*(()+())
+     * ()+(()*()*())    ()*(()+()+())
+     * ()+(()*(()+()))  ()*(()+(()*()))
+     * (()+())*(()+())  (()*())+(()*())
      * 
      * @return
      * @see com.thomas.util.Euler.Problem#solve()
@@ -48,24 +64,44 @@ class Problem155 implements Problem {
     @Override
     public Object solve() {
 
-        Set<Double> c1 = new HashSet<Double>();
+        Set<String> set = split(4, 0);
         
-        for (int i = 0; i < 3; ++i) {
-            Set<Double> c2 = new HashSet<Double>();
-            for (double d1 : c1) {
-                for (double d2 : c1) {
-                    c2.add(d1 + d2);
-                    c2.add((d1 * d2) / (d1 + d2));
-                }
-            }
-            c2.add(18.0);
-            System.out.println(c2);
-            c1 = c2;
-        }
+        System.out.println(set.size() + ": " + set);
 
         return null;
     }
 
+    private Set<String> split(int n, int type) {
+        
+        if (n == 1) return Collections.singleton("()");
+            
+        final Set<String> ret = new HashSet<String>();
+        
+        for (int i = 1, j; (j = n - i) >= i; ++i) {
+            
+            final Set<String> left = split(i, 1 - type);
+            final Set<String> right = split(j, 1 - type);
+            
+            for (String l : left) {
+                for (String r : right) {
+                    ret.add("(" + l + "+" + r + ")");
+                    ret.add("(" + l + "*" + r + ")");
+                }
+            }
+        }
+        
+        return ret;
+    }
+    
+    private String make(int n, int type) {
+    
+        char[] s = new char[n];
+        
+        Arrays.fill(s, O[type]);
+        
+        return new String(s);
+    }
+    
     /**
      * TODO Method documentation
      * 

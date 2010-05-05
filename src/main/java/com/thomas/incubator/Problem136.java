@@ -39,7 +39,7 @@ class Problem136 implements Problem {
 
     /**
      * x^2 - y^2 - z^2 = n
-     * n < 5 * 10^7
+     * n < 50 * 10^6
      * x > y > z > 0
      * 
      * x = y + r > y => r > 0

@@ -48,17 +48,20 @@ class Problem127 implements Problem {
     @Override
     public Object solve() {
 
+        final int max = 1000;
+        
         long sum = 0;
         
-        for (int c = 1; c < 2000; ++c) {
+        for (int c = max; c-- > 1; ) {
             for (int a = 1, b; (b = c - a) > a; ++a) {
                 if (Util.gcd(a, b) == 1 && Util.gcd(a, c) == 1 && Util.gcd(b, c) == 1) {
                     if (NumberUtils.radical(a * b * c) < c) {
-                        System.out.println(PrimeUtils.getDistinctPrimeFactors(a) + ", " + PrimeUtils.getDistinctPrimeFactors(b) + ", " + PrimeUtils.getDistinctPrimeFactors(c));
+                        System.out.println(PrimeUtils.getPrimeFactors(a) + ", " + PrimeUtils.getPrimeFactors(b) + ", " + PrimeUtils.getPrimeFactors(c));
                         sum += c;
                     }
                 }
             }
+            //System.out.println(c);
         }
 
         return sum;
