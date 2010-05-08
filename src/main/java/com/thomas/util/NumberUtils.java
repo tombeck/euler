@@ -23,8 +23,8 @@
  */
 package com.thomas.util;
 
-import static com.thomas.util.PrimeUtils.getDistinctPrimeFactors;
 import static com.thomas.util.PrimeUtils.getPrimeFactors;
+import static java.lang.Math.sqrt;
 
 import java.util.List;
 import java.util.Set;
@@ -124,12 +124,19 @@ public class NumberUtils {
     
     public static int radical(int n) {
         
+        final int max = (int)sqrt(n);
+        
         int rad = 1;
-        
-        for (long prime : getDistinctPrimeFactors(n)) {
-            rad *= prime;
+
+        for (int i = 2; i <= max; i++) {
+            if (n % i == 0) {
+                rad *= i;
+                do n /= i;
+                while (n % i == 0);
+            }
         }
-        
+        if (n > 1) rad *= n;
+
         return rad;
     }
     

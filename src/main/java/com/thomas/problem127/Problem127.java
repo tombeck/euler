@@ -21,12 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.incubator;
+package com.thomas.problem127;
 
-import com.thomas.Util;
+import static com.thomas.Util.gcd;
+import static com.thomas.util.NumberUtils.radical;
+
 import com.thomas.util.Euler;
-import com.thomas.util.NumberUtils;
-import com.thomas.util.PrimeUtils;
 import com.thomas.util.Euler.Problem;
 
 /**
@@ -35,7 +35,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 16.01.2010
  */
-class Problem127 implements Problem {
+public class Problem127 implements Problem {
 
     /**
      * TODO Method documentation
@@ -46,22 +46,25 @@ class Problem127 implements Problem {
      * @since 16.01.2010
      */
     @Override
-    public Object solve() {
+    public Integer solve() {
 
-        final int max = 1000;
+        final int max = 120000;
         
-        long sum = 0;
+        final int[] rad = new int[max];
+        
+        for (int i = 1; i < max; ++i) rad[i] = radical(i);
+        
+        int sum = 0;
         
         for (int c = max; c-- > 1; ) {
-            for (int a = 1, b; (b = c - a) > a; ++a) {
-                if (Util.gcd(a, b) == 1 && Util.gcd(a, c) == 1 && Util.gcd(b, c) == 1) {
-                    if (NumberUtils.radical(a * b * c) < c) {
-                        System.out.println(PrimeUtils.getPrimeFactors(a) + ", " + PrimeUtils.getPrimeFactors(b) + ", " + PrimeUtils.getPrimeFactors(c));
-                        sum += c;
-                    }
+            
+            final int t = c / rad[c];
+            
+            if (t > 2) for (int a = 1, b; (b = c - a) > a; ++a) {
+                if ((long)rad[a] * rad[b] < t && gcd(rad[a], rad[b]) == 1) {
+                    sum += c;
                 }
             }
-            //System.out.println(c);
         }
 
         return sum;
