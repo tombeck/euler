@@ -21,13 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.problem132;
+package com.thomas.problem1xx.problem13x;
 
+import static com.thomas.util.NumberUtils.modPow;
 import static com.thomas.util.PrimeUtils.isPrime;
-import static java.math.BigInteger.ONE;
-import static java.math.BigInteger.TEN;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,8 +40,6 @@ import com.thomas.util.Euler.Problem;
  */
 public class Problem132 implements Problem {
 
-    private static final BigInteger BILLION = BigInteger.valueOf(1000000000);
-    
     /**
      * TODO Method documentation
      * 
@@ -62,7 +58,7 @@ public class Problem132 implements Problem {
         for (int i = 0, n = 2; i < 40; ++n) {
             if (isPrime(n, primes)) {
                 primes.add(n);
-                if (TEN.modPow(BILLION, BigInteger.valueOf(9 * n)).equals(ONE)) {
+                if (modPow(10L, 1000000000, 9 * n) == 1) {
                     ++i;
                     sum += n;
                 }
