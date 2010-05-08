@@ -40,6 +40,11 @@ import com.thomas.util.rational.LongRational;
  */
 public class Problem277 implements Problem {
 
+    private static final LongRational DIV_3_BY_ONE = new LongRational(3, 1);
+    private static final LongRational DIV_3_BY_TWO = new LongRational(3, 2);
+    private static final LongRational DIV_3_BY_FOUR = new LongRational(3, 4);
+    private static final LongRational DIV_1_BY_2 = new LongRational(1, 2);
+    
     /**
      * TODO Method documentation
      * 
@@ -68,17 +73,17 @@ public class Problem277 implements Problem {
 
     private LongRational[] D(LongRational[] a) {
         
-        return new LongRational[] {new LongRational(3, 1).multiply(a[0]), new LongRational(3, 1).multiply(a[1])};
+        return new LongRational[] {DIV_3_BY_ONE.multiply(a[0]), DIV_3_BY_ONE.multiply(a[1])};
     }
     
     private LongRational[] U(LongRational[] a) {
         
-        return new LongRational[] {new LongRational(3, 4).multiply(a[0]), new LongRational(3, 4).multiply(a[1]).add(new LongRational(-1, 2))};
+        return new LongRational[] {DIV_3_BY_FOUR.multiply(a[0]), DIV_3_BY_FOUR.multiply(a[1]).subtract(DIV_1_BY_2)};
     }
     
     private LongRational[] d(LongRational[] a) {
         
-        return new LongRational[] {new LongRational(3, 2).multiply(a[0]), new LongRational(3, 2).multiply(a[1]).add(new LongRational(1, 2))};
+        return new LongRational[] {DIV_3_BY_TWO.multiply(a[0]), DIV_3_BY_TWO.multiply(a[1]).add(DIV_1_BY_2)};
     }
     
     /**
