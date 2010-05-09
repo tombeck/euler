@@ -45,7 +45,16 @@ public class Digit {
     
     public static final int[] FIFTH_POWER = {0, 1, 32, 243, 1024, 3125, 7776, 16807, 32768, 59049};
     
-
+    
+    
+    public static int digitalRoot(int n) {
+    
+        if (n > 0) return (n - 1) % 9 + 1;
+        if (n < 0) return digitalRoot(-n);
+        
+        return 0;
+    }
+    
     public static int sumOfDigits(String s) {
         
         int sum = 0;
@@ -81,6 +90,13 @@ public class Digit {
     
     private Digit() {
         //
+    }
+    
+    public static void main(String[] args) {
+    
+        for (int i = 0; i < 100; ++i) {
+            System.out.println(i + ": " + digitalRoot(i));
+        }
     }
     
 }

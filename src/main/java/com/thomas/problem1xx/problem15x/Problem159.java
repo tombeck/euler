@@ -21,20 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.problem2xx.problem23x;
+package com.thomas.problem1xx.problem15x;
+
+import static com.thomas.util.Digit.digitalRoot;
+import static java.lang.Math.max;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
-import com.thomas.util.matrix.IntColVector;
-import com.thomas.util.matrix.IntMatrix;
-import com.thomas.util.matrix.IntRowVector;
 
 /**
  * @author thomas (initial creation)
  * @author $Author: $ (last modification)
  * @version $Date: $
  */
-public class Problem237 implements Problem {
+public class Problem159 implements Problem {
 
     /**
      * {@inheritDoc}
@@ -42,23 +42,19 @@ public class Problem237 implements Problem {
     @Override
     public Integer solve() {
 
-        final int mod = 100000000;
-        final long width = 1000000000000L;
+        final int max = 1000000;
+        final int[] mdrs = new int[max];
         
-        final int[][] transitions = {
-                /*         0011 0110 1001 1100 1111P 1111N */
-                /*0011 */ {   0,   0,   1,   0,    1,    0},
-                /*0110 */ {   0,   0,   1,   0,    0,    0},
-                /*1001 */ {   1,   1,   0,   1,    0,    1},
-                /*1100 */ {   0,   0,   1,   0,    1,    0},
-                /*1111P*/ {   0,   0,   1,   0,    1,    0},
-                /*1111N*/ {   1,   0,   0,   1,    0,    1}
-        };
+        int sum = 0;
         
-        return new IntRowVector(1, 1, 0, 1, 0, 1)
-                .modMultiply(new IntMatrix(transitions, 6).modPow(width - 2, mod), mod)
-                .modMultiply(new IntColVector(0, 0, 1, 0, 0, 1), mod)
-                .at(0, 0);
+        for (int n = 2; n < max; ++n) {
+            sum += (mdrs[n] = max(mdrs[n], digitalRoot(n)));
+            for (int j = 2, p; j <= n && (p = j * n) < max; ++j) {
+                mdrs[p] = max(mdrs[p], mdrs[j] + mdrs[n]);
+            }
+        }
+
+        return sum;
     }
 
     /**
@@ -66,7 +62,7 @@ public class Problem237 implements Problem {
      */
     public static void main(String[] args) {
 
-        Euler.run(new Problem237());
+        Euler.run(new Problem159());
     }
 
 }

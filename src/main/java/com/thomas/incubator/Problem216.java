@@ -23,8 +23,6 @@
  */
 package com.thomas.incubator;
 
-import java.util.List;
-
 import com.thomas.util.Euler;
 import com.thomas.util.PrimeUtils;
 import com.thomas.util.Euler.Problem;
@@ -40,18 +38,6 @@ class Problem216 implements Problem {
     /**
      * TODO Method documentation
      * 
-     * @param args
-     * @author Thomas
-     * @since 13.12.2009
-     */
-    public static void main(String[] args) {
-
-        Euler.run(new Problem216());
-    }
-
-    /**
-     * TODO Method documentation
-     * 
      * @return
      * @see com.thomas.util.Euler.Problem#solve()
      * @author Thomas
@@ -60,16 +46,32 @@ class Problem216 implements Problem {
     @Override
     public Object solve() {
 
-        List<Integer> primes = PrimeUtils.primes(7072);
-
-        for (int n = 2; n < 100; ++n) {
-            int t = 2 * n * n - 1;
-            if (!PrimeUtils.isPrime(t, primes)) {
-                System.out.println(n + " " + PrimeUtils.getPrimeFactors(n) + " > " + t + " " + PrimeUtils.getPrimeFactors(t));
+        for (int p : PrimeUtils.primes(100000)) {
+            if (isSquare((p + 1) / 2)) {
+                System.out.println((int)Math.sqrt((p + 1) / 2));
             }
         }
 
         return null;
+    }
+
+    private boolean isSquare(int n) {
+    
+        final int sqrt = (int)Math.sqrt(n);
+        
+        return sqrt * sqrt == n;
+    }
+    
+    /**
+     * TODO Method documentation
+     * 
+     * @param args
+     * @author Thomas
+     * @since 13.12.2009
+     */
+    public static void main(String[] args) {
+
+        Euler.run(new Problem216());
     }
 
 }
