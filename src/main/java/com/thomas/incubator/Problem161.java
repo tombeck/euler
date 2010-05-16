@@ -32,8 +32,35 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 16.02.2010
  */
-class Problem161 implements Problem {
+public class Problem161 implements Problem {
 
+    private static final int[][] FOLLOWERS = {
+            /*         0 A1 A2 B1 B2 C1 C2 D1 D2 E1 E2 E3 F1*/
+            /* 0  */ { 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1},
+            /* A1 */ { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            /* A2 */ { 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1},
+            /* B1 */ { 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+            /* B2 */ { 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1},
+            /* C1 */ { 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1},
+            /* C2 */ { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            /* D1 */ { 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+            /* D2 */ { 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1},
+            /* E1 */ { 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1},
+            /* E2 */ { 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1},
+            /* E3 */ { 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1},
+            /* F1 */ { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    };
+    
+    private static final int[] SIZE = {
+        /*    0 A1 A2 B1 B2 C1 C2 D1 D2 E1 E2 E3 F1*/
+        /**/  0, 2, 1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 3
+    };
+    
+    private static final int[] TOP = {
+        /*    0 A1 A2 B1 B2 C1 C2 D1 D2 E1 E2 E3 F1*/
+        /**/  1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1
+    };
+    
     /**
      * TODO Method documentation
      * 
@@ -45,23 +72,21 @@ class Problem161 implements Problem {
     @Override
     public Object solve() {
 
-        System.out.println(count(9));
+        System.out.println(count(9, false));
         
         return null;
     }
 
-    private int count(int len) {
+    private int count(int size, boolean zero) {
     
-        if (len == 0) return 1;
+        if (size == 0) return zero ? 1 : 0;
         
         int count = 0;
         
-        int max = Math.min(3, len);
-        for (int i = 1; i <= max; ++i) {
-            for (int j = i; j <= 3; ++j) {
-                count += count(len - i);
-            }
+        for (int i = 0; i <= 2; ++i) {
+            count += count(size - 1, zero || i == 0);
         }
+        
         return count;
     }
     
