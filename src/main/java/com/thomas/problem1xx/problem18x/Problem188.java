@@ -23,9 +23,7 @@
  */
 package com.thomas.problem1xx.problem18x;
 
-import static java.math.BigInteger.TEN;
-
-import java.math.BigInteger;
+import static com.thomas.util.NumberUtils.modPow;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -50,16 +48,13 @@ public class Problem188 implements Problem {
      * @since 16.01.2010
      */
     @Override
-    public BigInteger solve() {
+    public Integer solve() {
 
-        final BigInteger m = TEN.pow(8);
-        final BigInteger a = BigInteger.valueOf(1777);
+        int x = 1777;
         
-        BigInteger x = a;
-        
-        for (int k = 1; k < 1855; ++k) x = a.modPow(x, m);
+        for (int k = 0; k < 1855; ++k) x = (int)modPow(1777L, x, 100000000L);
 
-        return a.modPow(x, m);
+        return x;
     }
 
     /**
