@@ -40,23 +40,23 @@ public class IntMatrix {
             ret[i][i] = 1;
         }
         
-        return new IntMatrix(ret, m, m);
+        return new IntMatrix(ret);
     }
     
     private final int[][] mx;
     private final int m;
     private final int n;
 
-    public IntMatrix(int[][] mx, int m, int n) {
+    public IntMatrix(int n, int[]... mx) {
 
         this.mx = mx;
-        this.m = m;
+        this.m = mx.length;
         this.n = n;
     }
 
-    public IntMatrix(int[][] mx, int m) {
+    public IntMatrix(int[]... mx) {
 
-        this(mx, m, m);
+        this(mx.length, mx);
     }
 
     public IntMatrix multiply(IntMatrix other) {
@@ -73,7 +73,7 @@ public class IntMatrix {
             }
         }
         
-        return new IntMatrix(ret, this.m, other.n);
+        return new IntMatrix(other.n, ret);
     }
     
     public IntMatrix modMultiply(IntMatrix other, int mod) {
@@ -90,7 +90,7 @@ public class IntMatrix {
             }
         }
         
-        return new IntMatrix(ret, this.m, other.n);
+        return new IntMatrix(other.n, ret);
     }
     
     public IntMatrix mod(int p) {
@@ -103,7 +103,7 @@ public class IntMatrix {
             }
         }
         
-        return new IntMatrix(ret, this.m, this.n);
+        return new IntMatrix(this.n, ret);
     }
     
     public IntMatrix modPow(long exp, int mod) {

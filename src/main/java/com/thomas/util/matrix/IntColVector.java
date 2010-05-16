@@ -45,7 +45,7 @@ public class IntColVector extends IntMatrix {
      */
     public IntColVector(int... mx) {
 
-        super(make(mx), mx.length, 1);
+        super(1, make(mx));
     }
 
 }

@@ -56,7 +56,7 @@ public class Problem237 implements Problem {
         };
         
         return new IntRowVector(1, 1, 0, 1, 0, 1)
-                .modMultiply(new IntMatrix(transitions, 6).modPow(width - 2, mod), mod)
+                .modMultiply(new IntMatrix(6, transitions).modPow(width - 2, mod), mod)
                 .modMultiply(new IntColVector(0, 0, 1, 0, 0, 1), mod)
                 .at(0, 0);
     }

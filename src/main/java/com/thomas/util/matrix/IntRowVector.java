@@ -36,7 +36,7 @@ public class IntRowVector extends IntMatrix {
      */
     public IntRowVector(int ... mx) {
 
-        super(new int[][] {mx}, 1, mx.length);
+        super(mx.length, mx);
     }
 
 }
