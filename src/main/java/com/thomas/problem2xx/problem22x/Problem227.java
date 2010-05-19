@@ -21,7 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.incubator;
+package com.thomas.problem2xx.problem22x;
+
+import static java.lang.String.format;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -32,41 +34,64 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 28.03.2010
  */
-class Problem227 implements Problem {
+public class Problem227 implements Problem {
 
     /**
      * TODO Method documentation
      * 
+     * -1 : 1/6
+     *  0 : 4/6
+     *  1 : 1/6
+     * 
+     * -2 = -1 -1 : 1/6 * 1/6 =  1/36
+     * -1 = -1  0 : 1/6 * 4/6 =  4/36
+     *  0 = -1  1 : 1/6 * 1/6 =  1/36
+     * -1 =  0 -1 : 4/6 * 1/6 =  4/36
+     *  0 =  0  0 : 4/6 * 4/6 = 16/36
+     *  1 =  0  1 : 4/6 * 1/6 =  4/36
+     *  0 =  1 -1 : 1/6 * 1/6 =  1/36
+     *  1 =  1  0 : 1/6 * 4/6 =  4/36
+     *  2 =  1  1 : 1/6 * 1/6 =  1/36
+     * 
+     * -2 :  1/36
+     * -1 :  8/36
+     *  0 : 18/36
+     *  1 :  8/36
+     *  2 :  1/36
+     *  
      * @return
      * @see com.thomas.util.Euler.Problem#solve()
      * @author Thomas
      * @since 28.03.2010
      */
     @Override
-    public Object solve() {
+    public String solve() {
 
         double[] pp = new double[100];
-        double[] pn = new double[100];
-        
+
         pp[50] = 1;
-        double steps = 0;
+
+        double sum = 0;
         
-        double neg = 1.0;
-        
-        for (int n = 1; n < 100000; ++n) {
-            System.out.println((steps + n * neg) / n);
-            for (int i = 0; i < 100; ++i) {
-                pn[i] = (pp[(i + 98) % 100] * 1 + pp[(i + 99) % 100] * 8 + pp[i] * 18 + pp[(i + 1) % 100] * 8 + pp[(i + 2) % 100] * 1) / 36;
+        for (int n = 1; ; ++n) {
+
+            final double[] pn = new double[100];
+            
+            for (int i = 1; i < 100; ++i) {
+                pn[(i + 98) % 100] += pp[i] * ( 1.0 / 36);
+                pn[ i -  1       ] += pp[i] * ( 8.0 / 36);
+                pn[ i            ] += pp[i] * (18.0 / 36);
+                pn[(i +  1) % 100] += pp[i] * ( 8.0 / 36);
+                pn[(i +  2) % 100] += pp[i] * ( 1.0 / 36);
             }
-            double win = neg * pn[0];
-            neg -= win;
-            steps += win * n;
-            double[] tmp = pp;
+            
+            final double tmp = sum;
+            
+            if (pn[0] > 0 && (sum += pn[0] * n) == tmp) return format("%.10g", sum);
+
             pp = pn;
-            pn = tmp;
         }
 
-        return null;
     }
 
     /**
