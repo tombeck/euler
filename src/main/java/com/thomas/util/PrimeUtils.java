@@ -170,6 +170,13 @@ public class PrimeUtils {
         return primes.subList(-index - 1, primes.size());
     }
     
+    public static long nextPrime(long n, List<Integer> primes) {
+    
+        for (long np = n; ; ++np) {
+            if (isPrime(np, primes)) return np;
+        }
+    }
+    
     private PrimeUtils() {
         //
     }
