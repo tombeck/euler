@@ -46,6 +46,11 @@ public class Problem126 implements Problem {
      *
      * 2(ab+ac+bc)+4(n-1)(a+b+c+n-2)
      * 
+     * 
+     * 4l^2 + 4l(a + b + c - 1) + (a + b + c - 1)^2 = 2n - 2(ab + ac + bc) - (a + b + c - 1)^2
+     * 
+     * (4l + (a + b + c - 1))^2 = 2n - 2(ab + ac + bc) - (a + b + c - 1)^2
+     * 
      * {@inheritDoc}
      */
     @Override
@@ -60,10 +65,10 @@ public class Problem126 implements Problem {
 
         int count = 0;
         
-        for (int a = 1; 2 * a + 1 <= n; ++a) {
+        for (int a = 1; (a << 1) + 1 <= n; ++a) {
             for (int b = 1; b <= a && a * b + a + b <= n; ++b) {
                 for (int c = 1, t; c <= b && (t = a * b + a * c + b * c) <= n; ++c) {
-                    for (int l = 0, cover; (cover = t + 2 * l * (a + b + c + l - 1)) <= n; ++l) {
+                    for (int l = 0, cover; (cover = t + ((l * (a + b + c + l - 1)) << 1)) <= n; ++l) {
                         if (cover == n) ++count;
                     }
                 }

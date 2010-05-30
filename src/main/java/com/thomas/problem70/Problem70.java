@@ -24,7 +24,6 @@
 package com.thomas.problem70;
 
 import static com.thomas.Util.isPermutation;
-import static com.thomas.util.NumberUtils.totient;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -37,23 +36,30 @@ import com.thomas.util.Euler.Problem;
 public class Problem70 implements Problem {
 
     /**
-     * {@inheritDoc}
+     * {@inheritDoc}totient -= totient / i;
      */
     @Override
     public Integer solve() {
 
-        int n_min = 10000000;
-        int t_min = 1;
+        final int max = 10000000;
+        final int[] totient = new int[max];
         
-        for (int n = 10000000; n-- > 2; ) {
-            int t = totient(n);
-            if ((long)n * t_min < (long)n_min * t && isPermutation(n, t)) {
-                n_min = n;
-                t_min = t;
+        int min = 2;
+        
+        for (int n = 0; n < max; ++n) totient[n] = n;
+
+        for (int n = 2; n < max; ++n) {
+            if (totient[n] == n) {
+                for (int i = n; i < max; i += n) {
+                    totient[i] -= totient[i] / n;
+                }
+            }
+            if ((long)n * totient[min] < (long)min * totient[n] && isPermutation(n, totient[n])) {
+                min = n;
             }
         }
-        
-        return n_min;
+
+        return min;
     }
 
     /**
