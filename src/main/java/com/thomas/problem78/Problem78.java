@@ -26,7 +26,6 @@ package com.thomas.problem78;
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
 
-
 /**
  * TODO Type documentation
  * 
@@ -35,40 +34,35 @@ import com.thomas.util.Euler.Problem;
  */
 public class Problem78 implements Problem {
 
-    private static int MAX = 100000;
-    private static final int[] CACHE = new int[MAX + 1];
-
-    private static int partition(long n) {
-        
-        if (n < 0) return 0;
-        if (n == 0) return 1;
-        
-        if (CACHE[(int)n] != 0) return CACHE[(int)n];
-        
-        int p = 0;
-        for (int k = 1, sign = -1; k <= n; ++k) {
-            sign *= -1;
-            long i = n - (k * (3 * (long)k - 1)) / 2;
-            long j = n - (k * (3 * (long)k + 1)) / 2;
-            p = (p + (partition(i) + partition(j)) * sign) % 1000000;
-            if (p < 0) p = p + 1000000;
-        }
-        CACHE[(int)n] = p;
-        
-        return p;
-    }
-
     /**
      * {@inheritDoc}
      */
     @Override
-    public Integer solve() throws Exception {
+    public Integer solve() {
+        
+        final int[] cache = new int[100000 + 1];
 
         for (int n = 0; ; ++n) {
-            if (partition(n) == 0) return n;
+            if (partition(n, cache) == 0) return n;
         }
     }
     
+    private int partition(long n, int[] cache) {
+        
+        if (n < 0) return 0;
+        if (n == 0) return 1;
+        
+        if (cache[(int)n] == 0) {
+            for (int k = 1, sign = -1; k <= n; ++k) {
+                cache[(int)n] += (partition(n - ((k * (3 * k - 1L)) >> 1), cache) + partition(n - ((k * (3 * k + 1L)) >> 1), cache)) * (sign *= -1);
+                if (cache[(int)n] >= 1000000) cache[(int)n] -= 1000000;
+                else if (cache[(int)n] < 0) cache[(int)n] += 1000000;
+            }
+        }
+        
+        return cache[(int)n];
+    }
+
     /**
      * TODO Method documentation
      * 

@@ -47,9 +47,13 @@ public class Problem126 implements Problem {
      * 2(ab+ac+bc)+4(n-1)(a+b+c+n-2)
      * 
      * 
-     * 4l^2 + 4l(a + b + c - 1) + (a + b + c - 1)^2 = 2n - 2(ab + ac + bc) - (a + b + c - 1)^2
+     * (a * b + a * c + b * c) + (2 * (l * (a + b + c + l - 1)) = n
      * 
-     * (4l + (a + b + c - 1))^2 = 2n - 2(ab + ac + bc) - (a + b + c - 1)^2
+     * x = a * b + a * c + b * c
+     * y = a + b + c - 1
+     * 
+     * y^2 + 4ly + 4l^2 = 2n - 2x + y^2
+     * l = (sqrt(2n - 2x + y^2) - y)/2
      * 
      * {@inheritDoc}
      */
@@ -68,8 +72,8 @@ public class Problem126 implements Problem {
         for (int a = 1; (a << 1) + 1 <= n; ++a) {
             for (int b = 1; b <= a && a * b + a + b <= n; ++b) {
                 for (int c = 1, t; c <= b && (t = a * b + a * c + b * c) <= n; ++c) {
-                    for (int l = 0, cover; (cover = t + ((l * (a + b + c + l - 1)) << 1)) <= n; ++l) {
-                        if (cover == n) ++count;
+                    if (isSquare(2 * (n - t) + (a + b + c - 1) * (a + b + c - 1))) {
+                        ++count;
                     }
                 }
             }
@@ -78,6 +82,13 @@ public class Problem126 implements Problem {
         return count;
     }
 
+    private boolean isSquare(int n) {
+    
+        final int sqrt = (int)Math.sqrt(n);
+        
+        return sqrt * sqrt == n;
+    }
+    
     /**
      * @param args
      */

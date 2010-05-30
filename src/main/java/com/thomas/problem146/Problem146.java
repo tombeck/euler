@@ -64,12 +64,15 @@ public class Problem146 implements Problem {
         
         for (long i = 10; i < 150000000; i += 10) {
             
-            final long mod7 = i % 7;
-            if (i % 3 == 0) continue;
-            if (mod7 != 3 && mod7 != 4) continue;
-            if (i % 13 == 0) continue;
+            final long s = i * i;
+            final long mod13 = s % 13;
             
-            final BigInteger sqr = BigInteger.valueOf(i * i);
+            if (s % 3 != 1) continue;
+            if (s % 5 != 0) continue;
+            if (s % 7 != 2) continue;
+            if (mod13 != 1 && mod13 != 3 && mod13 != 9) continue;
+            
+            final BigInteger sqr = BigInteger.valueOf(s);
             
             if (!isProbablePrime(sqr.add(ONE))) continue;
             if (!isProbablePrime(sqr.add(THREE))) continue;
