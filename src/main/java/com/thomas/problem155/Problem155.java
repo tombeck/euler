@@ -21,12 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.incubator;
+package com.thomas.problem155;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
+import static java.util.Collections.singleton;
+
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -37,71 +40,55 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 29.12.2009
  */
-class Problem155 implements Problem {
+public class Problem155 implements Problem {
 
-    final char[] O = new char[] {'+', '*'};
-    
     /**
      * TODO Method documentation
-     * 
-     * ()
-     * ()+()            ()*()
-     * 
-     * ()+(()+())       ()*(()*())
-     * ()+(()*())       ()*(()+())
-     * 
-     * ()+()+()+()      ()*()*()*()
-     * ()+()+(()*())    ()*()*(()+())
-     * ()+(()*()*())    ()*(()+()+())
-     * ()+(()*(()+()))  ()*(()+(()*()))
-     * (()+())*(()+())  (()*())+(()*())
-     * 
+     *
      * @return
      * @see com.thomas.util.Euler.Problem#solve()
      * @author Thomas
      * @since 29.12.2009
      */
     @Override
-    public Object solve() {
+    public Integer solve() {
 
-        Set<String> set = split(4, 0);
+        final Map<Integer, Set<int[]>> cache = new HashMap<Integer, Set<int[]>>();
         
-        System.out.println(set.size() + ": " + set);
+        cache.put(1, singleton(new int[] {1, 1}));
+        
+        for (int n = 2; n <= 18; ++n) {
+            
+            final Set<int[]> capacitors = new TreeSet<int[]>(new Comparator<int[]>() {
 
-        return null;
-    }
+                @Override
+                public int compare(int[] self, int[] other) {
 
-    private Set<String> split(int n, int type) {
-        
-        if (n == 1) return Collections.singleton("()");
+                    return self[0] * other[1] - other[0] * self[1];
+                }
+                
+            });
             
-        final Set<String> ret = new HashSet<String>();
-        
-        for (int i = 1, j; (j = n - i) >= i; ++i) {
-            
-            final Set<String> left = split(i, 1 - type);
-            final Set<String> right = split(j, 1 - type);
-            
-            for (String l : left) {
-                for (String r : right) {
-                    ret.add("(" + l + "+" + r + ")");
-                    ret.add("(" + l + "*" + r + ")");
+            for (int i = 1; 2 * i <= n; ++i) {
+
+                final Set<int[]> right = cache.get(n - i);
+                
+                for (int[] l : cache.get(i)) {
+                    for (int[] r : right) {
+                        capacitors.add(new int[] {l[0] * r[1] + r[0] * l[1], l[1] * r[1]});
+                        capacitors.add(new int[] {l[0] * r[0], l[1] * r[0] + r[1] * l[0]});
+                    }
                 }
             }
+
+            capacitors.addAll(cache.get(n - 1));
+            
+            cache.put(n, capacitors);
         }
         
-        return ret;
+        return cache.get(18).size();
     }
-    
-    private String make(int n, int type) {
-    
-        char[] s = new char[n];
-        
-        Arrays.fill(s, O[type]);
-        
-        return new String(s);
-    }
-    
+
     /**
      * TODO Method documentation
      * 
