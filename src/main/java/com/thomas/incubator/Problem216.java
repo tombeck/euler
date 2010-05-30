@@ -23,6 +23,10 @@
  */
 package com.thomas.incubator;
 
+import static java.math.BigInteger.ONE;
+
+import java.math.BigInteger;
+
 import com.thomas.util.Euler;
 import com.thomas.util.PrimeUtils;
 import com.thomas.util.Euler.Problem;
@@ -35,6 +39,8 @@ import com.thomas.util.Euler.Problem;
  */
 class Problem216 implements Problem {
 
+    static final BigInteger TWO = BigInteger.valueOf(2);
+    
     /**
      * TODO Method documentation
      * 
@@ -46,20 +52,29 @@ class Problem216 implements Problem {
     @Override
     public Object solve() {
 
-        for (int p : PrimeUtils.primes(100000)) {
-            if (isSquare((p + 1) / 2)) {
-                System.out.println((int)Math.sqrt((p + 1) / 2));
+        int count = 0;
+        
+        for (int n = 2; n <= 10000; ++n) {
+            
+            final long t = t(n);
+            
+            if (isProbablePrime(BigInteger.valueOf(t)) && PrimeUtils.isPrime(t)) {
+                System.out.println(n + ": " + t);
+                ++count;
             }
         }
 
-        return null;
+        return count;
     }
 
-    private boolean isSquare(int n) {
+    private long t(long n) {
     
-        final int sqrt = (int)Math.sqrt(n);
+        return 2 * n * n - 1;
+    }
+    
+    private boolean isProbablePrime(BigInteger p) {
         
-        return sqrt * sqrt == n;
+        return TWO.modPow(p.subtract(ONE), p).equals(ONE);
     }
     
     /**
