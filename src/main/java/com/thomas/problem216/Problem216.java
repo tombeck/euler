@@ -21,14 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.incubator;
-
-import static java.math.BigInteger.ONE;
-
-import java.math.BigInteger;
+package com.thomas.problem216;
 
 import com.thomas.util.Euler;
-import com.thomas.util.PrimeUtils;
 import com.thomas.util.Euler.Problem;
 
 /**
@@ -37,10 +32,8 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 13.12.2009
  */
-class Problem216 implements Problem {
+public class Problem216 implements Problem {
 
-    static final BigInteger TWO = BigInteger.valueOf(2);
-    
     /**
      * TODO Method documentation
      * 
@@ -50,33 +43,34 @@ class Problem216 implements Problem {
      * @since 02.04.2010
      */
     @Override
-    public Object solve() {
+    public Integer solve() {
 
+        final int max = 50000000;
+        final long[] a = new long[max + 1];
+        
+        
+        for (int n = 2; n <= max; ++n) a[n] = 2L * n * n - 1;
+        
         int count = 0;
         
-        for (int n = 2; n <= 10000; ++n) {
+        for (int n = 2; n <= max; ++n) {
             
-            final long t = t(n);
+            final long t = a[n];
             
-            if (isProbablePrime(BigInteger.valueOf(t)) && PrimeUtils.isPrime(t)) {
-                System.out.println(n + ": " + t);
-                ++count;
+            if (t == 1) continue;
+            if (t == 2L * n * n - 1) ++count;
+            
+            for (long i = t - n; i <= max; i += t) {
+                while (a[(int)i] % t == 0) a[(int)i] /= t;
+            }
+            for (long i = t + n; i <= max; i += t) {
+                while (a[(int)i] % t == 0) a[(int)i] /= t;
             }
         }
 
         return count;
     }
 
-    private long t(long n) {
-    
-        return 2 * n * n - 1;
-    }
-    
-    private boolean isProbablePrime(BigInteger p) {
-        
-        return TWO.modPow(p.subtract(ONE), p).equals(ONE);
-    }
-    
     /**
      * TODO Method documentation
      * 
