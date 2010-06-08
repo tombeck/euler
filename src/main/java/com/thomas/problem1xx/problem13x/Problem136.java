@@ -21,10 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.incubator;
+package com.thomas.problem1xx.problem13x;
 
-import java.util.Set;
-import java.util.TreeSet;
+import static java.lang.Math.ceil;
+import static java.lang.Math.sqrt;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -35,7 +35,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 16.03.2010
  */
-class Problem136 implements Problem {
+public class Problem136 implements Problem {
 
     /**
      * x^2 - y^2 - z^2 = n
@@ -48,37 +48,39 @@ class Problem136 implements Problem {
      * x^2 - y^2 - z^2 = (y + r)^2 - y^2 - (y - r)^2 = 4ry - y^2 = (2r)^2 - (2r - y)^2 = n
      * 
      * =>  y^2 - 4ry + n = 0
-     * =>  4y^2 - 16ry + 4n = 0
-     * =>  4y^2 - 16ry + 4n + 16r^2 - 16r^2 = 0 
-     * =>  (2y - 4r)^2 -16r^2 + 4n = 0
-     * let a = 2y - 4r
-     * => a^2 - 16r^2 + 4n = 0
-     * => -a^2 + 16r^2 - 4n = 0
-     * => 16r^2  - a^2 = 4n
-     * => (4r + a)(4r - a) = 4n
-     *   
+     * =>  y = 2r +- sqrt(4*r^2 - n)
+     * 
+     * 4*r^2 - n = d^2 <=> 4*r^2 - d^2 = n <=> (2r + d)(2r - d) = n = pq <=> 4r = p + q, d = (p - q)/2, p >= q
+     * 
+     * y = 2r +- sqrt(4*r^2 - n) = (p + q)/2 +- sqrt(4*((p + q)/4)^2 - pq) = (p + q)/2 +- (p - q)/2 
+     * 
+     * y1 = (p + q + p - q)/2 = p
+     * y2 = (p + q - p + q)/2 = q
+     * 
      * @return
      * @see com.thomas.util.Euler.Problem#solve()
      * @author Thomas
      * @since 16.03.2010
      */
     @Override
-    public Object solve() {
+    public Integer solve() {
 
-        final int max = 500000; //50000000;
+        final int max = 50000000;
+        final int[] solutions = new int[max];
         
-        Set<Integer> ns = new TreeSet<Integer>();
-        
-        for (int r = 1; 4*r - 1 < max; ++r) {
-            for (int m = 2 * r - 1, n; m >= r && (n = 4 * r * r - m * m) < max; --m) {
-                int y1 = 2 * r + m;
-                
-                ns.add(n);
-//                System.out.println("n = " + n + ", r = " + r + ",y = " + y1);
+        for (int p = 1, s = (int)ceil(sqrt(max)); p < s; ++p) {
+            for (int q = p + (p & 1) * 2, n; (n = p * q) < max; q += 4) {
+                solutions[n] += (p < q && q < 3 * p) ? 2 : 1;
             }
         }
         
-        return ns.size();
+        int count = 0;
+        
+        for (int i = 0; i < max; ++i) {
+            if (solutions[i] == 1) ++count;
+        }
+        
+        return count;
     }
 
     /**
