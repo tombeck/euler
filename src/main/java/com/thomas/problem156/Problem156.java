@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.incubator;
+package com.thomas.problem156;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -32,7 +32,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 29.12.2009
  */
-class Problem156 implements Problem {
+public class Problem156 implements Problem {
 
     /**
      * TODO Method documentation
@@ -43,34 +43,37 @@ class Problem156 implements Problem {
      * @since 29.12.2009
      */
     @Override
-    public Object solve() {
+    public Long solve() {
 
-        int f = 0;
-        
-        for (int n = 0; n < 111110; ++n) {
-            f += count(n, 3);
+        long sum = 0;
+
+        for (int d = 1; d < 10; ++d) {
+            for (int i = 0; i < 11; ++i) {
+                sum +=sum(d, 0, i, 0, 0);
+            }
         }
-        System.out.println(f); 
-        for (int n = 111110; n < 112110; ++n) {
-            f += count(n, 3);
-        }
-        System.out.println(f); 
         
-        return null;
+        return sum;
     }
 
-    private int count(int n, int d) {
-    
-        int count = 0;
+    private long sum(int d, long n, int i, int overflow, int mul) {
         
-        for(; n > 9; n /= 10) {
-            if (n % 10 == d) ++count;
+        if (i < 0) return (overflow == mul) ? n : 0;
+
+        long sum = 0;
+        
+        for (int ni = (n == 0 ? 1 : 0); ni < 10; ++ni) {
+
+            final int fi = ni * (10 - i - mul) + (10 * overflow) - (ni > d ? 10 : 0);
+            
+            if (-10 < fi && fi < 100) {
+                sum += sum(d, n * 10 + ni, i - 1, fi, ni == d ? mul + 10 : mul);
+            }
         }
-        if (n % 10 == d) ++count;
         
-        return count;
+        return sum;
     }
-    
+
     /**
      * TODO Method documentation
      * 

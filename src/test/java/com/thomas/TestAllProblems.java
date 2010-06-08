@@ -123,6 +123,7 @@ import com.thomas.problem148.Problem148;
 import com.thomas.problem149.Problem149;
 import com.thomas.problem151.Problem151;
 import com.thomas.problem155.Problem155;
+import com.thomas.problem156.Problem156;
 import com.thomas.problem162.Problem162;
 import com.thomas.problem164.Problem164;
 import com.thomas.problem165.Problem165;
@@ -167,6 +168,7 @@ import com.thomas.problem1xx.problem18x.Problem188;
 import com.thomas.problem1xx.problem19x.Problem191;
 import com.thomas.problem1xx.problem19x.Problem197;
 import com.thomas.problem206.Problem206;
+import com.thomas.problem211.Problem211;
 import com.thomas.problem213.Problem213;
 import com.thomas.problem214.Problem214;
 import com.thomas.problem215.Problem215;
@@ -389,6 +391,7 @@ public class TestAllProblems {
                 { new Problem151(), "0.464399" },
 
                 { new Problem155(), "3857447" },
+                { new Problem156(), "21295121502550" },
 
                 { new Problem158(), "409511334375" },
                 { new Problem159(), "14489159" },
@@ -428,6 +431,8 @@ public class TestAllProblems {
                 { new Problem205(), "0.5731441" },
                 { new Problem206(), "1389019170" },
                 { new Problem207(), "44043947822" },
+
+                { new Problem211(), "1922364685" },
 
                 { new Problem213(), "330.721154" },
                 { new Problem214(), "1677366278943" },
