@@ -174,9 +174,14 @@ public class NumberUtils {
     
     public static int numberOfDivisors(int n) {
         
+        if (n < 2) return 1;
+        if (n < 4) return 2;
+        
         int product = 1;
         
-        for (int i = 2; i * i <= n; i++) {
+        for (; (n & 1) == 0; n >>= 1) ++product;
+        
+        for (int i = 3; i * i <= n; i += 2) {
             int sum = 1;
             if (n % i == 0) {
                 do {
@@ -206,6 +211,29 @@ public class NumberUtils {
             }
         }
         if (n > 1) product *= n + 1;
+        
+        return product;
+    }
+    
+    public static long sumOfSquaresOfDivisors(long n) {
+        
+        if (n < 2) return 1;
+        if (n < 4) return n * n + 1;
+        
+        long product = 1;
+        
+        for (; (n & 1) == 0; n >>= 1) product = (product << 2) + 1;
+        
+        for (long i = 3, s; (s = i * i) <= n; i += 2) {
+            if (n % i == 0) {
+                long sum = 1;
+                do {
+                    sum = sum * s + 1;
+                } while ((n /= i) % i == 0);
+                product *= sum;
+            }
+        }
+        if (n > 1) product *= 1 + n * n;
         
         return product;
     }
@@ -354,6 +382,22 @@ public class NumberUtils {
         return bc;
     }
     
+    public static int[] toIntArray(List<Integer> list) {
+        
+        final int[] array = new int[list.size()];
+        
+        for (int i = 0; i < array.length; ++i) array[i] = list.get(i);
+        
+        return array;
+    }
+    
+    public static boolean isSquare(long n) {
+        
+        final long sqrt = (long)Math.sqrt(n);
+        
+        return sqrt * sqrt == n;
+    }
+    
     private NumberUtils() {
         //
     }
@@ -361,7 +405,10 @@ public class NumberUtils {
     
     public static void main(String[] args) {
 
-        System.out.println(sumOfDivisors(24));
+        for (int i = 1; i <= 50; ++i) {
+            System.out.println(i + ", " + sumOfSquaresOfDivisors(i));
+        }
+        System.out.println((2 * 2 * 2 * 3 * 3 * 3) + ", " + sumOfSquaresOfDivisors(2 * 2 * 2 * 3 * 3 * 3));
     }
     
 }
