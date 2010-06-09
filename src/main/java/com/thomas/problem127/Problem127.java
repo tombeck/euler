@@ -24,7 +24,6 @@
 package com.thomas.problem127;
 
 import static com.thomas.Util.gcd;
-import static com.thomas.util.NumberUtils.radical;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -52,7 +51,12 @@ public class Problem127 implements Problem {
         
         final int[] rad = new int[max];
         
-        for (int i = 1; i < max; ++i) rad[i] = radical(i);
+        for (int i = 1; i < max; ++i) rad[i] = 1;
+        for (int i = 2; i < max; ++i) {
+            if (rad[i] == 1) {
+                for (int j = i; j < max; j += i) rad[j] *= i;
+            }
+        }
         
         int sum = 0;
         
