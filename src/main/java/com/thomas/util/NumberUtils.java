@@ -87,7 +87,7 @@ public class NumberUtils {
         if (b == 0) return 1;
         if ((b & 1) != 0) return a * pow(a, b - 1);
         
-        int tmp = pow(a, b >> 1);
+        final int tmp = pow(a, b >> 1);
         
         return tmp * tmp;
     }
@@ -97,7 +97,7 @@ public class NumberUtils {
         if (b == 0) return 1;
         if ((b & 1) != 0) return a * pow(a, b - 1);
         
-        long tmp = pow(a, b >> 1);
+        final long tmp = pow(a, b >> 1);
         
         return tmp * tmp;
     }
@@ -107,7 +107,7 @@ public class NumberUtils {
         if (b == 0) return 1;
         if ((b & 1) != 0) return (a * modPow(a, b - 1, m)) % m;
         
-        int tmp = modPow(a, b >> 1, m);
+        final int tmp = modPow(a, b >> 1, m);
         
         return (tmp * tmp) % m;
     }
@@ -117,7 +117,7 @@ public class NumberUtils {
         if (b == 0) return 1;
         if ((b & 1) != 0) return (a * modPow(a, b - 1, m)) % m;
         
-        long tmp = modPow(a, b >> 1, m);
+        final long tmp = modPow(a, b >> 1, m);
         
         return (tmp * tmp) % m;
     }
@@ -142,13 +142,20 @@ public class NumberUtils {
     
     public static int totient(int n) {
         
+        if (n < 2) return 1;
+        if (n < 4) return 2;
+        
         int totient = n;
         
-        for (int i = 2; i * i <= n; i++) {
+        if ((n & 1) == 0) {
+            totient >>= 1;
+            while (((n >>= 1) & 1) == 0);
+        }
+        
+        for (int i = 3; i * i <= n; i += 2) {
             if (n % i == 0) {
                 totient -= totient / i;
-                do n /= i;
-                while (n % i == 0);
+                while ((n /= i) % i == 0);
             }
         }
         if (n > 1) totient -= totient / n;
@@ -158,13 +165,20 @@ public class NumberUtils {
     
     public static long totient(long n) {
         
+        if (n < 2) return 1;
+        if (n < 4) return 2;
+        
         long totient = n;
         
-        for (long i = 2; i * i <= n; i++) {
+        if ((n & 1) == 0) {
+            totient >>= 1;
+            while (((n >>= 1) & 1) == 0);
+        }
+        
+        for (long i = 3; i * i <= n; i += 2) {
             if (n % i == 0) {
                 totient -= totient / i;
-                do n /= i;
-                while (n % i == 0);
+                while ((n /= i) % i == 0);
             }
         }
         if (n > 1) totient -= totient / n;
@@ -249,7 +263,7 @@ public class NumberUtils {
         
         sums[0] = sums[1] = 0;
 
-        for (int n = 1, d; (d = 2 * n) < max; ++n) {
+        for (int n = 1, d; (d = n << 1) < max; ++n) {
             for (int j = d; j < max; j += n) {
                 sums[j] += n;
             }
