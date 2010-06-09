@@ -21,13 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.problem135;
+package com.thomas.problem1xx.problem13x;
 
-import static com.thomas.util.PrimeUtils.getPrimeFactors;
-
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import static java.lang.Math.ceil;
+import static java.lang.Math.sqrt;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -51,41 +48,24 @@ public class Problem135 implements Problem {
     @Override
     public Integer solve() {
 
-        int sum = 0;
+        final int max = 1000000;
+        final int[] solutions = new int[max];
         
-        for (int n = 1155; n < 1000000; ++n) {
-            if (solutions(n).size() == 10) ++sum;
+        for (int p = 1, s = (int)ceil(sqrt(max)); p < s; ++p) {
+            for (int q = p + (p & 1) * 2, n; (n = p * q) < max; q += 4) {
+                solutions[n] += (p < q && q < 3 * p) ? 2 : 1;
+            }
         }
         
-        return sum;
+        int count = 0;
+        
+        for (int i = 0; i < max; ++i) {
+            if (solutions[i] == 10) ++count;
+        }
+        
+        return count;
     }
 
-    private Set<Long> solutions(int n) {
-        
-        final List<Integer> factors = getPrimeFactors(n);
-        final Set<Long> solutions = new TreeSet<Long>();
-        
-        for (int i = 1 << factors.size(); i-- > 1 && solutions.size() <= 11; ) {
-            
-            final long y = y(factors, i);
-            
-            if (y * y > n / 3 && ((n / y) + y) % 4 == 0) solutions.add(y);
-        }
-        
-        return solutions;
-    }
-    
-    private long y(List<Integer> factors, int mask) {
-    
-        long y = 1;
-        
-        for (int i = 0; i < factors.size(); ++i) {
-            if ((1 << i & mask) != 0) y *= factors.get(i);  
-        }
-        
-        return y;
-    }
-    
     /**
      * TODO Method documentation
      * 
