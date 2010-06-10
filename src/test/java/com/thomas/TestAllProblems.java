@@ -436,7 +436,7 @@ public class TestAllProblems {
                 { new Problem207(), "44043947822" },
 
                 { new Problem211(), "1922364685" },
-
+//                { new Problem212(), "328968937309" }, too slow
                 { new Problem213(), "330.721154" },
                 { new Problem214(), "1677366278943" },
                 { new Problem215(), "806844323190414" },
