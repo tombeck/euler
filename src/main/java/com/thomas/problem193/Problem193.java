@@ -21,7 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.incubator;
+package com.thomas.problem193;
+
+import static com.thomas.util.NumberUtils.toIntArray;
+import static com.thomas.util.PrimeUtils.primes;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -32,7 +35,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 21.11.2009
  */
-class Problem193 implements Problem {
+public class Problem193 implements Problem {
 
     /**
      * TODO Method documentation
@@ -43,19 +46,32 @@ class Problem193 implements Problem {
      * @since 26.03.2010
      */
     @Override
-    public Object solve() {
+    public Long solve() {
 
-        boolean[] b = new boolean[33554432]; // = sqrt(2^50) = 2^25
-        
-        for (int i = 2, q; (q = i * i) < 33554432; ++i) {
-            if (!b[i]) {
-                for (int j = q; j < 33554432; j += i) b[j] = true;
-            }
-        }
-        
-        return null;
+        final long max = (1L << 50) - 1; // 2^50 - 1
+
+        return max - sum(toIntArray(primes(33554468)), 0, 1, true, max);
     }
 
+    private long sum(int[] primes, int i, long prev, boolean add, long max) {
+    
+        long sum = 0;
+        
+        for (long sqr, div = max / prev; (sqr = (long)primes[i] * primes[i]) <= div; ) {
+            
+            final long next =  prev * sqr;
+            
+            if (add) {
+                sum += max / next;
+            } else {
+                sum -= max / next;
+            }
+            sum += sum(primes, ++i, next, !add, max);
+        }
+        
+        return sum;
+    }
+    
     /**
      * TODO Method documentation
      * 
