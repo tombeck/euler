@@ -24,6 +24,8 @@
 package com.thomas.problem0xx.problem5x;
 
 import static com.thomas.util.Digit.DIGITS;
+import static com.thomas.util.PrimeUtils.isPrime;
+import static com.thomas.util.PrimeUtils.primes;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -31,7 +33,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.thomas.util.Euler;
-import com.thomas.util.PrimeSieve;
 import com.thomas.util.Euler.Problem;
 
 /**
@@ -53,9 +54,9 @@ public class Problem51 implements Problem {
     @Override
     public Integer solve() {
 
-        final PrimeSieve sieve = new PrimeSieve(1000000);
+        final List<Integer> primes = primes(1000000);
         
-        for (int prime : sieve) {
+        for (int prime : primes) {
             for (List<Integer> pattern : findPatterns(prime)) {
                 
                 final char[] c = Integer.toString(prime).toCharArray();
@@ -67,7 +68,7 @@ public class Problem51 implements Problem {
                     }
                     ++total;
                     int n = Integer.parseInt(String.valueOf(c));
-                    if (sieve.isPrime(n)) list.add(n);
+                    if (isPrime(n, primes)) list.add(n);
                     if (total - list.size() > 2) break;
                 }
                 if (list.size() >= 8) {
