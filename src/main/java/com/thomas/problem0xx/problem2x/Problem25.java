@@ -23,11 +23,6 @@
  */
 package com.thomas.problem0xx.problem2x;
 
-import static java.math.BigInteger.ONE;
-import static java.math.BigInteger.ZERO;
-
-import java.math.BigInteger;
-
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
 
@@ -51,12 +46,16 @@ public class Problem25 implements Problem {
     public Integer solve() {
 
         int index = 1;
+        int length = 5;
         
-        for (BigInteger[] x = {ZERO, ONE}; x[1].toString().length() < 1000; x = new BigInteger[] {x[1], x[0].add(x[1])}) {
+        for (int[] x = {0, 1}; ; x = new int[] {x[1], x[0] + x[1]}) {
+            if (x[1] >= 100000) {
+                x[0] /= 10;
+                x[1] /= 10;
+                if (++length == 1000) return index;
+            }
             ++index;
         }
-
-        return index;
     }
 
     /**
