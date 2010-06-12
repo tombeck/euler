@@ -24,6 +24,8 @@
 package com.thomas.util;
 
 import static com.thomas.util.PrimeUtils.getPrimeFactors;
+import static java.lang.Math.floor;
+import static java.lang.Math.sqrt;
 
 import java.util.List;
 import java.util.Set;
@@ -280,9 +282,23 @@ public class NumberUtils {
     
     public static boolean isSquare(long n) {
         
-        final long sqrt = (long)Math.sqrt(n);
+        final long sqrt = (long)sqrt(n);
         
         return sqrt * sqrt == n;
+    }
+    
+    public static long[] extendedEuclid(long a, long b) {
+        
+        if (b == 0) return new long[] {a, 1, 0};
+        
+        long[] tmp = extendedEuclid(b, a % b);
+        
+        return new long[] {tmp[0], tmp[2], tmp[1] - (long)floor((double)a / b) * tmp[2]};
+    }
+    
+    public static long modInverse(long a, long m) {
+    
+        return extendedEuclid(a, m)[1];
     }
     
     private NumberUtils() {
@@ -292,6 +308,7 @@ public class NumberUtils {
     
     public static void main(String[] args) {
 
+        System.out.println(modInverse(7, 11));
     }
     
 }
