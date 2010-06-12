@@ -23,7 +23,7 @@
  */
 package com.thomas.problem70;
 
-import static com.thomas.Util.isPermutation;
+import static com.thomas.util.Permutation.isPermutation;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -36,7 +36,7 @@ import com.thomas.util.Euler.Problem;
 public class Problem70 implements Problem {
 
     /**
-     * {@inheritDoc}totient -= totient / i;
+     * {@inheritDoc}
      */
     @Override
     public Integer solve() {
@@ -46,7 +46,7 @@ public class Problem70 implements Problem {
         
         int min = 2;
         
-        for (int n = 0; n < max; ++n) totient[n] = n;
+        for (int n = 1; n < max; ++n) totient[n] = n;
 
         for (int n = 2; n < max; ++n) {
             if (totient[n] == n) {

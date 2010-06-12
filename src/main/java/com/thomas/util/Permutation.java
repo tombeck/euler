@@ -168,6 +168,23 @@ public class Permutation {
         return ret;
     }
     
+    public static boolean isPermutation(int a, int b) {
+        
+        return hash(a) == hash(b);
+    }
+    
+    public static long hash(int n) {
+        
+        long hash = 1;
+        
+        while (n >= 10) {
+            hash *= Digit.PRIME[n % 10];
+            n /= 10;
+        }
+        
+        return hash;
+    }
+    
     private Permutation() {
         //
     }
