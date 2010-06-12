@@ -36,22 +36,6 @@ import java.util.List;
  */
 public class PrimeUtils {
 
-    public static List<Long> getDistinctPrimeFactors(long n) {
-        
-        final List<Long> factors = new ArrayList<Long>();
-        
-        for (long i = 2; i * i <= n; i++) {
-            if (n % i == 0) {
-                factors.add(i);
-                do n /= i;
-                while (n % i == 0);
-            }
-        }
-        if (n > 1) factors.add(n);
-
-        return factors;
-    }
-
     public static List<Integer> getDistinctPrimeFactors(int n) {
         
         final List<Integer> factors = new ArrayList<Integer>();
@@ -94,24 +78,6 @@ public class PrimeUtils {
             }
         }
         if (n > 1) factors.add(n);
-
-        return factors;
-    }
-
-    public static List<Integer> getPrimeFactors(int n, List<Integer> primes) {
-        
-        final List<Integer> factors = new ArrayList<Integer>();
-        int sqrt = (int)Math.sqrt(n);
-       
-        for (int prime : primes) {
-            if (n == 1) return factors;
-            if (prime > sqrt) break;
-            while (n % prime == 0) {
-                factors.add(prime);
-                n /= prime;
-            }
-        }
-        factors.add(n);
 
         return factors;
     }

@@ -78,31 +78,6 @@ public class ArrayUtils {
         }
     }
     
-    public static void rotate(char[] c) {
-        
-        final char tmp = c[0];
-        final int length = c.length - 1;
-        System.arraycopy(c, 1, c, 0, c.length - 1);
-        c[length] = tmp;
-    }
-    
-    public static void rotate(int[] c) {
-        
-        final int tmp = c[0];
-        final int length = c.length - 1;
-        System.arraycopy(c, 1, c, 0, c.length - 1);
-        c[length] = tmp;
-    }
-    
-    public static int[] append(int[] head, int tail) {
-        
-        final int[] next = copyOf(head, head.length + 1);
-        
-        next[head.length] = tail;
-        
-        return next;
-    }
-    
     public static long[] append(long[] head, long tail) {
         
         final long[] next = copyOf(head, head.length + 1);
@@ -110,23 +85,6 @@ public class ArrayUtils {
         next[head.length] = tail;
         
         return next;
-    }
-    
-    public static int lexicographicalCompare(int[] l, int[] r) {
-        
-        int il = 0;
-        int ir = 0;
-        
-        while (il < l.length) {
-            
-            if (ir >= r.length) return 1;
-
-            int c = l[il++] - r[ir++];
-
-            if (c != 0) return c;
-        }
-
-        return ir < r.length ? -1 : 0;
     }
     
     private ArrayUtils() {

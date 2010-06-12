@@ -23,7 +23,6 @@
  */
 package com.thomas;
 
-import java.util.Arrays;
 
 /**
  * TODO Type documentation
@@ -110,29 +109,6 @@ public class Util {
         return u << shift;
     }
     
-    /**
-     * Compute the sum of all divisors of the given number excluding the number itself.
-     * 
-     * @param n the number
-     * @return the sum
-     * @author Thomas
-     * @since 17.10.2009
-     */
-    public static long getSumOfDivisors(long n) {
-        
-        if (n == 1) return 0;
-        
-        final long sqrt = (long)Math.ceil(Math.sqrt(n));
-        long sum = 1;
-        
-        for (long i = 2; i < sqrt; ++i) {
-            if (n % i == 0) sum += i + n / i;
-        }
-        if (sqrt * sqrt == n) sum += sqrt;
-        
-        return sum;
-    }
-    
     public static boolean isPalindrome(String s) {
     
         return new StringBuffer(s).reverse().toString().equals(s);
@@ -146,29 +122,6 @@ public class Util {
     public static boolean isPalindrome(long n) {
         
         return isPalindrome(Long.toString(n));
-    }
-    
-    public static boolean isPermutation(String s, String t) {
-        
-        if (s.length() != t.length()) return false;
-        
-        char[] c1 = s.toCharArray();
-        char[] c2 = t.toCharArray();
-        
-        Arrays.sort(c1);
-        Arrays.sort(c2);
-
-        return Arrays.equals(c1, c2);
-    }
-    
-    public static boolean isPermutation(long s, long t) {
-        
-        return isPermutation(Long.toString(s), Long.toString(t));
-    }
-    
-    public static boolean isPermutation(int s, int t) {
-        
-        return isPermutation(Integer.toString(s), Integer.toString(t));
     }
     
     private Util() { /* don't instantiate since this is a utility class */ }

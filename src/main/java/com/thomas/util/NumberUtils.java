@@ -24,7 +24,6 @@
 package com.thomas.util;
 
 import static com.thomas.util.PrimeUtils.getPrimeFactors;
-import static java.lang.Math.sqrt;
 
 import java.util.List;
 import java.util.Set;
@@ -38,50 +37,6 @@ import java.util.TreeSet;
  */
 public class NumberUtils {
 
-    public static int moebius(int n) {
-        
-        if (n == 1) return 1;
-        
-        int k = 0;
-        
-        for (int i = 2; i * i <= n; i++) {
-            if (n % i == 0) {
-                n /= i;
-                if (n % i == 0) return 0;
-                ++k;
-            }
-        }
-        if (n > 1) ++k;
-
-        return (k & 1) == 0 ? 1 : -1;
-    }
-    
-    public static int moebiusTransform(int[] a, int n) {
-    
-        int sum = 0;
-        
-        for (int d = 1; d <= n; ++d) {
-            if (n % d == 0) {
-                sum += a[d];
-            }
-        }
-        
-        return sum;
-    }
-    
-    public static int inverseMoebiusTransform(int[] a, int n) {
-        
-        int sum = 0;
-        
-        for (int d = 1; d <= n; ++d) {
-            if (n % d == 0) {
-                sum += moebius(n / d) * a[d];
-            }
-        }
-        
-        return sum;
-    }
-    
     public static int pow(int a, int b) {
     
         if (b == 0) return 1;
@@ -120,24 +75,6 @@ public class NumberUtils {
         final long tmp = modPow(a, b >> 1, m);
         
         return (tmp * tmp) % m;
-    }
-    
-    public static int radical(int n) {
-        
-        final int max = (int)sqrt(n);
-        
-        int rad = 1;
-
-        for (int i = 2; i <= max; i++) {
-            if (n % i == 0) {
-                rad *= i;
-                do n /= i;
-                while (n % i == 0);
-            }
-        }
-        if (n > 1) rad *= n;
-
-        return rad;
     }
     
     public static int totient(int n) {
@@ -210,53 +147,6 @@ public class NumberUtils {
         return product;
     }
     
-    public static int sumOfDivisors(int n) {
-    
-        int product = 1;
-        
-        for (int i = 2; i * i <= n; i++) {
-            int sum = 1;
-            if (n % i == 0) {
-                do {
-                    sum = sum * i + 1;
-                    n /= i;
-                } while (n % i == 0);
-                product *= sum;
-            }
-        }
-        if (n > 1) product *= n + 1;
-        
-        return product;
-    }
-    
-    public static long sumOfSquaresOfDivisors(long n) {
-        
-        if (n < 2) return 1;
-        if (n < 4) return n * n + 1;
-        
-        long product = 1;
-        
-        for (; (n & 1) == 0; n >>= 1) product = (product << 2) + 1;
-        
-        for (long i = 3, s; (s = i * i) <= n; i += 2) {
-            if (n % i == 0) {
-                long sum = 1;
-                do {
-                    sum = sum * s + 1;
-                } while ((n /= i) % i == 0);
-                product *= sum;
-            }
-        }
-        if (n > 1) product *= 1 + n * n;
-        
-        return product;
-    }
-    
-    public static int sumOfProperDivisors(int n) {
-    
-        return sumOfDivisors(n) - n;
-    }
-    
     public static int[] sumsOfProperDivisors(int max) {
         
         final int[] sums = new int[max];
@@ -272,23 +162,6 @@ public class NumberUtils {
         return sums;
     }
     
-    public static boolean isPerfect(int n) {
-    
-        return sumOfProperDivisors(n) == n;
-    }
-    
-    public static boolean isAbundant(int n) {
-        
-        return sumOfProperDivisors(n) > n;
-    }
-    
-    public static boolean isAmicable(int a) {
-        
-        final int b = sumOfProperDivisors(a);
-        
-        return a != b && sumOfProperDivisors(b) == a;
-    }
-
     public static Set<Integer> divisors(int n) {
     
         final Set<Integer> divisors = new TreeSet<Integer>();
@@ -419,10 +292,6 @@ public class NumberUtils {
     
     public static void main(String[] args) {
 
-        for (int i = 1; i <= 50; ++i) {
-            System.out.println(i + ", " + sumOfSquaresOfDivisors(i));
-        }
-        System.out.println((2 * 2 * 2 * 3 * 3 * 3) + ", " + sumOfSquaresOfDivisors(2 * 2 * 2 * 3 * 3 * 3));
     }
     
 }
