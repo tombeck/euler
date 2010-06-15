@@ -21,7 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.incubator;
+package com.thomas.problem2xx.problem26x;
+
+import static com.thomas.util.NumberUtils.toIntArray;
+import static com.thomas.util.PrimeUtils.primes;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -32,7 +35,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 20.02.2010
  */
-class Problem268 implements Problem {
+public class Problem268 implements Problem {
 
     /**
      * TODO Method documentation
@@ -43,35 +46,26 @@ class Problem268 implements Problem {
      * @since 20.02.2010
      */
     @Override
-    public Object solve() {
+    public Long solve() {
 
-        final int[] primes = {
-                2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41,
-                43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97
-        };
-        final long max = 10000000000000000L;
+        final int[] primes = toIntArray(primes(100));
+        final long max = 10000000000000000L - 1;
 
-        long p = 1;
-        for (int prime : primes) {
-            p *= prime;
-        }
-        System.out.println(primes);
-        
-        return null;
+        return sum(primes, 0, 1,true, 1, 0, 0, max);
     }
 
-    private long product(int[] primes, int mask) {
-    
-        long p = 1;
+    private long sum(int[] primes, int i, long prev, boolean add, int m1, int m2, int m3, long max) {
         
-        for (int i = 0; mask > 0; ++i) {
-            if ((mask & 1) != 0) p *= primes[i];
-            mask >>= 1;
+        long sum = 0;
+        
+        for (long m = 1 - m1 + m2 - m3, next; i < primes.length && (next = prev * primes[i]) <= max; ) {
+            if (add) sum += m * (max / next);
+            else sum -= m * (max / next);
+            sum += sum(primes, ++i, next, !add, m1 + 1, m2 + m1, m3 + m2, max);
         }
         
-        return p;
+        return sum;
     }
-    
 
     /**
      * TODO Method documentation
