@@ -45,20 +45,20 @@ public class Problem237 implements Problem {
         final int mod = 100000000;
         final long width = 1000000000000L;
         
-        final int[][] transitions = {
-                /*         0011 0110 1001 1100 1111P 1111N */
+        /*                 0011 0110 1001 1100 1111P 1111N */
+        final IntMatrix begin = new IntRowVector(
+                              1,   1,   0,   1,    0,    1);
+        final IntMatrix transitions = new IntMatrix(6, new int[][] {
                 /*0011 */ {   0,   0,   1,   0,    1,    0},
                 /*0110 */ {   0,   0,   1,   0,    0,    0},
                 /*1001 */ {   1,   1,   0,   1,    0,    1},
                 /*1100 */ {   0,   0,   1,   0,    1,    0},
                 /*1111P*/ {   0,   0,   1,   0,    1,    0},
-                /*1111N*/ {   1,   0,   0,   1,    0,    1}
-        };
+                /*1111N*/ {   1,   0,   0,   1,    0,    1}});
+        final IntMatrix end = new IntColVector(
+                              0,   0,   1,   0,    0,    1);
         
-        return new IntRowVector(1, 1, 0, 1, 0, 1)
-                .modMultiply(new IntMatrix(6, transitions).modPow(width - 2, mod), mod)
-                .modMultiply(new IntColVector(0, 0, 1, 0, 0, 1), mod)
-                .at(0, 0);
+        return begin.modMultiply(transitions.modPow(width - 2, mod), mod).modMultiply(end, mod).at(0, 0);
     }
 
     /**
