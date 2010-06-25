@@ -27,6 +27,7 @@ import static com.thomas.util.PrimeUtils.getPrimeFactors;
 import static java.lang.Math.floor;
 import static java.lang.Math.sqrt;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -276,6 +277,17 @@ public class NumberUtils {
         final int[] array = new int[list.size()];
         
         for (int i = 0; i < array.length; ++i) array[i] = list.get(i);
+        
+        return array;
+    }
+    
+    public static long[] toLongArray(Collection<Long> list) {
+        
+        final long[] array = new long[list.size()];
+        
+        int i = 0;
+        
+        for (long l : list) array[i++] = l;
         
         return array;
     }
