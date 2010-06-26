@@ -21,15 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.problem297;
+package com.thomas.problem2xx.problem29x;
 
+import static com.thomas.util.FibonacciUtils.fibonacci;
 import static com.thomas.util.NumberUtils.toLongArray;
-import static java.util.Arrays.binarySearch;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -47,39 +42,25 @@ public class Problem297 implements Problem {
     @Override
     public Long solve() {
 
-        final long max = 100000000000000000L;
-        final Map<Long, Long> cache = new HashMap<Long, Long>();
+        long max = 100000000000000000L;
         
-        final List<Long> fib = new ArrayList<Long>();
-        
-        for (long[] f = {1, 1}; f[1] < max; f = new long[] {f[1], f[0] + f[1]}) fib.add(f[1]);
+        final long[] f = toLongArray(fibonacci(max));
+        final long[] s = new long[f.length];
 
-        return sum(cache, toLongArray(fib), max);
-    }
+        s[1] = 1;
+        for (int i = 2; i < f.length; ++i) {
+            s[i] = f[i - 2] + s[i - 2] + s[i - 1];
+        }
+        
+        long sum = 0;
+        
+        for (int i = f.length - 1; max > 1; sum += (max -= f[i]) + s[i]) {
+            while (f[i] >= max) --i;
+        }
 
-    private long sum(Map<Long, Long> cache, long[] fib, long n) {
-        
-        if (n == 1) return n - 1;
-        
-        Long sum = cache.get(n);
-        
-        if (sum != null) return sum;
-        
-        final int i = index(fib, n);
-        final long diff = n - fib[i];
-        
-        cache.put(n, sum = diff + sum(cache, fib, diff) + sum(cache, fib, fib[i]));
-        
         return sum;
     }
-    
-    private int index(long[] fib, long n) {
-        
-        final int i = binarySearch(fib, n);
-        
-        return i < 0 ? -(i + 2) : i - 1;
-    }
-    
+
     /**
      * @param args
      */
