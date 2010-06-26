@@ -23,10 +23,10 @@
  */
 package com.thomas.problem289;
 
+import static java.util.Arrays.binarySearch;
 import static java.util.Arrays.sort;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 
@@ -87,45 +87,22 @@ public class Problem289 implements Problem {
     
     /**
      * {@inheritDoc}
-     * 
-     * 1933356766
-     * 
      */
     @Override
-    public Object solve() {
+    public Long solve() {
 
-        long x = 999999980000000001L;
-        final int size = 6 + 1;
+        final int width = 6;
+        final int size = width + 1;
         final int[][] patterns = patterns(0, 1, new int[size], new ArrayList<int[]>()).toArray(new int[0][]);
         
         sort(patterns, PATTERN_COMPARATOR);
         
-        final long[] start = new long[patterns.length];
+        final long[] start = makeStart(patterns, new int[width + 1], 1, 1, width, new long[patterns.length]);
         final long[][] matrix = new long[patterns.length][patterns.length];
         final long[] end = new long[patterns.length];
         
-        for (int a0 : new int[] {0, 13}) {
-            for (int a1 : new int[] {0, 13}) {
-                for (int a2 : new int[] {0, 13}) {
-                    for (int a3 : new int[] {0, 13}) {
-                        for (int a4 : new int[] {0, 13}) {
-                            final Group[] from = {new Group(), new Group(), new Group(), new Group(), new Group(), new Group(), new Group()};
-                            final Group[] mid = new Group[size + 1];
-                            final Group[] to = new Group[size];
-                            mid[0] = new Group();
-                            if (next(from, mid, to, 0, 0) && next(from, mid, to, 1, a0) && next(from, mid, to, 2, a1) && next(from, mid, to, 3, a2) && next(from, mid, to, 4, a3) && next(from, mid, to, 5, a4) && next(from, mid, to, 6, 0)) {
-            
-                                final int[] pattern = toIndexArray(to);
-                            
-                                int j = Arrays.binarySearch(patterns, pattern, PATTERN_COMPARATOR);
-                                ++start[j];
-                                if (start[j] >= 10000000000L) start[j] -= 10000000000L;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        final Group[] mid = new Group[size + 1];
+        final Group[] to = new Group[size];
         for (int i = 0; i < patterns.length; ++i) {
             System.out.println(i);
             for (int a0 : new int[] {0, 4}) {
@@ -136,8 +113,6 @@ public class Problem289 implements Problem {
                                 for (int a5 = 0; a5 < 14; ++a5) {
                                     outer: for (int a6 : new int[] {0, 4}) {
                                         final Group[] from = from(patterns[i], makeGroupArray(size));
-                                        final Group[] mid = new Group[size + 1];
-                                        final Group[] to = new Group[size];
                                         mid[0] = new Group();
                                         if (next(from, mid, to, 0, a0) && next(from, mid, to, 1, a1) && next(from, mid, to, 2, a2) && next(from, mid, to, 3, a3) && next(from, mid, to, 4, a4) && next(from, mid, to, 5, a5) && next(from, mid, to, 6, a6)) {
                                             
@@ -156,7 +131,7 @@ public class Problem289 implements Problem {
                                             }
                                             final int[] pattern = toIndexArray(to);
                                             
-                                            int j = Arrays.binarySearch(patterns, pattern, PATTERN_COMPARATOR);
+                                            int j =binarySearch(patterns, pattern, PATTERN_COMPARATOR);
                                             ++matrix[i][j];
                                             if (matrix[i][j] >= 10000000000L) matrix[i][j] -= 10000000000L;
                                         }
@@ -173,17 +148,10 @@ public class Problem289 implements Problem {
                         for (int a3 : new int[] {0, 12}) {
                             outer: for (int a4 : new int[] {0, 12}) {
                                 final Group[] from = from(patterns[i], makeGroupArray(size));
-                                final Group[] mid = new Group[size + 1];
-                                final Group[] to = new Group[size];
-                                mid[1] = from[0];
-                                mid[size] = from[size - 1];
-                                if (next(from, mid, to, 1, a0) && next(from, mid, to, 2, a1) && next(from, mid, to, 3, a2) && next(from, mid, to, 4, a3) && next(from, mid, to, 5, a4)) {
+                                if (next2(from, 1, a0) && next2(from, 2, a1) && next2(from, 3, a2) && next2(from, 4, a3) && next2(from, 5, a4)) {
                                     
-                                    inner1: for (Group g : from) {
-                                        for (Group f : to) {
-                                            if (g.equals(f)) continue inner1;
-                                        }
-                                        continue outer;
+                                    for (Group g : from) {
+                                        if (!g.equals(from[0])) continue outer;
                                     }
                                     ++end[i];
                                     if (end[i] >= 10000000000L) end[i] -= 10000000000L;
@@ -201,6 +169,52 @@ public class Problem289 implements Problem {
             .at(0, 0);
     }
 
+    private boolean next2(Group[] from, int i, int a) {
+        
+        if (a == 0) {
+            if (from[i].equals(from[0])) return false;
+            from[i].union(from[0]);
+        }
+        
+        return true;
+    }
+    
+    private void makeEnd(int[] count, int[] pattern, int i, int group) {
+        
+        if (i == pattern.length - 1) {
+            int m = 1;
+            for (int n : count) {
+                m *= n;
+            }
+        } else {
+            
+            for (int g = 0; g < group; ++g) {
+                ++count[g];
+                pattern[i] = g;
+                makeEnd(count, pattern, i + 1, group);
+                --count[g];
+            }
+            ++count[group];
+            pattern[i] = group;
+            makeEnd(count, pattern, i + 1, group + 1);
+            --count[group];
+        }
+    }
+    
+    private long[] makeStart(int[][] patterns, int[] pattern, int i, int group, int max, long[] start) {
+        
+        if (i == max) {
+            ++start[binarySearch(patterns, pattern, PATTERN_COMPARATOR)];
+        } else {
+            pattern[i] = 0;
+            makeStart(patterns, pattern, i + 1, group, max, start);
+            pattern[i] = group;
+            makeStart(patterns, pattern, i + 1, group + 1, max, start);
+        }
+        
+        return start;
+    }
+    
     private boolean next(Group[] from, Group[] mid, Group[] to, int i, int a) {
         
         switch(a) {
