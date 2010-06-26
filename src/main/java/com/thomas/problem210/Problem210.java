@@ -21,13 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.incubator;
-
-import java.math.BigInteger;
+package com.thomas.problem210;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
-
 
 /**
  * TODO Type documentation
@@ -37,16 +34,9 @@ import com.thomas.util.Euler.Problem;
  */
 public class Problem210 implements Problem {
 
-    private static final BigInteger TWO = BigInteger.valueOf(2);
-    private static final BigInteger FOUR = BigInteger.valueOf(4);
-    private static final BigInteger FIVE = BigInteger.valueOf(5);
-    
     /**
      * TODO Method documentation
      * 
-     * 1562500000249999998L
-     * 1598174770174689458
-
      * @return
      * @see com.thomas.util.Euler.Problem#solve()
      * @author Thomas
@@ -55,33 +45,27 @@ public class Problem210 implements Problem {
     @Override
     public Object solve() {
 
-        long n = 1000000000;
-        long r_sqr = (n / 8) * (n / 8) * 2;
-        long max = (long)Math.ceil(Math.sqrt((n / 8) * (n / 8) * 2));
+        final long r = 1000000000;
+        final long f = r / 4;
 
+        return f * (25 * f + 3) - 2 + circle(f);
+    }
+
+    private long circle(long m) {
+    
+        final long r = (long)(m / Math.sqrt(2));
+        
         long sum = 0;
-        for (long x = n / 8; x < max; --x) {
-            long y = (long)Math.ceil(Math.sqrt(r_sqr - (x * x)));
-            sum += y;
+        long sqr = m * (m/2);
+        long count = 0;
+        for (long y = (m/2) + 1; y <= r; ++y) {
+            sum += (long)Math.ceil(Math.sqrt(sqr - y * y));
+            ++count;
         }
-        return sum;
+        
+        return 8 * sum - 4 * r;
     }
 
-    private BigInteger getCount(BigInteger r) {
-    
-    //    return r.pow(2).multiply(BigInteger.valueOf(25)).divide(BigInteger.valueOf(16)).add(r.divide(BigInteger.valueOf(4))).subtract(BigInteger.valueOf(2));
-        final BigInteger tmp = r.divide(FOUR);
-        
-        return tmp.multiply(FIVE).pow(2).add(tmp).subtract(TWO);
-    }
-    
-    private long getCount(long r) {
-        
-        long tmp = r / 4;
-        
-        return (((tmp * tmp * 25)) + tmp) - 2;
-    }
-    
     /**
      * TODO Method documentation
      * 
