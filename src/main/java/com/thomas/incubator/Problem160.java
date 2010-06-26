@@ -23,9 +23,8 @@
  */
 package com.thomas.incubator;
 
-import java.math.BigInteger;
-
 import com.thomas.util.Euler;
+import com.thomas.util.NumberUtils;
 import com.thomas.util.Euler.Problem;
 
 /**
@@ -48,20 +47,39 @@ class Problem160 implements Problem {
     @Override
     public Object solve() {
 
-        BigInteger p = BigInteger.ONE;
+        long n = 1;
         
-        for (int i = 1; i <= 1000; ++i) {
-            p = p.multiply(BigInteger.valueOf(i));
+        for (int i = 1; i <= 1000000; ++i) {
+            
+            long tmp = removeTrailingZeros(i);
+            int pow = 5 + Math.max(count(tmp, 2), count(tmp, 5));
+            tmp %= NumberUtils.pow(10L, pow);
+            n *= tmp;
+            n = removeTrailingZeros(n);
+            n %= 100000;
         }
-        while(p.mod(BigInteger.TEN).intValue() == 0) p = p.divide(BigInteger.TEN);
         
-        p = p.mod(BigInteger.valueOf(100000));
-        
-        System.out.println(p);
+        System.out.println(n);
         
         return null;
     }
 
+    private int count(long n, int x) {
+    
+        int count = 0;
+        
+        for (; n % x == 0; n /= x) ++count;
+        
+        return count;
+    }
+    
+    private long removeTrailingZeros(long n) {
+        
+        while(n % 10 == 0) n /= 10;
+        
+        return n;
+    }
+    
     /**
      * TODO Method documentation
      * 
