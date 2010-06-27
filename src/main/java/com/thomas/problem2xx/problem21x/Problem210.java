@@ -21,7 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.problem210;
+package com.thomas.problem2xx.problem21x;
+
+import static java.lang.Math.sqrt;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -43,27 +45,18 @@ public class Problem210 implements Problem {
      * @since 23.12.2009
      */
     @Override
-    public Object solve() {
+    public Long solve() {
 
-        final long r = 1000000000;
-        final long f = r / 4;
+        final long n = 1000000000 / 8;
 
-        return f * (25 * f + 3) - 2 + circle(f);
-    }
-
-    private long circle(long m) {
-    
-        final long r = (long)(m / Math.sqrt(2));
-        
         long sum = 0;
-        long sqr = m * (m/2);
-        long count = 0;
-        for (long y = (m/2) + 1; y <= r; ++y) {
-            sum += (long)Math.ceil(Math.sqrt(sqr - y * y));
-            ++count;
+
+        for (long y = n, yy = y * y, x = n, max = n * n; y > 0; yy -= 2 * y-- - 1) {
+            if (yy < max) max -= 2 * x++ + 1;
+            sum += x;
         }
         
-        return 8 * sum - 4 * r;
+        return 2 * n * (46 * n - 5) + 6 + 4 * (long)(n * sqrt(2)) + 8 * sum;
     }
 
     /**
