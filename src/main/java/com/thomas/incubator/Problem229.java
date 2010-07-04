@@ -23,6 +23,12 @@
  */
 package com.thomas.incubator;
 
+import java.util.Set;
+import java.util.TreeSet;
+
+import com.thomas.util.Euler;
+import com.thomas.util.NumberUtils;
+import com.thomas.util.PrimeUtils;
 import com.thomas.util.Euler.Problem;
 
 /**
@@ -36,17 +42,48 @@ class Problem229 implements Problem {
     /**
      * TODO Method documentation
      * 
+     * {@link http://www.research.att.com/~njas/sequences/A139506 }
      * @return
-     * @throws Exception
      * @see com.thomas.util.Euler.Problem#solve()
      * @author Thomas
      * @since 03.04.2010
      */
     @Override
-    public Object solve() throws Exception {
+    public Object solve() {
 
-        // TODO Auto-generated method stub
-        return null;
+        final long max = 100000L;
+        
+        final Set<Long> set = new TreeSet<Long>();
+        
+        for (long i = 1, ii = i * i; ii <= max; ii += 2 * i++ + 1) {
+            for (long j = i, jj = j * j; jj <= max; jj += 2 * j++ + 1) {
+                
+                final long n = ii + jj;
+                
+                for (long k = 1, kk = k * k; kk <= n; kk += 2 * k++ + 1) {
+                    if (NumberUtils.isSquare(n - 2 * kk)) {
+                        for (long l = 1, ll = l * l; ll <= n; ll += 2 * l++ + 1) {
+                            if (NumberUtils.isSquare(n - 3 * ll)) {
+                                for (long m = 1, mm = m * m; mm <= n; mm += 2 * m++ + 1) {
+                                    if (NumberUtils.isSquare(n - 7 * mm)) {
+//                                        for (long s : set) {
+//                                            if (n % s == 0) continue loop;
+//                                        }
+                                        set.add(n);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        for (long n : set) {
+            System.out.println(n + " = " + PrimeUtils.getPrimeFactors(n));
+        }
+        
+        return set.size();
     }
 
     /**
@@ -58,8 +95,7 @@ class Problem229 implements Problem {
      */
     public static void main(String[] args) {
 
-    // TODO Auto-generated method stub
-
+        Euler.run(new Problem229());
     }
 
 }
