@@ -23,7 +23,10 @@
  */
 package com.thomas.problem252;
 
-import java.util.Arrays;
+import static java.lang.Math.max;
+import static java.util.Arrays.copyOfRange;
+import static java.util.Arrays.sort;
+
 import java.util.Comparator;
 
 import com.thomas.util.Euler;
@@ -38,7 +41,7 @@ import com.thomas.util.random.IntGenerator;
  */
 public class Problem252 implements Problem {
 
-    class AngleComparator implements Comparator<int[]> {
+    static class AngleComparator implements Comparator<int[]> {
         
         private final int[] p0;
         
@@ -55,17 +58,15 @@ public class Problem252 implements Problem {
         
     }
     
-    private static final Comparator<int[]> AXIS_COMPARATOR = new Comparator<int[]>() {
-
+    static class OrdinateComparator implements Comparator<int[]> {
+        
         @Override
         public int compare(int[] p1, int[] p2) {
 
-            final int diff = p1[1] - p2[1];
-
-            return diff == 0 ? p1[0] - p2[0] : diff;
+            return p1[1] - p2[1];
         }
         
-    };
+    }
     
     /**
      * {@link http://de.wikipedia.org/wiki/Graham_Scan}
@@ -85,18 +86,18 @@ public class Problem252 implements Problem {
             t[i][0] = generator.next();
             t[i][1] = generator.next();
         }
-        Arrays.sort(t, AXIS_COMPARATOR);
+        sort(t, new OrdinateComparator());
         
         long area = 0;
         
-        for (int i = 0; i + 2 < max; ++i) {
+        for (int i = 0; i < max - 2; ++i) {
             
-            final int[][] rem = Arrays.copyOfRange(t, i, max);
+            final int[][] cache = new int[max - (i + 1)][max - i];
+            final int[][] rem = copyOfRange(t, i, max);
 
-            Arrays.sort(rem, 1, rem.length, new AngleComparator(rem[0]));
-            final int[][] cache = new int[500][500];
-            for (int j = 1; j + 1 < rem.length; ++j) {
-                area = Math.max(area, rem[0][0] * rem[j][1] - rem[j][0] * rem[0][1] + area(rem, 0, j, cache));
+            sort(rem, 1, rem.length, new AngleComparator(rem[0]));
+            for (int j = 1; j < rem.length - 1; ++j) {
+                area = max(area, rem[0][0] * rem[j][1] - rem[j][0] * rem[0][1] + area(rem, 0, j, cache));
             }
         }
         return area / 2.0;
@@ -109,18 +110,14 @@ public class Problem252 implements Problem {
             final int[] p1 = rem[i1];
             
             cache[i0][i1] = p1[0] * rem[0][1] - rem[0][0] * p1[1];
-            
+
             int[] s0 = rem[i0];
             int[] s1 = p1;
             for (int i2 = i1 + 1; i2 < rem.length; ++i2) {
-                
-                final int[] p2 = rem[i2];
-                final int c = (s1[0] - s0[0]) * (p2[1] - s0[1]) - (p2[0] - s0[0]) * (s1[1] - s0[1]);
-                
-                if (c >= 0) {
-                    cache[i0][i1] = Math.max(cache[i0][i1], p1[0] * p2[1] - p2[0] * p1[1] + area(rem, i1, i2, cache));
+                if (compareAngle(s0, s1, rem[i2]) >= 0) {
+                    cache[i0][i1] = max(cache[i0][i1], p1[0] * rem[i2][1] - rem[i2][0] * p1[1] + area(rem, i1, i2, cache));
                     s0 = p1;
-                    s1 = p2;
+                    s1 = rem[i2];
                 }
             }
         }
@@ -128,7 +125,7 @@ public class Problem252 implements Problem {
         return cache[i0][i1];
     }
     
-    private int compareAngle(int[] p0, int[] p1, int[] p2) {
+    private static int compareAngle(int[] p0, int[] p1, int[] p2) {
         
         return (p1[0] - p0[0]) * (p2[1] - p0[1]) - (p2[0] - p0[0]) * (p1[1] - p0[1]);
     }
