@@ -124,6 +124,7 @@ import com.thomas.problem149.Problem149;
 import com.thomas.problem151.Problem151;
 import com.thomas.problem155.Problem155;
 import com.thomas.problem156.Problem156;
+import com.thomas.problem160.Problem160;
 import com.thomas.problem162.Problem162;
 import com.thomas.problem164.Problem164;
 import com.thomas.problem165.Problem165;
@@ -404,6 +405,7 @@ public class TestAllProblems {
 
                 { new Problem158(), "409511334375" },
                 { new Problem159(), "14489159" },
+                { new Problem160(), "16576" },
 
                 { new Problem162(), "3D58725572C62302" },
 

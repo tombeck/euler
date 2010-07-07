@@ -70,7 +70,7 @@ public class NumberUtils {
         return (tmp * tmp) % m;
     }
     
-    public static long modPow(long a, int b, long m) {
+    public static long modPow(long a, long b, long m) {
         
         if (b == 0) return 1;
         if ((b & 1) != 0) return (a * modPow(a, b - 1, m)) % m;
