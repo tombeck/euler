@@ -23,8 +23,10 @@
  */
 package com.thomas.problem160;
 
+import static com.thomas.util.NumberUtils.modPow;
+import static com.thomas.util.NumberUtils.pow;
+
 import com.thomas.util.Euler;
-import com.thomas.util.NumberUtils;
 import com.thomas.util.Euler.Problem;
 
 /**
@@ -47,99 +49,40 @@ public class Problem160 implements Problem {
     public Long solve() {
 
         final int mod = 100000;
-        final int pow = 12;
-        final long max = NumberUtils.pow(10L, pow);
+        final long max = 1000000000000L;
         
-        long n = count(max, mod);
-
-        n *= NumberUtils.modPow(2L, (count2(pow)-count5(pow)), mod);
-        n %= mod;
-        
-        return n;
+        return (countEven(max, mod) * modPow(2L, (countNumber(max, 2) - countNumber(max, 5)), mod)) % mod;
     }
 
-    private long count(long max, int mod) {
+    private long countEven(long max, int mod) {
         
         if (max == 1) return 1;
         
-        return (countOdd(max, mod) * count(max/2, mod)) % mod;
+        return (countOdd(max, mod) * countEven(max / 2, mod)) % mod;
     }
 
     private long countOdd(long max, int mod) {
         
         if (max <= 1) return 1;
 
-        long n = countOdd(max/5, mod) % mod;
-        long m = max / mod;
+        long n = countOdd(max/5, mod);
 
-        if (m > 0) {
-            long s = 1;
-            for (long i = 1; i <= mod; i += 10) {
-                s *= i % mod;
-                s %= mod;
-            }
-            for (long i = 3; i <= mod; i += 10) {
-                s *= i % mod;
-                s %= mod;
-            }
-            for (long i = 7; i <= mod; i += 10) {
-                s *= i % mod;
-                s %= mod;
-            }
-            for (long i = 9; i <= mod; i += 10) {
-                s *= i % mod;
-                s %= mod;
-            }
-            for (; m > 0; --m) {
-                n *= s;
-                n %= mod;
-            }
-        }
-        for (long i = 1; i <= (max % mod); i += 10) {
-            n *= i % mod;
-            n %= mod;
-        }
-        for (long i = 3; i <= (max % mod); i += 10) {
-            n *= i % mod;
-            n %= mod;
-        }
-        for (long i = 7; i <= (max % mod); i += 10) {
-            n *= i % mod;
-            n %= mod;
-        }
-        for (long i = 9; i <= (max % mod); i += 10) {
-            n *= i % mod;
-            n %= mod;
-        }
-        
-//        CACHE.put(max, n);
+        for (long i = 1; i <= (max % mod); i += 10) n = (n * i) % mod;
+        for (long i = 3; i <= (max % mod); i += 10) n = (n * i) % mod;
+        for (long i = 7; i <= (max % mod); i += 10) n = (n * i) % mod;
+        for (long i = 9; i <= (max % mod); i += 10) n = (n * i) % mod;
         
         return n;
     }
     
-    private long count2(int r) {
-    
-        final int max = (int)Math.floor((r * Math.log(10)) / Math.log(2));
-        final long pow10 = NumberUtils.pow(10L, r);
+    private long countNumber(long pow10, int n) {
+        
+        final int max = (int)((Math.log(pow10)) / Math.log(n));
         
         long count = 0;
         
         for (int i = 1; i <= max; ++i) {
-            count += pow10 / NumberUtils.pow(2L, i);
-        }
-        
-        return count;
-    }
-    
-    private long count5(int r) {
-        
-        final int max = (int)Math.floor((r * Math.log(10)) / Math.log(5));
-        final long pow10 = NumberUtils.pow(10L, r);
-        
-        long count = 0;
-        
-        for (int i = 1; i <= max; ++i) {
-            count += pow10 / NumberUtils.pow(5L, i);
+            count += pow10 / pow((long)n, i);
         }
         
         return count;
