@@ -27,10 +27,11 @@ import static java.lang.Math.max;
 import static java.util.Arrays.copyOfRange;
 import static java.util.Arrays.sort;
 
-import java.util.Comparator;
-
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
+import com.thomas.util.geometry.AngleComparator;
+import com.thomas.util.geometry.OrdinateComparator;
+import com.thomas.util.geometry.Point;
 import com.thomas.util.random.BlumBlumShub;
 import com.thomas.util.random.IntGenerator;
 
@@ -41,33 +42,6 @@ import com.thomas.util.random.IntGenerator;
  */
 public class Problem252 implements Problem {
 
-    static class AngleComparator implements Comparator<int[]> {
-        
-        private final int[] p0;
-        
-        private AngleComparator(int[] p0) {
-
-            this.p0 = p0;
-        }
-
-        @Override
-        public int compare(int[] p1, int[] p2) {
-
-            return compareAngle(this.p0, p2, p1);
-        }
-        
-    }
-    
-    static class OrdinateComparator implements Comparator<int[]> {
-        
-        @Override
-        public int compare(int[] p1, int[] p2) {
-
-            return p1[1] - p2[1];
-        }
-        
-    }
-    
     /**
      * {@link http://de.wikipedia.org/wiki/Graham_Scan}
      * 
@@ -76,60 +50,63 @@ public class Problem252 implements Problem {
      * {@inheritDoc}
      */
     @Override
-    public Object solve() {
+    public Double solve() {
 
         final int max = 500;
-        final IntGenerator generator = new BlumBlumShub(2000);
-        final int[][] t = new int[max][2];
+        final Point[] points = new Point[max];
+        final IntGenerator generator = new BlumBlumShub(2000) { 
 
-        for (int i = 0; i < max; ++i) {
-            t[i][0] = generator.next();
-            t[i][1] = generator.next();
-        }
-        sort(t, new OrdinateComparator());
+            @Override
+            public int next() { return super.next() - 1000; }
+            
+        };
+
+        for (int i = 0; i < max; ++i) points[i] = new Point(generator);
+        sort(points, new OrdinateComparator());
         
-        long area = 0;
+        int area = 0;
         
         for (int i = 0; i < max - 2; ++i) {
             
             final int[][] cache = new int[max - (i + 1)][max - i];
-            final int[][] rem = copyOfRange(t, i, max);
+            final Point[] rem = copyOfRange(points, i, max);
 
-            sort(rem, 1, rem.length, new AngleComparator(rem[0]));
+            sort(rem, 1, rem.length, new AngleComparator(rem[0]) {
+                
+                @Override
+                public int compare(Point p1, Point p2) { return super.compare(p2, p1); }
+                
+            });
             for (int j = 1; j < rem.length - 1; ++j) {
-                area = max(area, rem[0][0] * rem[j][1] - rem[j][0] * rem[0][1] + area(rem, 0, j, cache));
+                area = max(area, rem[0].x * rem[j].y - rem[j].x * rem[0].y + area(rem, 0, j, cache));
             }
         }
+        
         return area / 2.0;
     }
 
-    private int area(int[][] rem, int i0, int i1, int[][] cache) {
+    private int area(Point[] points, int i0, int i1, int[][] cache) {
         
         if (cache[i0][i1] == 0) {
             
-            final int[] p1 = rem[i1];
+            final Point p1 = points[i1];
+            final AngleComparator comp = new AngleComparator(points[i0]);
             
-            cache[i0][i1] = p1[0] * rem[0][1] - rem[0][0] * p1[1];
+            cache[i0][i1] = p1.x * points[0].y - points[0].x * p1.y;
 
-            int[] s0 = rem[i0];
-            int[] s1 = p1;
-            for (int i2 = i1 + 1; i2 < rem.length; ++i2) {
-                if (compareAngle(s0, s1, rem[i2]) >= 0) {
-                    cache[i0][i1] = max(cache[i0][i1], p1[0] * rem[i2][1] - rem[i2][0] * p1[1] + area(rem, i1, i2, cache));
-                    s0 = p1;
-                    s1 = rem[i2];
+            Point s1 = p1;
+            for (int i2 = i1 + 1; i2 < points.length; ++i2) {
+                if (comp.compare(s1, points[i2]) >= 0) {
+                    cache[i0][i1] = max(cache[i0][i1], area(points, i1, i2, cache) + p1.x * points[i2].y - points[i2].x * p1.y);
+                    comp.setOrigin(p1);
+                    s1 = points[i2];
                 }
             }
         }
         
         return cache[i0][i1];
     }
-    
-    private static int compareAngle(int[] p0, int[] p1, int[] p2) {
-        
-        return (p1[0] - p0[0]) * (p2[1] - p0[1]) - (p2[0] - p0[0]) * (p1[1] - p0[1]);
-    }
-    
+
     /**
      * @param args
      */
