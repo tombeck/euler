@@ -59,17 +59,14 @@ public class Problem293 implements Problem {
 
     private Set<Integer> findFortunate(int[] primes, int i, long product, Set<Integer> fortunate) {
         
-        product *= primes[i];
-        
-        while (product < 1000000000) {
+        while ((product *= primes[i]) < 1000000000) {
             fortunate.add((int)(nextPrime(product + 2, PRIMES) - product));
             findFortunate(primes, i + 1, product, fortunate);
-            product *= primes[i];
         }
-        
+
         return fortunate;
     }
-    
+
     /**
      * @param args
      */
