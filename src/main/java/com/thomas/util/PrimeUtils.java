@@ -56,7 +56,19 @@ public class PrimeUtils {
         
         final List<Long> factors = new ArrayList<Long>();
         
-        for (long i = 2; i * i <= n; i++) {
+        if (n < 2) return factors;
+        if (n < 4) {
+            factors.add(2L);
+            return factors;
+        }
+        while ((n & 1) == 0) {
+            factors.add(2L);
+            n >>= 1;
+        }
+
+        long sqrt = (long)Math.sqrt(n) + 1;
+        
+        for (long i = 3; i <= sqrt; i += 2) {
             while (n % i == 0) {
                 factors.add(i);
                 n /= i;
@@ -71,7 +83,19 @@ public class PrimeUtils {
         
         final List<Integer> factors = new ArrayList<Integer>();
         
-        for (int i = 2; i * i <= n; i++) {
+        if (n < 2) return factors;
+        if (n < 4) {
+            factors.add(2);
+            return factors;
+        }
+        while ((n & 1) == 0) {
+            factors.add(2);
+            n >>= 1;
+        }
+
+        long sqrt = (long)Math.sqrt(n) + 1;
+        
+        for (int i = 3; i <= sqrt; i += 2) {
             while (n % i == 0) {
                 factors.add(i);
                 n /= i;
