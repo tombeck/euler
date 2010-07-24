@@ -46,50 +46,22 @@ public class Problem211 implements Problem {
         final int max = 64000000;
         final long[] sigma2 = new long[max + 1];
         
-        long sum = 0;
+        for (int i = 1; i < max; ) {
+            sigma2[i++] = 1;
+            sigma2[i++] = 5;
+        }
+        
+        long sum = 1;
+        long n2 = 9;
 
-        for (int n = 1; n <= max; n++) {
+        for (int n = 3; n <= max; n2 += (n++ << 1) + 1) {
             for (int i = n; i <= max; i += n) {
-                sigma2[i] += (long)n * n;
+                sigma2[i] += n2;
             }
             if (isSquare(sigma2[n])) sum += n;
         }
 
         return sum;
-
-//        final int[] primes = toIntArray(primes(8000));// = sqrt(64000000)
-//        
-//        long sum = 0;
-//        
-//        for (int n = 1; n < 64000000; ++n) {
-//            
-//            int t = n;
-//            long product = 1;
-//            int sqr = 0;
-//            
-//            for (int p : primes) {
-//
-//                if ((sqr = p * p) > t) break;
-//                if (t % p == 0) {
-//                    long s = 1;
-//                    do {
-//                        s = s * sqr + 1;
-//                    } while ((t /= p) % p == 0);
-//                    product *= s;
-//                }
-//            }
-//            if (t > 1) {
-//                if (t == n) continue; // n is prime
-//                product *= 1 + (long)t * t;
-//            }
-//            
-//            if (isSquare(product)) {
-//                //System.out.println(n + ": " + product);
-//                sum += n;
-//            }
-//        }
-//        
-//        return sum;
     }
 
     /**
