@@ -24,6 +24,7 @@
 package com.thomas.util;
 
 import static com.thomas.util.Digit.FACTORIAL;
+import static com.thomas.util.Digit.PRIME;
 
 import java.util.Comparator;
 
@@ -177,12 +178,18 @@ public class Permutation {
         
         long hash = 1;
         
-        while (n >= 10) {
-            hash *= Digit.PRIME[n % 10];
-            n /= 10;
-        }
+        for(; n >= 10; n /= 10) hash *= PRIME[(int)(n % 10)];
         
-        return hash;
+        return hash * PRIME[n];
+    }
+    
+    public static long hash(long n) {
+        
+        long hash = 1;
+        
+        for(; n >= 10; n /= 10) hash *= PRIME[(int)(n % 10)];
+        
+        return hash * PRIME[(int)n];
     }
     
     private Permutation() {

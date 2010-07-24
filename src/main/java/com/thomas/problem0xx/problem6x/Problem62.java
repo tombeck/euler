@@ -21,12 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.problem62;
+package com.thomas.problem0xx.problem6x;
 
-import static com.thomas.util.Digit.PRIME;
-import static java.lang.Math.ceil;
-import static java.lang.Math.exp;
-import static java.lang.Math.log;
+import static com.thomas.util.Permutation.hash;
 import static java.util.Collections.sort;
 
 import java.util.ArrayList;
@@ -43,64 +40,49 @@ import com.thomas.util.Euler.Problem;
  */
 public class Problem62 implements Problem {
 
-    private static final Comparator<Long> COMP = new Comparator<Long>() {
-
-        @Override
-        public int compare(Long o1, Long o2) {
-
-            return Long.signum(getHash(o1) - getHash(o2));
-        }
-        
-        private long getHash(long n) {
-            
-            long hash = 1;
-
-            for(; n != 0; n /= 10) hash *= PRIME[(int)(n % 10)];
-
-            return hash;
-        }
-        
-    };
-    
     /**
      * {@inheritDoc}
      */
     @Override
-    public Long solve() throws Exception {
+    public Long solve() {
 
-        final List<Long> cubes = new ArrayList<Long>();
-
-        for (int len = 1, low = 1; ; ++len) {
-            int high = crt(len);
-            cubes.clear();
-            for (long n = low; n < high; ++n) {
-                cubes.add(n * n * n);
-            }
-            sort(cubes, COMP);
+        final Comparator<long[]> hashCompare = new Comparator<long[]>() {
             
-            long first = 0;
+            @Override
+            public int compare(long[] o1, long[] o2) {
+                
+                return Long.signum(o1[1] - o2[1]);
+            }
+            
+        };
+        
+        final List<long[]> cubes = new ArrayList<long[]>();
+        
+        for (long n = 10, max = 10000; ; max *= 10) {
+            
+            for (long n3 ; (n3 = n * n * n) < max; ++n) {
+                cubes.add(new long[] {n3, hash(n3)});
+            }
+            sort(cubes, hashCompare);
+            
+            long[] first = {0, 0};
             int count = 0;
-            for (Long cube : cubes) {
-                if (COMP.compare(cube, first) == 0) {
-                    if (++count == 5) return first;
-                } else {
+            
+            for (long[] cube : cubes) {
+                if (cube[1] != first[1]) {
                     count = 1;
                     first = cube;
+                } else if (++count == 5) {
+                    
+                    return first[0];
                 }
             }
-            low = high;
+            cubes.clear();
         }
     }
 
-    private int crt(int len) {
-        
-        int ret = (int)ceil(exp((len * log(10)) / 3));
-        
-        return (len % 3 == 0) ? ret - 1 : ret;
-    }
-    
     /**
-     * @param args
+     * @param args 
      */
     public static void main(String[] args) {
 
