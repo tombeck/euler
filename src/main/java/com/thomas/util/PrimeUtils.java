@@ -58,12 +58,11 @@ public class PrimeUtils {
         
         if (n < 2) return factors;
         if (n < 4) {
-            factors.add(2L);
+            factors.add(n);
             return factors;
         }
-        while ((n & 1) == 0) {
+        for (; (n & 1) == 0; n >>= 1) {
             factors.add(2L);
-            n >>= 1;
         }
 
         long sqrt = (long)Math.sqrt(n) + 1;
@@ -85,12 +84,11 @@ public class PrimeUtils {
         
         if (n < 2) return factors;
         if (n < 4) {
-            factors.add(2);
+            factors.add(n);
             return factors;
         }
-        while ((n & 1) == 0) {
+        for (; (n & 1) == 0; n >>= 1) {
             factors.add(2);
-            n >>= 1;
         }
 
         long sqrt = (long)Math.sqrt(n) + 1;
