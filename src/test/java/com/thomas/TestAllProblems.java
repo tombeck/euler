@@ -85,6 +85,7 @@ import com.thomas.problem0xx.problem5x.Problem55;
 import com.thomas.problem0xx.problem5x.Problem56;
 import com.thomas.problem0xx.problem5x.Problem57;
 import com.thomas.problem0xx.problem5x.Problem58;
+import com.thomas.problem0xx.problem6x.Problem62;
 import com.thomas.problem0xx.problem6x.Problem63;
 import com.thomas.problem0xx.problem6x.Problem65;
 import com.thomas.problem0xx.problem6x.Problem69;
@@ -126,6 +127,7 @@ import com.thomas.problem151.Problem151;
 import com.thomas.problem155.Problem155;
 import com.thomas.problem156.Problem156;
 import com.thomas.problem160.Problem160;
+import com.thomas.problem161.Problem161;
 import com.thomas.problem162.Problem162;
 import com.thomas.problem164.Problem164;
 import com.thomas.problem165.Problem165;
@@ -212,7 +214,6 @@ import com.thomas.problem2xx.problem26x.Problem268;
 import com.thomas.problem2xx.problem29x.Problem297;
 import com.thomas.problem60.Problem60;
 import com.thomas.problem61.Problem61;
-import com.thomas.problem62.Problem62;
 import com.thomas.problem64.Problem64;
 import com.thomas.problem66.Problem66;
 import com.thomas.problem67.Problem67;
@@ -394,7 +395,6 @@ public class TestAllProblems {
                 
                 { new Problem144(), "354" },
 //                { new Problem145(), "608720" },
-                
                 { new Problem146(), "676333270" },
                 { new Problem147(), "846910284" },
                 { new Problem148(), "2129970655314432" },
@@ -408,6 +408,7 @@ public class TestAllProblems {
                 { new Problem158(), "409511334375" },
                 { new Problem159(), "14489159" },
                 { new Problem160(), "16576" },
+                { new Problem161(), "20574308184277971" },
 
                 { new Problem162(), "3D58725572C62302" },
 
