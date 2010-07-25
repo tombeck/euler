@@ -24,6 +24,7 @@
 package com.thomas.incubator;
 
 import com.thomas.util.Euler;
+import com.thomas.util.NumberUtils;
 import com.thomas.util.PrimeUtils;
 import com.thomas.util.Euler.Problem;
 
@@ -36,9 +37,13 @@ import com.thomas.util.Euler.Problem;
 class Problem141 implements Problem {
 
     /**
-     * q * d + r = m^2 = n, 0 < r < d, 0 < q, 0 < d
+     * q * d + r = m^2 = n, 0 < r < d < q
      * 
-     * a * b + a^2 / b = m^2, 0 < a < b
+     * q * r = d^2 => q = d^2 / r,   r = d^2 / q
+     * 
+     * q^2 * d + d^2 = m^2 * q   <=>   d * (q^2 + d) = m^2 * q
+     * 
+     * d^3 + r^2 = m^2 * r   <=>   d^3 = r * (m^2 - r)
      * 
      * @return
      * @see com.thomas.util.Euler.Problem#solve()
@@ -46,30 +51,38 @@ class Problem141 implements Problem {
      * @since 03.04.2010
      */
     @Override
-    public Object solve() {
+    public Long solve() {
 
-        int max = 10000;
-        for (int a = 1; a < max - 1; ++a) {
-            for (int b = a + 1; b < max; ++b) {
-                if (a * a % b == 0) {
-                    int r = a * a / b;
-                    int n = a * b + r;
-                    if (isSquare(n)) {
-                        System.out.println(PrimeUtils.getPrimeFactors(a) + " * " + PrimeUtils.getPrimeFactors(b) + " + " + PrimeUtils.getPrimeFactors(r) + " = " + PrimeUtils.getPrimeFactors(n));
+        final long max = 10000;
+        final long max2 = max * max;
+        long sum = 0;
+
+        for (long r = 1; r < max - 1; ++r) {
+            for (long d = r + 1, d2, q, n; (n = (q = (d2 = d * d) / r) * d + r) < max2; ++d) {
+                if (d2 % r == 0) {
+                    if (NumberUtils.isSquare(n)) {
+                        sum += n;
+                        System.out.println(String.format("%s * %s + %s = %s", d, q, r, n));
                     }
                 }
             }
         }
-        return null;
+//        for (long m = 1, n = 1; m < max; n += (m++ << 1) + 1)  {
+//            for (long d = (long)Math.ceil(Math.cbrt(n + 1)), q; (q = n / d) > d; ++d) {
+//                
+//                final long r = n % d;
+//                
+//                if (q * r == d * d) {
+//                    sum += n;
+//                    System.out.println(String.format("%s * %s + %s = %s", d, q, r, n));
+//                    break;
+//                }
+//            }
+//        }
+        
+        return sum;
     }
 
-    private boolean isSquare(int n) {
-    
-        int tmp = (int)Math.sqrt(n);
-        
-        return tmp * tmp == n;
-    }
-    
     /**
      * TODO Method documentation
      * 
