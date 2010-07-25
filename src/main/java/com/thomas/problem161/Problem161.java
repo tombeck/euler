@@ -29,6 +29,10 @@ import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
 
 /**
+ * ***  * *  ***  ***  ***  ***    *  *    * *  ***
+ * *    * *    *  * *  *      *    *  *    * *
+ * ***  ***  ***  * *  *      *  ***  ***  * *  ***
+ * 
  * @author Thomas
  * @since 16.02.2010
  */
@@ -57,7 +61,7 @@ public class Problem161 implements Problem {
     };
     
     private static final int[] MASK = {0, 0, 0, 0, 1, 2, 2, 0, 0, 2, 0};
-    
+    private static final int[] LAST = {1, 2, 3, 7, 8, 10};
     /**
      * TODO Method documentation
      * 
@@ -72,28 +76,30 @@ public class Problem161 implements Problem {
         final int width = 9;
         final int hight = 12;
         final long[][] cache = new long[hight][(int)pow(3, width)];
+        final int[][] grid = new int[hight + 1][width];
 
-        return countRow(width, hight - 1, new int[width], cache);
+        return countRow(width, grid, hight - 1, cache, 0);
     }
 
-    private long countCol(int width, int row, int col, int left, int[] prev, int[] next, long[][] cache) {
+    private long countCol(int width, int[][] grid, int row, int col, int left, long[][] cache, int hash) {
     
-        if (col == width) return countRow(width, row - 1, next, cache);
+        if (col == width) return countRow(width, grid, row - 1, cache, hash);
         
+        final int[] prev = grid[row + 1];
+        final int[] next = grid[row];
+
         long count = 0;
         
         if (row == 0) {
-            for (int i = 1; i <= 10; ++i) {
-                if ((LEFT[left][i] > 0 && (col < (width - 1) || LEFT[i][0] > 0)) && TOP[prev[col]][i] > 0 && TOP[MASK[i]][0] > 0) {
-                    next[col] = MASK[i];
-                    count += countCol(width, row, col + 1, i, prev, next, cache);
+            for (int i : LAST) {
+                if ((LEFT[left][i] > 0 && (col < (width - 1) || LEFT[i][0] > 0)) && TOP[prev[col]][i] > 0) {
+                    count += countCol(width, grid, row, col + 1, i, cache, hash * 3 + (next[col] = MASK[i]));
                 }
             }
         } else {
             for (int i = 1; i <= 10; ++i) {
                 if ((LEFT[left][i] > 0 && (col < (width - 1) || LEFT[i][0] > 0)) && (TOP[prev[col]][i] > 0)) {
-                    next[col] = MASK[i];
-                    count += countCol(width, row, col + 1, i, prev, next, cache);
+                    count += countCol(width, grid, row, col + 1, i, cache, hash * 3 +(next[col] = MASK[i]));
                 }
             }
         }
@@ -101,28 +107,17 @@ public class Problem161 implements Problem {
         return count;
     }
     
-    private long countRow(int width, int row, int[] prev, long[][] cache) {
+    private long countRow(int width, int[][] grid, int row, long[][] cache, int hash) {
         
         if (row < 0) return 1;
         
-        final int hash = hash(prev);
-        
         if (cache[row][hash] == 0) {
-            cache[row][hash] = countCol(width, row, 0, 0, prev, new int[width], cache);
+            cache[row][hash] = countCol(width, grid, row, 0, 0, cache, 0);
         }
         
         return cache[row][hash];
     }
-    
-    private int hash(int[] row) {
-        
-        int pattern = 0;
-        
-        for (int c : row) pattern = pattern * 3 + c;
-        
-        return pattern;
-    }
-    
+
     /**
      * TODO Method documentation
      * 
