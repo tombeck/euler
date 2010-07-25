@@ -53,16 +53,32 @@ class Problem141 implements Problem {
     @Override
     public Long solve() {
 
-        final long max = 10000;
+        final long max = 1000000;
         final long max2 = max * max;
         long sum = 0;
 
-        for (long r = 1; r < max - 1; ++r) {
-            for (long d = r + 1, d2, q, n; (n = (q = (d2 = d * d) / r) * d + r) < max2; ++d) {
+//        for (long r = 1; r < max - 1; ++r) {
+//            for (long d = r + 1, d2, q, n; (n = (q = (d2 = d * d) / r) * d + r) < max2; ++d) {
+//                if (d2 % r == 0) {
+//                    if (NumberUtils.isSquare(n)) {
+//                        sum += n;
+//                        System.out.println(String.format("%s * %s + %s = %s", q, d, r, n));
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+        for (int d = 2; d < max; ++d) {
+            final long d2 = (long)d * d;
+            final int min = (int)((max / 2.0 - Math.sqrt(Math.pow(max / 2.0, 2) - (double)(d2 * d) / (max * max))) * max) + 1;
+            for (int r = min; r < d; ++r) {
                 if (d2 % r == 0) {
+                    final long q = d2 / r;
+                    final long n = q * d + r;
                     if (NumberUtils.isSquare(n)) {
                         sum += n;
-                        System.out.println(String.format("%s * %s + %s = %s", d, q, r, n));
+                        System.out.println(String.format("%s * %s + %s = %s^2", q, d, r, (int)Math.sqrt(n)));
+                        break;
                     }
                 }
             }
