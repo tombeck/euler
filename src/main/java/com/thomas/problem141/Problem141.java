@@ -21,7 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.incubator;
+package com.thomas.problem141;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import com.thomas.util.Euler;
 import com.thomas.util.NumberUtils;
@@ -34,7 +38,7 @@ import com.thomas.util.Euler.Problem;
  * @author Thomas
  * @since 03.04.2010
  */
-class Problem141 implements Problem {
+public class Problem141 implements Problem {
 
     /**
      * q * d + r = m^2 = n, 0 < r < d < q
@@ -54,51 +58,57 @@ class Problem141 implements Problem {
     public Long solve() {
 
         final long max = 1000000;
-        final long max2 = max * max;
+        
         long sum = 0;
 
-//        for (long r = 1; r < max - 1; ++r) {
-//            for (long d = r + 1, d2, q, n; (n = (q = (d2 = d * d) / r) * d + r) < max2; ++d) {
-//                if (d2 % r == 0) {
-//                    if (NumberUtils.isSquare(n)) {
-//                        sum += n;
-//                        System.out.println(String.format("%s * %s + %s = %s", q, d, r, n));
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-        for (int d = 2; d < max; ++d) {
-            final long d2 = (long)d * d;
-            final int min = (int)((max / 2.0 - Math.sqrt(Math.pow(max / 2.0, 2) - (double)(d2 * d) / (max * max))) * max) + 1;
-            for (int r = min; r < d; ++r) {
-                if (d2 % r == 0) {
-                    final long q = d2 / r;
-                    final long n = q * d + r;
-                    if (NumberUtils.isSquare(n)) {
-                        sum += n;
-                        System.out.println(String.format("%s * %s + %s = %s^2", q, d, r, (int)Math.sqrt(n)));
-                        break;
-                    }
-                }
-            }
+        for (long d = 2; d < max; ++d) {
+            sum += find(makeArray(NumberUtils.toLongArray(PrimeUtils.getPrimeFactors(d))), 0, d, 1, 1, max * max);
         }
-//        for (long m = 1, n = 1; m < max; n += (m++ << 1) + 1)  {
-//            for (long d = (long)Math.ceil(Math.cbrt(n + 1)), q; (q = n / d) > d; ++d) {
-//                
-//                final long r = n % d;
-//                
-//                if (q * r == d * d) {
-//                    sum += n;
-//                    System.out.println(String.format("%s * %s + %s = %s", d, q, r, n));
-//                    break;
-//                }
-//            }
-//        }
-        
+
         return sum;
     }
 
+    private long[][] makeArray(long[] primes) {
+    
+        Arrays.sort(primes);
+        
+        final List<long[]> a = new ArrayList<long[]>();
+        
+        long[] e = new long[2];
+        
+        for (long p : primes) {
+            if (p == e[0]) e[1] += 2;
+            else a.add(e = new long[] {p, 2});
+        }
+        
+        return a.toArray(new long[0][]);
+    }
+    
+    private long find(long[][] primes, int i, long d, long r, long q, long max) {
+        
+        long sum = 0;
+        
+        if (r < d) {
+            if (i == primes.length) {
+                
+                final long n = d * q + r;
+                
+                if (n < max && NumberUtils.isSquare(n)) {
+                    
+                    //System.out.println(String.format("%s + %s * %s = %s^2", r, d, q, (int)Math.sqrt(n)));
+                    return n;
+                }
+                
+            } else {
+                for (int j = 0; j <= primes[i][1]; ++j) {
+                    sum += find(primes, i + 1, d, r * NumberUtils.pow(primes[i][0], j), q * NumberUtils.pow(primes[i][0], (int)primes[i][1] - j), max);
+                }
+            }
+        }
+        
+        return sum;
+    }
+    
     /**
      * TODO Method documentation
      * 
