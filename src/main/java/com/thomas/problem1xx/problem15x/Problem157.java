@@ -21,11 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.problem157;
+package com.thomas.problem1xx.problem15x;
 
 import static com.thomas.Util.gcd;
 import static com.thomas.util.NumberUtils.numberOfDivisors;
-import static com.thomas.util.NumberUtils.pow;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -45,17 +44,14 @@ public class Problem157 implements Problem {
 
         int sum = 0;
 
-        for (int n = 1; n <= 9; ++n) {
-            
-            final long t = pow(10L, n);
-            
-            for (long a = 1, max = pow(2L, 2 * n); a <= max; a *= 2) {
+        for (long t = 1, max = 4; (t *= 10) <= 1000000000; max *= 4) {
+            for (int a = 1; a <= max; a *= 2) {
                 for (long b = a; b <= t; b *= 5) {
-                    sum += numberOfDivisors(gcd((t * t) / b - b, b + t));
+                    sum += numberOfDivisors(gcd((t * t) / b - b, t + b));
                 }
             }
         }
-        
+
         return sum;
     }
 
