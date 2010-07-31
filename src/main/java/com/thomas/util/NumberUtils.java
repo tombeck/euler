@@ -135,7 +135,35 @@ public class NumberUtils {
         
         for (; (n & 1) == 0; n >>= 1) ++product;
         
-        for (int i = 3; i * i <= n; i += 2) {
+        long sqrt = (long)Math.sqrt(n) + 1;
+        
+        for (int i = 3; i <= sqrt; i += 2) {
+            int sum = 1;
+            if (n % i == 0) {
+                do {
+                    ++sum;
+                    n /= i;
+                } while (n % i == 0);
+                product *= sum;
+            }
+        }
+        if (n > 1) product *= 2;
+        
+        return product;
+    }
+    
+    public static int numberOfDivisors(long n) {
+        
+        if (n < 2) return 1;
+        if (n < 4) return 2;
+        
+        int product = 1;
+        
+        for (; (n & 1) == 0; n >>= 1) ++product;
+        
+        long sqrt = (long)Math.sqrt(n) + 1;
+        
+        for (long i = 3; i <= sqrt; i += 2) {
             int sum = 1;
             if (n % i == 0) {
                 do {
