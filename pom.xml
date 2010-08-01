@@ -6,6 +6,8 @@
   <version>1.0-SNAPSHOT</version>
   <name>Project Euler Solutions of Thomas Beckmann</name>
   <properties>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <encoding>UTF-8</encoding>
     <downloadSources>true</downloadSources>
   </properties>
   <dependencies>
@@ -18,18 +20,24 @@
     </dependency>
   </dependencies>
   <build>
+    <sourceDirectory>${sourceDirectory}</sourceDirectory>
+    <resources>
+      <resource>
+        <directory>${sourceDirectory}</directory>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>RELEASE</version>
         <configuration>
-          <encoding>UTF-8</encoding>
+          <encoding>${encoding}</encoding>
           <source>1.6</source>
           <target>1.6</target>
-          <includes>
-            <include>**</include>
-          </includes>
         </configuration>
       </plugin>
       <plugin>
@@ -37,7 +45,7 @@
         <artifactId>maven-resources-plugin</artifactId>
         <version>RELEASE</version>
         <configuration>
-          <encoding>UTF-8</encoding>
+          <encoding>${encoding}</encoding>
         </configuration>
       </plugin>
     </plugins>
