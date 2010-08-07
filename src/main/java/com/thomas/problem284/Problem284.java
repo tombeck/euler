@@ -34,13 +34,10 @@ import com.thomas.util.Euler.Problem;
  */
 public class Problem284 implements Problem {
 
-    private static final char[] BASE14 = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd'};
-
     /**
      * TODO Method documentation 5a411d7b
      * 
      * @return
-     * @throws Exception
      * @see com.thomas.util.Euler.Problem#solve()
      * @author Thomas
      * @since 31.03.2010
@@ -49,53 +46,33 @@ public class Problem284 implements Problem {
     public String solve() {
 
         final int max = 10000;
-        
-        final int[] x = new int[max];
-        final int[] x2 = new int[2 * max];
-        final int[] y = new int[max];
-        final int[] y2 = new int[2 * max];
+        final int[] s = new int[2 * max];
         
         int sum = 1 + 8 + 7;
         
-        x[0] = 8;
-        y[0] = 7;
-        for (int n = 1, sumx = 8, sumy = 7; n < max; ++n) {
-            add(x, x2, n - 1);
-            add(y, y2, n - 1);
-            sumx += x[n] = (14 - x2[n]) % 14;
-            sumy += y[n] = y2[n];
-            if (x[n] > 0) sum += sumx;
-            if (y[n] > 0) sum += sumy;
+        s[0] = 7;
+        for (int n = 1, sumy = 7; n < max; ++n) {
+            
+            final int m = n - 1;
+            
+            int carry = 0;
+            
+            for (int j = 0; j < m; ++j) {
+                carry += 2 * s[m] * s[j] + s[m + j];
+                s[m + j] = carry % 14;
+                carry /= 14;
+            }
+            
+            final int sqr = s[m] * s[m] + carry;
+            
+            s[2 * m] = sqr % 14;
+            s[2 * m + 1] = sqr / 14;
+            sumy += s[n];
+            if (s[n] < 13) sum += n * 13 - sumy + 15;
+            if (s[n] >  0) sum += sumy;
         }
 
-        return toBase14(sum);
-    }
-
-    private void add(int[] x, int[] x2, int n) {
-        
-        final int d2 = x[n] << 1;
-        
-        int carry = 0;
-        
-        for (int i = 0; i < n; ++i) {
-            x2[n + i] = (carry = d2 * x[i] + x2[n + i] + carry) % 14;
-            carry /= 14;
-        }
-        
-        int sqr = x[n] * x[n] + carry;
-        x2[2 * n] = sqr % 14;
-        x2[2 * n + 1] = sqr / 14;
-    }
-    
-    private String toBase14(long n) {
-
-        final StringBuilder builder = new StringBuilder();
-        
-        for (; n > 0; n /= 14) {
-            builder.append(BASE14[(int)(n % 14)]);
-        }
-        
-        return builder.reverse().toString();
+        return Integer.toString(sum, 14);
     }
 
     /**
