@@ -47,41 +47,14 @@ class Problem217 implements Problem {
     @Override
     public Object solve() {
 
-        final BigInteger[][] cache = new BigInteger[22 * 9 + 1][22 + 1];
-        
-        for (int sum = 0; sum <= 9 * 22; ++sum) {
-            System.out.println(sum + ": " + count(cache, sum, 22) + ": " + countWithoutLeadingZero(cache, sum, 22));
+
+        for (int n = 1; n <= 45; ++n) {
+
         }
         
         return null;
     }
 
-    
-    private BigInteger count(BigInteger[][] cache, int sum, int digits) {
-        
-        if (digits == 0) return sum == 0 ? BigInteger.ONE : BigInteger.ZERO;
-        
-        if (cache[sum][digits] == null) {
-            cache[sum][digits] = BigInteger.ZERO;
-            for (int d = 0; d <= Math.min(9, sum); ++d) {
-                cache[sum][digits] = cache[sum][digits].add(count(cache, sum - d, digits - 1));
-            }
-        }
-        
-        return cache[sum][digits];
-    }
-    
-    private BigInteger countWithoutLeadingZero(BigInteger[][] cache, int sum, int digits) {
-        
-        BigInteger count = BigInteger.ZERO;
-        
-        for (int d = 1; d <= Math.min(9, sum); ++d) {
-            count = count.add(count(cache, sum - d, digits - 1));
-        }
-        
-        return count;
-    }
-    
     /**
      * TODO Method documentation
      * 
