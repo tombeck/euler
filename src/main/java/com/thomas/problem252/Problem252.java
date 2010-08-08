@@ -54,10 +54,10 @@ public class Problem252 implements Problem {
 
         final int max = 500;
         final Point[] points = new Point[max];
-        final IntGenerator generator = new BlumBlumShub(2000) { 
+        final IntGenerator generator = new BlumBlumShub() { 
 
             @Override
-            public int next() { return super.next() - 1000; }
+            public int next() { return super.next() % 2000 - 1000; }
             
         };
 

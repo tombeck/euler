@@ -31,20 +31,26 @@ package com.thomas.util.random;
  */
 public class BlumBlumShub implements IntGenerator {
 
-    private final int max;
-    
+    private final int mod;
+
     private int s = 290797;
 
-    public BlumBlumShub(int max) {
+    public BlumBlumShub() {
 
-        this.max = max;
+        this(290797, 50515093);
+    }
+
+    public BlumBlumShub(int init, int mod) {
+
+        this.s = init;
+        this.mod = mod;
     }
 
     public int next() {
         
-        this.s = (int)(((long)this.s * this.s) % 50515093);
+        this.s = (int)(((long)this.s * this.s) % this.mod);
         
-        return this.s % this.max;
+        return this.s;
     }
     
 }

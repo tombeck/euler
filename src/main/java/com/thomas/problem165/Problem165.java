@@ -75,7 +75,13 @@ public class Problem165 implements Problem {
     @Override
     public Integer solve() {
 
-        final IntGenerator gen = new BlumBlumShub(500);
+        final IntGenerator gen = new BlumBlumShub() {
+
+            @Override
+            public int next() { return super.next() % 500; }
+            
+        };
+        
         final int[][][] segs = new int[5000][2][2];
         
         for (int i = 0; i < 5000; ++i) {
