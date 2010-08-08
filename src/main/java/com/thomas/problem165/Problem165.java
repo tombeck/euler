@@ -77,6 +77,8 @@ public class Problem165 implements Problem {
 
         final IntGenerator gen = new BlumBlumShub() {
 
+            { next(); } // consume initial value
+            
             @Override
             public int next() { return super.next() % 500; }
             
