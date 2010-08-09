@@ -49,9 +49,9 @@ public class Problem4 implements Problem {
         
         int max = 10000;
 
-        for (int i = 999; i * i > max; --i) {
-            for (int j = i, product; (product = i * j) > max; --j) {
-                if (isPalindrome(product)) max = product;
+        for (int i = 999; i * 999 > max; --i) {
+            for (int j = i, product; j < 1000; ++j) {
+                if (isPalindrome(product = i * j)) max = product;
             }
         }
         
