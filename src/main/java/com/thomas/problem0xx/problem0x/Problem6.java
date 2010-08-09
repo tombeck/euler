@@ -47,11 +47,7 @@ public class Problem6 implements Problem {
 
         final int n = 100;
         
-        final int sum = (n * (n + 1)) / 2;
-        final int sum_of_squares = (n * (n + 1) * (2 * n + 1)) / 6;
-        final int square_of_sum = sum * sum;
-
-        return square_of_sum - sum_of_squares;
+        return (n * (n * (n * (3 * n + 2) - 3) - 2)) / 12;
     }
 
     public static void main(String[] args) {
