@@ -48,7 +48,7 @@ public class Problem3 implements Problem {
         long n = 600851475143L;
         long factor = 1;
         
-        for (long i = 2; i * i <= n; i++) {
+        for (long i = 3; i * i <= n; i += 2) {
             if (n % i == 0) {
                 factor = i;
                 do n /= i;
