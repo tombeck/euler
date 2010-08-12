@@ -35,7 +35,7 @@ import com.thomas.util.Euler.Problem;
 public class Problem284 implements Problem {
 
     /**
-     * TODO Method documentation 5a411d7b
+     * TODO Method documentation
      * 
      * @return
      * @see com.thomas.util.Euler.Problem#solve()
@@ -46,35 +46,37 @@ public class Problem284 implements Problem {
     public String solve() {
 
         final int max = 10000;
-        final int[] s = new int[2 * max];
+        final int[] x = new int[2 * max];
         
         int sum = 1 + 8 + 7;
         
-        s[0] = 7;
-        for (int n = 1, sumy = 7; n < max; ++n) {
-            
-            final int m = n - 1;
-            
-            int carry = 0;
-            
-            for (int j = 0; j < m; ++j) {
-                carry += 2 * s[m] * s[j] + s[m + j];
-                s[m + j] = carry % 14;
-                carry /= 14;
-            }
-            
-            final int sqr = s[m] * s[m] + carry;
-            
-            s[2 * m] = sqr % 14;
-            s[2 * m + 1] = sqr / 14;
-            sumy += s[n];
-            if (s[n] < 13) sum += n * 13 - sumy + 15;
-            if (s[n] >  0) sum += sumy;
+        x[0] = 7;
+        for (int n = 1, s = 0; n < max; ++n) {
+            sqr(x, n - 1);
+            s += x[n];
+            if (x[n] < 13) sum += (n * 13 - s) + 8;
+            if (x[n] >  0) sum += s + 7;
         }
 
         return Integer.toString(sum, 14);
     }
 
+    private void sqr(int[] s, int m) {
+        
+        int carry = 0;
+        
+        for (int j = 0; j < m; ++j) {
+            carry += 2 * s[m] * s[j] + s[m + j];
+            s[m + j] = carry % 14;
+            carry /= 14;
+        }
+        
+        final int sqr = s[m] * s[m] + carry;
+        
+        s[2 * m] = sqr % 14;
+        s[2 * m + 1] = sqr / 14;
+    }
+    
     /**
      * TODO Method documentation
      * 
