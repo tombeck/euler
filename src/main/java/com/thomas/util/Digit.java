@@ -72,10 +72,16 @@ public class Digit {
         
         return sum;
     }
-    
+
     public static int sumOfDigits(long n) {
         
-        return sumOfDigits(Long.toString(n));
+        int sum = 0;
+        
+        for (; n >= 10; n /= 10) {
+            sum += n % 10;
+        }
+        
+        return sum + (int)n;
     }
     
     public static int sumOfDigits(BigInteger n) {

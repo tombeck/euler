@@ -201,6 +201,7 @@ import com.thomas.problem271.Problem271;
 import com.thomas.problem277.Problem277;
 import com.thomas.problem281.Problem281;
 import com.thomas.problem284.Problem284;
+import com.thomas.problem290.Problem290;
 import com.thomas.problem293.Problem293;
 import com.thomas.problem2xx.problem20x.Problem203;
 import com.thomas.problem2xx.problem20x.Problem204;
@@ -508,6 +509,8 @@ public class TestAllProblems {
                 { new Problem281(), "1485776387445623" },
 
                 { new Problem284(), "5a411d7b" },
+
+                { new Problem290(), "20444710234716473" },
 
                 { new Problem293(), "2209" },
 

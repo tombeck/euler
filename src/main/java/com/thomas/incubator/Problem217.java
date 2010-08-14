@@ -23,8 +23,6 @@
  */
 package com.thomas.incubator;
 
-import java.math.BigInteger;
-
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
 
@@ -37,7 +35,7 @@ import com.thomas.util.Euler.Problem;
 class Problem217 implements Problem {
 
     /**
-     * TODO Method documentation
+     * TODO Method documentation 1901534424
      * 
      * @return
      * @see com.thomas.util.Euler.Problem#solve()
@@ -45,12 +43,55 @@ class Problem217 implements Problem {
      * @since 31.03.2010
      */
     @Override
-    public Object solve() {
+    public Integer solve() {
 
-
-        for (int n = 1; n <= 45; ++n) {
-
+        int sum = 0;
+        
+        for (int x = 1; x < 10; ++x) { // 1
+            sum += x;
         }
+        System.out.println(sum); sum = 0;
+        for (int a = 1; a < 10; ++a) { // 2
+            sum += 11 * a;
+        }
+        System.out.println(sum); sum = 0;
+        for (int x = 0; x < 10; ++x) { // 3
+            for (int a = 1; a < 10; ++a) {
+                sum += 101 * a + 10 * x;
+            }
+        }
+        System.out.println(sum); sum = 0;
+        for (int a = 1; a < 10; ++a) { // 4
+            for (int b = 0; b < 10; ++b) {
+                for (int c = Math.max(a + b - 9, 0); c <= Math.min(a + b, 9); ++c) {
+                    sum += 1001 * a + 101 * b + 9 * c;
+                }
+            }
+        }
+        System.out.println(sum); sum = 0;
+        for (int x = 0; x < 10; ++x) { // 5
+            for (int a = 1; a < 10; ++a) {
+                for (int b = 0; b < 10; ++b) {
+                    for (int c = Math.max(a + b - 9, 0); c <= Math.min(a + b, 9); ++c) {
+                        sum += 10001 * a + 1001 * b + 100 * x + 9 * c;
+                    }
+                }
+            }
+        }
+        System.out.println(sum); sum = 0;
+        for (int a = 1; a < 10; ++a) { // 6
+            for (int b = 0; b < 10; ++b) {
+                for (int c = 0; c < 10; ++c) {
+                    for (int d = 0; d <= 9; ++d) {
+                        for (int e = Math.max(a + b + c - d - 9, 0); e <= Math.min(a + b + c - d, 9); ++e) {
+                            sum += 100001 * a + 10001 * b + 1001 * c + 99 * d + 9 * e;
+                        }
+                    }
+                }
+            }
+        }
+        //a + b + c - 9 >= d
+        System.out.println(sum);
         
         return null;
     }
