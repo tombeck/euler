@@ -23,9 +23,6 @@
  */
 package com.thomas.problem185;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
 
@@ -62,15 +59,6 @@ public class Problem185 implements Problem {
         {{1<<2,1<<3,1<<2,1<<1,1<<3,1<<8,1<<6,1<<1,1<<0,1<<4,1<<3,1<<0,1<<3,1<<8,1<<4,1<<5}, {0}},
     };
 
-    private static int[] INITIAL_STATE = {
-        1023,1023,1023,1023,1023,1023,1023,1023,
-        1023,1023,1023,1023,1023,1023,1023,1023
-    };
-
-    private static int[] NONE = {
-        -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
-    };
-
     /**
      * TODO Method documentation
      * 
@@ -80,71 +68,75 @@ public class Problem185 implements Problem {
      * @since 20.03.2010
      */
     @Override
-    public Object solve() {
+    public String solve() {
 
-        return toString(test(INITIAL_STATE, GUESSES.length));
+        final int[] initial = {1023,1023,1023,1023,1023,1023,1023,1023,1023,1023,1023,1023,1023,1023,1023,1023};
+
+        return toString(test(initial, GUESSES.length));
     }
 
-    private static int[] test(int[] state, int index) {
+    private int[] test(int[] state, int index) {
 
         if (index == 0) return state;
         
         final int[][] guess = GUESSES[--index];
-        final List<Integer> indexes = new ArrayList<Integer>(16);
-        final int[] none = NONE.clone();
-        int[] digits = guess[0];
+        final int[] indexes = new int[16];
+        final int[] mask = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
+        final int[] digits = guess[0];
         
         int hits = 0;
+        int len = 0;
         for (int i = state.length; i-- > 0; ) {
             if ((state[i] & digits[i]) != 0) {
                 if (state[i] == digits[i]) {
-                    none[i] = 0;
+                    mask[i] = 0;
                     ++hits;
                 }
-                else indexes.add(i);
+                else indexes[len++] = i;
             }
         }
-        
         switch (guess[1][0] - hits) {
         case 0: {
-            final int[] mask = none;
             final int[] res = test(applyMask(state, guess[0], mask), index);
             if (res != null) return res;
             break;
         }
         case 1: {
-            for (int i0 = 0; i0 < indexes.size(); ++i0) {
-                final int[] mask = none.clone();
-                mask[indexes.get(i0)] = 0;
+            for (int i0 = 0; i0 < len; ++i0) {
+                mask[indexes[i0]] = 0;
                 final int[] res = test(applyMask(state, guess[0], mask), index);
                 if (res != null) return res;
+                mask[indexes[i0]] = -1;
             }
             break;
         }
         case 2: {
-            for (int i0 = 0; i0 < indexes.size(); ++i0) {
-                for (int i1 = i0 + 1; i1 < indexes.size(); ++i1) {
-                    final int[] mask = none.clone();
-                    mask[indexes.get(i0)] = 0;
-                    mask[indexes.get(i1)] = 0;
+            for (int i0 = 1; i0 < len; ++i0) {
+                mask[indexes[i0]] = 0;
+                for (int i1 = 0; i1 < i0; ++i1) {
+                    mask[indexes[i1]] = 0;
                     final int[] res = test(applyMask(state, guess[0], mask), index);
                     if (res != null) return res;
+                    mask[indexes[i1]] = -1;
                 }
+                mask[indexes[i0]] = -1;
             }
             break;
         }
         case 3: {
-            for (int i0 = 0; i0 < indexes.size(); ++i0) {
-                for (int i1 = i0 + 1; i1 < indexes.size(); ++i1) {
-                    for (int i2 = i1 + 1; i2 < indexes.size(); ++i2) {
-                        final int[] mask = NONE.clone();
-                        mask[indexes.get(i0)] = 0;
-                        mask[indexes.get(i1)] = 0;
-                        mask[indexes.get(i2)] = 0;
+            for (int i0 = 2; i0 < len; ++i0) {
+                mask[indexes[i0]] = 0;
+                for (int i1 = 1; i1 < i0; ++i1) {
+                    mask[indexes[i1]] = 0;
+                    for (int i2 = 0; i2 < i1; ++i2) {
+                        mask[indexes[i2]] = 0;
                         final int[] res = test(applyMask(state, guess[0], mask), index);
                         if (res != null) return res;
+                        mask[indexes[i2]] = -1;
                     }
+                    mask[indexes[i1]] = -1;
                 }
+                mask[indexes[i0]] = -1;
             }
             break;
         }
@@ -155,7 +147,7 @@ public class Problem185 implements Problem {
         return null;
     }
 
-    private static final int[] applyMask(int[] state, int[] digits, int[] mask) {
+    private int[] applyMask(int[] state, int[] digits, int[] mask) {
         
         final int[] clone = state.clone();
         
@@ -166,7 +158,7 @@ public class Problem185 implements Problem {
         return clone;
     }
 
-    private static final String toString(int[] state) {
+    private String toString(int[] state) {
         
         final StringBuilder builder = new StringBuilder();
         
