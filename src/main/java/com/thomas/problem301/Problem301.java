@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.problem306;
+package com.thomas.problem301;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -31,7 +31,7 @@ import com.thomas.util.Euler.Problem;
  * @author $Author: $ (last modification)
  * @version $Date: $
  */
-public class Problem306 implements Problem {
+public class Problem301 implements Problem {
 
     /**
      * {@inheritDoc}
@@ -41,28 +41,11 @@ public class Problem306 implements Problem {
 
         int count = 0;
         
-        for (int n = 1; n <= 1000000; ++n) {
-            if (grundyValue(n) != 0) ++count;
+        for (int n = 1; n <= (1 << 30); ++n) {
+            if ((n ^ 2*n ^ 3*n) == 0) ++count;
         }
         
         return count;
-    }
-
-    private static final int[] GRUNDY_VALUES = {4, 8, 1, 1, 2, 0, 3, 1, 1, 0, 3, 3, 2, 2, 4, 4, 5, 5, 9, 3, 3, 0, 1, 1, 3, 0, 2, 1, 1, 0, 4, 5, 3, 7};
-    
-    private int grundyValue(int n) {
-
-        switch (n) {
-        case  0: return 0;
-        case  1: return 0;
-        case 15: return 0;
-        case 17: return 2;
-        case 18: return 2;
-        case 32: return 2;
-        case 35: return 0;
-        case 52: return 2;
-        default: return GRUNDY_VALUES[n % 34];
-        }
     }
 
     /**
@@ -70,7 +53,7 @@ public class Problem306 implements Problem {
      */
     public static void main(String[] args) {
 
-        Euler.run(new Problem306());
+        Euler.run(new Problem301());
     }
 
 }
