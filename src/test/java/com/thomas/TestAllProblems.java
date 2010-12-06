@@ -523,6 +523,7 @@ public class TestAllProblems {
                 { new Problem297(), "2252639041804718029" },
 
                 { new Problem301(), "2178309" },
+//                { new Problem302(), "1170060" }, too slow
 
                 { new Problem303(), "1111981904675169" },
 

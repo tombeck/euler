@@ -300,22 +300,24 @@ public class NumberUtils {
         return bc;
     }
     
-    public static int[] toIntArray(List<Integer> list) {
+    public static int[] toIntArray(Collection<? extends Number> list) {
         
         final int[] array = new int[list.size()];
         
-        for (int i = 0; i < array.length; ++i) array[i] = list.get(i);
+        int i = 0;
+        
+        for (Number l : list) array[i++] = l.intValue();
         
         return array;
     }
     
-    public static long[] toLongArray(Collection<Long> list) {
+    public static long[] toLongArray(Collection<? extends Number> list) {
         
         final long[] array = new long[list.size()];
         
         int i = 0;
         
-        for (long l : list) array[i++] = l;
+        for (Number l : list) array[i++] = l.longValue();
         
         return array;
     }
