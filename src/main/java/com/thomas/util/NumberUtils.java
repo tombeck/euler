@@ -27,6 +27,7 @@ import static com.thomas.util.PrimeUtils.getPrimeFactors;
 import static java.lang.Math.floor;
 import static java.lang.Math.sqrt;
 
+import java.math.BigInteger;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -58,6 +59,16 @@ public class NumberUtils {
         final long tmp = pow(a, b >> 1);
         
         return tmp * tmp;
+    }
+    
+    public static BigInteger pow(BigInteger a, BigInteger b) {
+        
+        if (b.equals(BigInteger.ZERO)) return BigInteger.ONE;
+        if (b.testBit(0)) return a.multiply(pow(a, b.subtract(BigInteger.ONE)));
+        
+        final BigInteger tmp = pow(a, b.shiftRight(1));
+        
+        return tmp.multiply(tmp);
     }
     
     public static int modPow(int a, int b, int m) {
