@@ -23,16 +23,18 @@
  */
 package com.thomas.incubator;
 
-import static com.thomas.util.PrimeUtils.isPrime;
-import static com.thomas.util.PrimeUtils.primes;
-import static java.lang.Math.sqrt;
+import static java.lang.Math.floor;
+import static java.lang.Math.log;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 import com.thomas.util.Euler;
-import com.thomas.util.NumberUtils;
 import com.thomas.util.Euler.Problem;
+import com.thomas.util.NumberUtils;
+import com.thomas.util.PrimeUtils;
 
 /**
  * TODO Type documentation
@@ -53,35 +55,113 @@ class Problem263 implements Problem {
     @Override
     public Object solve() {
 
-        final int max = 10000;
-        final List<Integer> primes = primes((int)sqrt(max));
-        final List<Integer> pair = new ArrayList<Integer>();
-        final List<Integer> practical = new ArrayList<Integer>();
+//        final int max = 10000;
+//        final List<Integer> primes = primes((int)sqrt(max));
+//        final List<Integer> pair = new ArrayList<Integer>();
+//        final List<Integer> practical = new ArrayList<Integer>();
+//        
+//        int c1 = 0;
+//        int c2 = 0;
+//        
+//        for (int i = 5; i < max; i += 6) {
+//            if (!isPrime(i, primes)) c1 = 0;
+//            else if (++c1 >= 4) pair.add(i - 9);
+//            if (!isPrime(i + 2, primes)) c2 = 0;
+//            else if (++c2 >= 4) pair.add((i + 2) - 9);
+//        }
+//        c1 = 0;
+//        c2 = 0;
+//        for (int i = 2; i < max; i += 4) {
+//            if (!NumberUtils.isPractical(i)) c1 = 0;
+//            else if (++c1 >= 5) practical.add((i) - 8);
+//            if (!NumberUtils.isPractical(i + 2)) c2 = 0;
+//            else if (++c2 >= 5) practical.add((i + 2) - 8);
+//        }
+//        System.out.println(pair);(x + y + z
+//        System.out.println(practical);
+//        practical.retainAll(pair);
+//        System.out.println(practical);
         
-        int c1 = 0;
-        int c2 = 0;
+        final long max = 110000;
+        final long[] primes = NumberUtils.toLongArray(PrimeUtils.primes((int)(max / 2)));
         
-        for (int i = 5; i < max; i += 6) {
-            if (!isPrime(i, primes)) c1 = 0;
-            else if (++c1 >= 4) pair.add(i - 9);
-            if (!isPrime(i + 2, primes)) c2 = 0;
-            else if (++c2 >= 4) pair.add((i + 2) - 9);
+        final Comparator<long[]> comp = new Comparator<long[]>() {
+
+            @Override
+            public int compare(long[] o1, long[] o2) {
+
+                final long diff = o2[1] - o1[1];
+                
+                return Long.signum(diff == 0 ? o1[0] - o2[0] : diff);
+            }
+            
+        };
+        final Set<long[]> practical = new TreeSet<long[]>(comp);
+        
+        for (int p = 1, b = (int)floor(log(max) / log(2)); p <= b; ++p) {
+            
+            final long product = NumberUtils.pow(2, p);
+            final long sigma = 2 * product - 1;
+            
+            practical.add(new long[] {product, sigma});
+//            practical(primes, 1, sigma, product, max, practical);
         }
-        c1 = 0;
-        c2 = 0;
-        for (int i = 2; i < max; i += 4) {
-            if (!NumberUtils.isPractical(i)) c1 = 0;
-            else if (++c1 >= 5) practical.add((i) - 8);
-            if (!NumberUtils.isPractical(i + 2)) c2 = 0;
-            else if (++c2 >= 5) practical.add((i + 2) - 8);
+        for (int i = 1; i < primes.length; ++i) {
+            
+            final Set<long[]> tmp = new TreeSet<long[]>(comp);
+            
+            for (long[] a : practical) {
+                
+                final long product = a[0];
+                final long sigma = a[1];
+                
+                if (primes[i] > 1 + sigma) break;
+                
+                long power = 1;
+                
+                for (int p = 0, b = (int)(log(max / product) / log(primes[i])); p <= b; ++p) {
+                    
+                    final long next_product = product * power;
+                    final long next_sigma = (sigma * ((power *= primes[i]) - 1)) / (primes[i] - 1);
+                    
+                    tmp.add(new long[] {next_product, next_sigma});
+                }
+            }
+            
+            practical.addAll(tmp);
         }
-        System.out.println(pair);
-        System.out.println(practical);
-        practical.retainAll(pair);
-        System.out.println(practical);
+        System.out.println(practical.size());
+
+        final Set<Long> tmp = new HashSet<Long>();
+        
+        for (long[] a : practical) tmp.add(a[0]);
+        
+        for (long n : tmp) {
+            if (tmp.contains(n - 8) && tmp.contains(n - 4) && tmp.contains(n + 4) && tmp.contains(n + 8)) {
+                if (PrimeUtils.isPrime(n - 9) && PrimeUtils.isPrime(n - 3) && PrimeUtils.isPrime(n + 3) && PrimeUtils.isPrime(n + 9)) {
+                    System.out.println(n);
+                }
+            }
+        }
+        
         return null;
     }
 
+    private void practical(long[] primes, int i, long sigma, long product, final double max, Set<Long> practical) {
+        
+        if (i == primes.length || primes[i] > 1 + sigma) return;
+        
+        long power = 1;
+        
+        for (int p = 0, b = (int)(log(max / product) / log(primes[i])); p <= b; ++p) {
+            long next_product = product * power;
+            long next_sigma = (sigma * ((power *= primes[i]) - 1)) / (primes[i] - 1);
+            //System.out.println(next_product);
+            practical.add(next_product);
+            practical(primes, i + 1, next_sigma, next_product, max, practical);
+        }
+    }
+    
     /**
      * TODO Method documentation
      * 

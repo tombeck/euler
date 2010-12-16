@@ -87,26 +87,67 @@ class Problem266 implements Problem {
     @Override
     public Object solve() {
 
-        final int[] primes = NumberUtils.toIntArray(PrimeUtils.primes(190));
+        final BigInteger[] primes = NumberUtils.toBigIntegerArray(PrimeUtils.primes(190));
+        
+        BigInteger smallest = BigInteger.ONE;
+        BigInteger biggest = BigInteger.ONE;
+        
+        for (int i = 1; i <= primes.length; ++i) {
+            
+            long n = nCk(primes.length, i);
+            smallest = smallest.multiply(primes[i - 1]);
+            biggest = biggest.multiply(primes[primes.length - i]);
+            
+            System.out.println(i + ": (" + n + ") " + smallest + " -> " + biggest);
+        }
+        System.out.println(NumberUtils.pow(2L, 41));
+        
         //ArrayUtils.reverse(primes, 0, primes.length);
-        BigInteger p = BigInteger.ONE;
-        
-        for (int a : primes) {
-            p = p.multiply(BigInteger.valueOf(a));
-        }
-        BigInteger max = sqrt(p);
-        BigInteger[][] a = new BigInteger[primes.length][2];
-        
-        for (int i = 0; i < a.length; ++i) {
-            a[i][0] = BigInteger.valueOf(primes[i]);
-            a[i][1] = (p = p.divide(a[i][0]));
-        }
+//        BigInteger p = BigInteger.ONE;
+//        
+//        for (int a : primes) {
+//            p = p.multiply(BigInteger.valueOf(a));
+//        }
+//        BigInteger max = sqrt(p);
+//        BigInteger[][] a = new BigInteger[primes.length][2];
+//        
+//        for (int i = 0; i < a.length; ++i) {
+//            a[i][0] = BigInteger.valueOf(primes[i]);
+//            a[i][1] = (p = p.divide(a[i][0]));
+//        }
 
 //        new BigInteger("");
 //        return find(a, 0, BigInteger.ONE, BigInteger.ONE, p);
-        return find(a, 0, BigInteger.ONE, BigInteger.ONE, max, new HashSet<Integer>()).mod(BigInteger.TEN.pow(16));
+//        return find(a, 0, BigInteger.ONE, BigInteger.ONE, max, new HashSet<Integer>()).mod(BigInteger.TEN.pow(16));
+        
+        return find(NumberUtils.toBigIntegerArray(PrimeUtils.primes(12)), 0, BigInteger.ONE, BigInteger.ONE);
     }
 
+    public static long nCk(int n, int k) {
+        
+        if (2 * k > n) k = n - k;
+        
+        long bc = 1;
+        
+        for (int i = 1; i <= k; ++i) {
+            bc = (bc * ((n + 1) - i)) / i;
+        }
+        
+        return bc;
+    }
+    
+    private BigInteger find(BigInteger[] primes, int i, BigInteger left, BigInteger right) {
+    
+        if (i == primes.length) return left.compareTo(right) <= 0 ? left : null;
+        
+        final BigInteger prime = primes[i];
+        
+        final BigInteger a = find(primes, i + 1, left.multiply(prime), right);
+        final BigInteger b = find(primes, i + 1, left, right.multiply(prime));
+        
+        return a == null ? b : (b == null ? a : a.max(b));
+    }
+    
     private BigInteger find(BigInteger[][] a, int i, BigInteger cur, BigInteger best, BigInteger max, Set<Integer> res) {
         
         if (i == a.length) return best;
