@@ -322,6 +322,17 @@ public class NumberUtils {
         return array;
     }
     
+    public static BigInteger[] toBigIntegerArray(Collection<? extends Number> list) {
+        
+        final BigInteger[] array = new BigInteger[list.size()];
+        
+        int i = 0;
+        
+        for (Number l : list) array[i++] = BigInteger.valueOf(l.longValue());
+        
+        return array;
+    }
+    
     public static long[] toLongArray(Collection<? extends Number> list) {
         
         final long[] array = new long[list.size()];
