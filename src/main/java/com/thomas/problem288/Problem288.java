@@ -21,37 +21,45 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.incubator;
-
-import java.math.BigInteger;
+package com.thomas.problem288;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
+import com.thomas.util.random.BlumBlumShub;
+import com.thomas.util.random.IntGenerator;
 
 /**
- * @author thomas (initial creation)
- * @author $Author: $ (last modification)
- * @version $Date: $
+ * @author Thomas Beckmann
+ * @since 23.04.2010
  */
 public class Problem288 implements Problem {
 
-    private static final BigInteger THREE = BigInteger.valueOf(3);
-    
     /**
      * {@inheritDoc}
      */
     @Override
-    public Object solve() {
+    public Long solve() {
 
-        long max = 3486784401L;
-        long n = 1;
-        for (int i = 1; i <= 100; ++i) {
-            n *= i;
-            n %= max;
-            System.out.println(n);
+        final IntGenerator gen = new BlumBlumShub(290797, 50515093);
+        final int[] T = new int[10000000 + 1];
+        
+        for (int n = 0; n < T.length; ++n) T[n] = gen.next() % 61;
+        
+        final int[] s = new int[10];
+        
+        for (int n = 1; n < T.length; ++n) {
+            for (int carry = 0, i = 0; i < 10; ++i) {
+                s[i] += (n + i < T.length ? T[n + i] : 0) + carry;
+                carry = s[i] / 61;
+                s[i] %= 61;
+            }
         }
         
-        return null;
+        long ret = 0;
+        
+        for (int i = 10; i-- > 0; ) ret = ret * 61 + s[i];
+        
+        return ret;
     }
 
     /**
