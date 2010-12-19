@@ -33,7 +33,7 @@ public class BlumBlumShub implements IntGenerator {
 
     private final int mod;
 
-    private int s = 290797;
+    private long s = 290797;
 
     public BlumBlumShub() {
 
@@ -48,9 +48,9 @@ public class BlumBlumShub implements IntGenerator {
 
     public int next() {
         
-        int ret = s;
+        int ret = (int)s;
         
-        this.s = (int)(((long)this.s * this.s) % this.mod);
+        this.s = (this.s * this.s) % this.mod;
         
         return ret;
     }
