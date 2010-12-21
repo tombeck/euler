@@ -93,7 +93,7 @@ public class NumberUtils {
     
     public static int totient(int n) {
         
-        if (n < 2) return 1;
+        if (n < 3) return 1;
         if (n < 4) return 2;
         
         int totient = n;
