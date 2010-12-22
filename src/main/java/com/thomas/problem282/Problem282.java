@@ -49,76 +49,46 @@ public class Problem282 implements Problem {
     @Override
     public Long solve() {
 
-        final long mod = pow(14L, 8);
+        final int mod = pow(14, 8);
         
         long sum = 1;
         
-        for (int n = 1; n <= 6; ++n) {
-            sum = modAdd(sum, modAckermann(n, mod), mod);
-        }
+        sum += (2 + 4) - 3;
+        sum += (2 * 5) - 3;
+        sum += pow(2, 6) - 3;
+        sum += mod2UpArrow2(7, mod) - 3;
+        sum += mod2UpArrow2Infinity(mod) - 3;
+        sum += mod2UpArrow2Infinity(mod) - 3;
 
-        return sum;
+        return sum % mod;
     }
 
-    private long modAckermann(int n, long mod) {
-    
-        return modAdd(mod2UpArrowN(n - 2, n + 3, mod), -3, mod);
-    }
-    
-    private long mod2UpArrowN(int n, int b, long mod) {
-    
-        switch (n) {
-        case -1:
-            return modAdd(2, b, mod);
-        case 0:
-            return modMul(2, b, mod);
-        case 1:
-            return modPow(2, b, mod);
-        case 2:
-            return mod2UpArrow2(b, mod);
-        default:
-            return mod2UpArrow2(mod);
-        }
-    }
-    
-    private long mod2UpArrow2(int b, long m) {
+    private long mod2UpArrow2(int b, int m) {
         
         if (b == 1) return 2 % m;
         
         int p = 0;
-        long r = m;
         
-        for (; (r & 1) == 0; r >>= 1) ++p;
+        while ((m >> p & 1) == 0) ++p;
 
-        final long t = totient(r);
+        final int t = totient(m >> p);
         
-        return (1L << p) * modPow(2, modAdd(mod2UpArrow2(b - 1, t), -p, t), r);
+        return modPow(2, (mod2UpArrow2(b - 1, t) - p) % t + p, m);
     }
     
-    private long mod2UpArrow2(long m) {
+    private long mod2UpArrow2Infinity(int m) {
         
         if (m == 1) return 0;
 
         int p = 0;
-        long r = m;
         
-        for (; (r & 1) == 0; r >>= 1) ++p;
+        while ((m >> p & 1) == 0) ++p;
 
-        final long t = totient(r);
+        final int t = totient(m >> p);
         
-        return (1L << p) * modPow(2, modAdd(mod2UpArrow2(t), -p, t), r);
+        return modPow(2, (mod2UpArrow2Infinity(t) - p) % t + p, m);
     }
     
-    private long modAdd(long a, long b, long m) {
-    
-        return ((a % m) + (b % m)) % m; 
-    }
-    
-    private long modMul(long a, long b, long m) {
-        
-        return ((a % m) * (b % m)) % m; 
-    }
-
     /**
      * TODO Method documentation
      * 
