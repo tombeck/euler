@@ -24,45 +24,33 @@
 package com.thomas.problem1xx.problem18x;
 
 import static com.thomas.util.NumberUtils.modPow;
+import static com.thomas.util.NumberUtils.totient;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
 
 /**
- * TODO Type documentation
- * 
- * @author Thomas
+ * @author Thomas Beckmann
  * @since 16.01.2010
  */
 public class Problem188 implements Problem {
 
     /**
-     * a^^k mod 10^8 = a^(a^^(k-1)) mod 10^8
-     *               = a^(a^^(k-1) mod 1250000) mod 10^8 found by experimentation for a = 1777
-     *               = a^(a^^(k-1) mod 1250000 * 8) mod 10^8
-     *               = a^(a^^(k-1) mod 10^8) mod 10^8
-     *               
-     * @return
-     * @see com.thomas.util.Euler.Problem#solve()
-     * @author Thomas
-     * @since 16.01.2010
+     * {@inheritDoc}
      */
     @Override
-    public Integer solve() {
+    public Long solve() {
 
-        int x = 1777;
-        
-        for (int k = 0; k < 1855; ++k) x = (int)modPow(1777L, x, 100000000L);
-
-        return x;
+        return modPowerTower(1777, 100000000);
     }
 
+    private long modPowerTower(int a, int m) {
+    
+        return m == 1 ? 0 : modPow(a, modPowerTower(a, totient(m)), m);
+    }
+    
     /**
-     * TODO Method documentation
-     * 
      * @param args
-     * @author Thomas
-     * @since 16.01.2010
      */
     public static void main(String[] args) {
 
