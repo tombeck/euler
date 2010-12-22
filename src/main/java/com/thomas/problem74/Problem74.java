@@ -25,8 +25,8 @@ package com.thomas.problem74;
 
 import static com.thomas.util.Digit.FACTORIAL;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -44,29 +44,34 @@ public class Problem74 implements Problem {
      */
     @Override
     public Integer solve() {
-        
+
         int sum = 0;
         
-        for (int i = 0; i < 1000000; ++i) {
-            if (isMatch(new ArrayList<Integer>(), i)) ++sum;
+        final Set<Integer> set = new HashSet<Integer>();
+        
+        for (int n = 0; n < 1000000; ++n) {
+            set.clear();
+            for (int c = n; set.add(c); c = sumOfFactorials(c)) {
+                if (set.size() == 60) {
+                    ++sum;
+                    break;
+                }
+            }
         }
         
         return sum;
     }
-    
-    private boolean isMatch(List<Integer> prev, int c) {
+
+    private int sumOfFactorials(int n) {
         
-        if (prev.contains(c)) return false;
-        prev.add(c);
+        int sum = 0;
         
-        if (prev.size() == 60) return true;
-        
-        int next = 0;
-        for (char ch : String.valueOf(c).toCharArray()) {
-            next += FACTORIAL[Character.digit(ch, 10)];
+        for (; n >= 10; n /= 10) {
+            sum += FACTORIAL[n % 10];
         }
+        sum += FACTORIAL[n];
         
-        return isMatch(prev, next);
+        return sum;
     }
     
     /**
