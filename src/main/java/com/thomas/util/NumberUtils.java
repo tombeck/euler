@@ -24,8 +24,7 @@
 package com.thomas.util;
 
 import static com.thomas.util.PrimeUtils.getPrimeFactors;
-import static java.lang.Math.floor;
-import static java.lang.Math.sqrt;
+import static java.math.BigInteger.ONE;
 
 import java.math.BigInteger;
 import java.util.Collection;
@@ -41,6 +40,17 @@ import java.util.TreeSet;
  */
 public class NumberUtils {
 
+    public static BigInteger sqrt(BigInteger n) {
+        
+        BigInteger[] x = {n, n.add(ONE).shiftRight(1)};
+        
+        while (!x[0].equals(x[1])) {
+            x = new BigInteger[] {x[1], n.divide(x[1]).add(x[1]).shiftRight(1)};
+        }
+
+        return x[0];
+    }
+    
     public static int pow(int a, int b) {
     
         if (b == 0) return 1;
@@ -116,7 +126,7 @@ public class NumberUtils {
     
     public static long totient(long n) {
         
-        if (n < 2) return 1;
+        if (n < 3) return 1;
         if (n < 4) return 2;
         
         long totient = n;
@@ -346,25 +356,41 @@ public class NumberUtils {
     
     public static boolean isSquare(long n) {
         
-        final long sqrt = (long)sqrt(n);
+        final long sqrt = (long)Math.sqrt(n);
         
         return sqrt * sqrt == n;
     }
-    
-    public static long[] extendedEuclid(long a, long b) {
+
+    public static long modInv(long u, long v) {
         
-        if (b == 0) return new long[] {a, 1, 0};
+        long u1 = 1;
+        long u3 = u;
+        long v1 = 0;
+        long v3 = v;
+        long t1;
+        long t3;
+
+        /* Remember odd/even iterations */
+        int iter = 1;
+        /* Step X2. Loop while v3 != 0 */
+        while (v3 != 0) {
+            /* Step X3. Divide and "Subtract" */
+            t3 = u3 % v3;
+            t1 = u1 + (u3 / v3) * v1;
+            /* Swap */
+            u1 = v1;
+            v1 = t1;
+            u3 = v3;
+            v3 = t3;
+            iter = -iter;
+        }
+        /* Make sure u3 = gcd(u,v) == 1 */
+        if (u3 != 1) return 0;   /* Error: No inverse exists */
         
-        long[] tmp = extendedEuclid(b, a % b);
-        
-        return new long[] {tmp[0], tmp[2], tmp[1] - (long)floor((double)a / b) * tmp[2]};
+        /* Ensure a positive result */
+        return iter < 0 ? v - u1 : u1;
     }
-    
-    public static long modInverse(long a, long m) {
-    
-        return extendedEuclid(a, m)[1];
-    }
-    
+
     private NumberUtils() {
         //
     }
@@ -372,7 +398,7 @@ public class NumberUtils {
     
     public static void main(String[] args) {
 
-        System.out.println(modInverse(7, 11));
+        System.out.println(modInv(3, 11));
     }
     
 }
