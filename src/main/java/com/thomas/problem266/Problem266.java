@@ -30,7 +30,6 @@ import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.TEN;
 import static java.math.BigInteger.ZERO;
 import static java.util.Arrays.copyOfRange;
-import static java.util.Collections.reverseOrder;
 import static java.util.Collections.sort;
 
 import java.math.BigInteger;
@@ -53,6 +52,7 @@ public class Problem266 implements Problem {
     public BigInteger solve() {
 
         final BigInteger[] primes = toBigIntegerArray(primes(190));
+
         final List<BigInteger> l = new ArrayList<BigInteger>();
         final List<BigInteger> h = new ArrayList<BigInteger>();
         
@@ -61,29 +61,31 @@ public class Problem266 implements Problem {
         
         for (BigInteger prime : copyOfRange(primes, 0, primes.length / 2)) {
             for (BigInteger p : new ArrayList<BigInteger>(l)) {
-                l.add(p.multiply(prime));
+                l.add(prime.multiply(p));
             }
         }
         for (BigInteger prime : copyOfRange(primes, primes.length / 2, primes.length)) {
             for (BigInteger p : new ArrayList<BigInteger>(h)) {
-                h.add(p.multiply(prime));
+                h.add(prime.multiply(p));
             }
         }
         
         sort(l);
-        sort(h, reverseOrder());
+        sort(h);
         
-        final BigInteger sqrt = sqrt(l.get(l.size() - 1).multiply(h.get(0)));
+        final int lMax = l.size() - 1;
+        final int hMax = h.size() - 1;
+        final BigInteger sqrt = sqrt(l.get(lMax).multiply(h.get(hMax)));
         
         BigInteger best = ZERO;
         
-        for (int i = 0, j = 0; i < l.size() && j < h.size(); ) {
+        for (int i = 0, j = hMax; i <= lMax && j >= 0; ) {
             
             final BigInteger current = l.get(i).multiply(h.get(j));
             final int c = current.compareTo(sqrt);
             
             if (c > 0) {
-                j += 1;
+                j -= 1;
             } else if (c < 0) {
                 if (current.compareTo(best) > 0) best = current;
                 i += 1;
