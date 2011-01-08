@@ -40,6 +40,13 @@ import java.util.TreeSet;
  */
 public class NumberUtils {
 
+    public static double round(double x, int p) {
+    
+        final long e = pow(10L, p);
+        
+        return (double)Math.round(x * e) / e;
+    }
+    
     public static BigInteger sqrt(BigInteger n) {
         
         BigInteger[] x = {n, n.add(ONE).shiftRight(1)};
