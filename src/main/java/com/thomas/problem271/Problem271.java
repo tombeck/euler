@@ -23,7 +23,7 @@
  */
 package com.thomas.problem271;
 
-import static com.thomas.util.NumberUtils.extendedEuclid;
+import static com.thomas.util.NumberUtils.modInv;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -77,7 +77,7 @@ public class Problem271 implements Problem {
                 {{6, 43}, {36, 43}, {44, 43}}
         };
 
-        return sum(primes, 0, 2, 1);
+        return sum(primes, 0, 2, 1); //4617456485273129588
     }
 
     private long sum(int[][][] primes, int i, long base, long mul) {
@@ -88,10 +88,10 @@ public class Problem271 implements Problem {
         
         for (int[] prime : primes[i]) {
             long d = prime[1];
-            sum += sum(primes, i + 1, (base + mul * ((((prime[0] - base) * extendedEuclid(mul, d)[1]) % d + d) % d)), mul * prime[1]);
+            sum += sum(primes, i + 1, (base + mul * ((((prime[0] - base) * modInv(mul, d)) % d + d) % d)), mul * prime[1]);
         }
         
-        return sum;
+        return sum; 
     }
     
     /**
