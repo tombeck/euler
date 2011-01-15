@@ -58,7 +58,8 @@ public final class LongRational extends Number implements Comparable<LongRationa
     
     public LongRational(long num) {
 
-        this(num, 1);
+        this.num = num;
+        this.den = 1;
     }
     
     public long numerator() {
