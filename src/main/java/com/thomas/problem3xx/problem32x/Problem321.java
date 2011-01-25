@@ -21,35 +21,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.problem3xx.problem31x.problem317;
-
-import static com.thomas.util.NumberUtils.round;
-import static java.lang.Math.PI;
-import static java.lang.Math.pow;
+package com.thomas.problem3xx.problem32x;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
 
 /**
  * @author Thomas Beckmann
- * @since 08.01.2011
+ * @since 24.01.2011
  */
-public class Problem317 implements Problem {
+public class Problem321 implements Problem {
 
-    private static final double G = 9.81;
-    
     /**
      * {@inheritDoc}
      */
     @Override
-    public Double solve() {
+    public Object solve() {
 
-        return round(volume(20, 100), 4);
-    }
+        long sum = 0;
+        
+        long[] a = {2, 5};
+        long[] b = {4, 11};
+        
+        for (int i = 0; i < 20; ++i) {
+            sum += a[0] + b[0] - 2;
+            a = new long[] {3 * a[0] + a[1], 8 * a[0] + 3 * a[1]};
+            b = new long[] {3 * b[0] + b[1], 8 * b[0] + 3 * b[1]};
+        }
 
-    private double volume(double v, double h) {
-    
-        return (pow((v * v) / (2 * G) + h, 2) * v * v * PI) / G;
+        return sum;
     }
 
     /**
@@ -57,7 +57,7 @@ public class Problem317 implements Problem {
      */
     public static void main(String[] args) {
 
-        Euler.run(new Problem317());
+        Euler.run(new Problem321());
     }
 
 }
