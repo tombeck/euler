@@ -21,52 +21,50 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.thomas.incubator;
+package com.thomas.problem153;
+
+import static com.thomas.Util.gcd;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
 
 /**
- * TODO Type documentation
- * 
- * @author Thomas
+ * @author Thomas Beckmann
  * @since 27.03.2010
  */
-class Problem153 implements Problem {
+public class Problem153 implements Problem {
 
     /**
-     * TODO Method documentation
-     * 
-     * @return
-     * @see com.thomas.util.Euler.Problem#solve()
-     * @author Thomas
-     * @since 27.03.2010
+     * {@inheritDoc}
      */
     @Override
-    public Object solve() {
+    public Long solve() {
 
-        final int max = 100000;
+        final int max = 100000000;
         
-        long sum = max;
+        long sum = 0;
         
-        for (int i = 2; i <= max; ++i) {
-            sum += i * (max / i);
+        for (int n = 2; n <= max; n += 2) {
+            sum += 2 * (max / n) * n;
         }
-//        for (int i = 1; 2 * i * i <= max; ++i) {
-//            max / (2 * i * i)
-//            for (int j = i, q; (q = (i * i) + (j * j)) <= max; ++j) {
-//                
-//            }
-//        }
+        for (int n = 1; n <= max; n += 2) {
+            sum += (max / n) * n;
+        }
+        for (int a = 1, aa = 1; 2 * aa <= max; aa += 2 * a++ + 1) {
+            for (int b = a + 1, bb = b * b; aa + bb <= max; bb += 2 * b++ + 1) {
+                if (gcd(b, a) == 1) {
+                    for (int x = 1; x * (aa + bb) <= max; ++x) {
+                        sum += 2 * (max / (x * (aa + bb))) * x * (a + b);
+                    }
+                }
+            }
+        }
+
         return sum;
     }
 
     /**
-     * TODO Method documentation
-     * 
      * @param args
-     * @author Thomas
-     * @since 27.03.2010
      */
     public static void main(String[] args) {
 
