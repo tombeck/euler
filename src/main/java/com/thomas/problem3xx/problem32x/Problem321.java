@@ -36,17 +36,17 @@ public class Problem321 implements Problem {
      * {@inheritDoc}
      */
     @Override
-    public Object solve() {
+    public Long solve() {
 
         long sum = 0;
         
-        long[] a = {2, 5};
-        long[] b = {4, 11};
+        long[] a = {1, -1};
+        long[] b = {1,  1};
         
         for (int i = 0; i < 20; ++i) {
-            sum += a[0] + b[0] - 2;
             a = new long[] {3 * a[0] + a[1], 8 * a[0] + 3 * a[1]};
             b = new long[] {3 * b[0] + b[1], 8 * b[0] + 3 * b[1]};
+            sum += a[0] - 1 + b[0] - 1;
         }
 
         return sum;
