@@ -23,9 +23,10 @@
  */
 package com.thomas.incubator;
 
+import java.math.BigInteger;
+
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
-import com.thomas.util.rational.BigRational;
 
 /**
  * TODO Type documentation
@@ -35,6 +36,78 @@ import com.thomas.util.rational.BigRational;
  */
 class Problem152 implements Problem {
 
+    static class BigRational implements Comparable<BigRational> {
+
+        private final BigInteger num;
+        private final BigInteger den;
+        
+        /**
+         * @param num
+         * @param den
+         */
+        public BigRational(BigInteger num, BigInteger den) {
+
+            this.num = num;
+            this.den = den;
+        }
+
+        /**
+         * @param num
+         * @param den
+         */
+        public BigRational(long num, long den) {
+
+            this(BigInteger.valueOf(num), BigInteger.valueOf(den));
+        }
+
+        /**
+         * @param num
+         * @param den
+         */
+        public BigRational(long num) {
+
+            this(BigInteger.valueOf(num), BigInteger.ONE);
+        }
+
+        public BigRational add(BigRational other) {
+        
+            return new BigRational(this.num.multiply(other.den).add(other.num.multiply(this.den)), this.den.multiply(other.den));
+        }
+
+        public BigRational subtract(BigRational other) {
+            
+            return new BigRational(this.num.multiply(other.den).subtract(other.num.multiply(this.den)), this.den.multiply(other.den));
+        }
+
+        public int signum() {
+            
+            return this.num.signum();
+        }
+        
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public int compareTo(BigRational other) {
+            
+            return this.num.multiply(other.den).compareTo(other.num.multiply(this.den));
+        }
+
+        public boolean less(BigRational other) {
+            
+            return this.num.multiply(other.den).compareTo(other.num.multiply(this.den)) < 0;
+        }
+
+        @Override
+        public String toString() {
+        
+            return this.num + (BigInteger.ONE.equals(this.den) ? "" : "/" + this.den);
+        }
+
+    }
+    
+    static final BigRational ZERO = new BigRational(0);
+    static final BigRational ONE = new BigRational(1);
     static BigRational HALF = new BigRational(1, 2);
     
     /**
@@ -52,6 +125,19 @@ class Problem152 implements Problem {
      * 11^2 = 11^2 : 2^6 * 3^4 * 5^2 * 7^2 * 11^2
      * 12^2 = 2^4 * 3^2 : 2^6 * 3^4 * 5^2 * 7^2 * 11^2
      * 13^2
+     * 
+     * 35 > 1 in  191548 ms
+     * 36 > 1 in  405717 ms
+     * 37 > 1 in 1097755 ms
+     * 
+     * a/b + x/y = 1/2 <=> 2(ay + xb) = yb
+     * 
+     * 1/a^2 + 1/b^2 = (a^2+b^2)/(a^2*b^2)
+     * 
+     * 1/a^2 + 1/(a + 1)^2 = (2a(a+1)+1)/(a(a+1))^2 = 2/(a(a+1))+1/((a(a+1))^2)
+     * 
+     * 1/a + 1/b + 1/c = (bc + ac + ab) / abc
+     * 
      * @return
      * @see com.thomas.util.Euler.Problem#solve()
      * @author Thomas
@@ -60,30 +146,38 @@ class Problem152 implements Problem {
     @Override
     public Object solve() {
 
-        final BigRational[][] fractions = new BigRational[45 - 1][2];
+        final BigRational[][] fractions = new BigRational[35 - 1][2];
         
-        for (int i = 0; i < fractions.length; ++i) {
+        BigRational sum = ZERO;
+        
+        for (int i = fractions.length; i-- > 0; ) {
             fractions[i][0] = new BigRational(1, (i + 2) * (i + 2));
+            sum = sum.add(fractions[i][0]);
+            fractions[i][1] = sum;
         }
-        fractions[fractions.length - 1][1] = fractions[fractions.length - 1][0];
-        for (int i = fractions.length - 1; i-- > 0; ) {
-            fractions[i][1] = fractions[i + 1][1].add(fractions[i][0]);
-        }
-        
-        return count(fractions, 0, HALF);
+
+        return count(fractions, 0, HALF, 0);
     }
 
-    private int count(BigRational[][] fractions, int i, BigRational cur) {
+    private int count(BigRational[][] fractions, int i, BigRational cur, int d) {
 
-        final int c = cur.compareTo(BigRational.ZERO);
+        ++d;
         
-        if (c < 0) return 0;
+        if (d < 7) System.out.println(d + ", " + i);
+        
+        final int c = cur.signum();
+        
         if (c == 0) return 1;
-        if (i >= fractions.length) return 0;
-        if (cur.compareTo(fractions[i][1]) > 0) return 0;
         
+        int count = 0;
         
-        return count(fractions, i + 1, cur) + count(fractions, i + 1, cur.subtract(fractions[i][0]));
+        for (; i < fractions.length && cur.less(fractions[i][0]); ++i) {
+        }
+        for (; i < fractions.length && !(fractions[i][1].less(cur)); ++i) {
+            count += count(fractions, i + 1, cur.subtract(fractions[i][0]), d);
+        }
+
+        return count;
     }
     
     /**
