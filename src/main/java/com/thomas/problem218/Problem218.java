@@ -24,11 +24,7 @@
 package com.thomas.problem218;
 
 import static com.thomas.Util.gcd;
-import static java.lang.Math.max;
-import static java.lang.Math.min;
-import static java.math.BigInteger.ZERO;
-
-import java.math.BigInteger;
+import static java.lang.Math.abs;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -40,9 +36,6 @@ import com.thomas.util.Euler.Problem;
  */
 public class Problem218 implements Problem {
 
-    private static BigInteger SIX = BigInteger.valueOf(6);
-    private static BigInteger TWENTY_EIGHT = BigInteger.valueOf(28);
-    
     /**
      * {@inheritDoc}
      */
@@ -55,17 +48,13 @@ public class Problem218 implements Problem {
             for (int y = (x & 1) + 1; y < x && x * x + y * y <= 100000000; y += 2) { // opposite parity
                 if (gcd(x, y) == 1) { // relatively prime
                     
-                    int m = 2 * x * y;
-                    int n = x * x - y * y;
+                    final int m = (2 * x * y) % 84;
+                    final int n = (x * x - y * y) % 84; // 84 = lcm(6, 28)
                     
-                    BigInteger u = BigInteger.valueOf(max(m, n));
-                    BigInteger v = BigInteger.valueOf(min(m, n));
-                    
-                    BigInteger f = u.pow(3).multiply(v).subtract(v.pow(3).multiply(u));
+                    final int a = m * n;
+                    final int b = abs(m * m - n * n);
 
-                    if (!f.mod(SIX).equals(ZERO) || !f.mod(TWENTY_EIGHT).equals(ZERO)) {
-                        ++sum;
-                    }
+                    if ((a * b) % 6 != 0 || (a * b) % 28 != 0) ++sum;
                 }
             }
         }
