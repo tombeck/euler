@@ -126,9 +126,11 @@ class Problem152 implements Problem {
      * 12^2 = 2^4 * 3^2 : 2^6 * 3^4 * 5^2 * 7^2 * 11^2
      * 13^2
      * 
-     * 35 > 1 in  191548 ms
-     * 36 > 1 in  405717 ms
-     * 37 > 1 in 1097755 ms
+     * 35 > 1 in    4137 ms
+     * 36 > 1 in    7813 ms
+     * 37 > 1 in   14481 ms
+     * 38 > 1 in   26867 ms
+     * 45 > 3 in 3914081 ms
      * 
      * a/b + x/y = 1/2 <=> 2(ay + xb) = yb
      * 
@@ -138,6 +140,9 @@ class Problem152 implements Problem {
      * 
      * 1/a + 1/b + 1/c = (bc + ac + ab) / abc
      * 
+     * 
+     * 
+     * 
      * @return
      * @see com.thomas.util.Euler.Problem#solve()
      * @author Thomas
@@ -146,34 +151,47 @@ class Problem152 implements Problem {
     @Override
     public Object solve() {
 
-        final BigRational[][] fractions = new BigRational[35 - 1][2];
+        final BigInteger[][] fractions = new BigInteger[35 - 1][2];
         
-        BigRational sum = ZERO;
+        BigInteger sum = BigInteger.ZERO;
+        BigInteger lcm = BigInteger.valueOf(2);
         
         for (int i = fractions.length; i-- > 0; ) {
-            fractions[i][0] = new BigRational(1, (i + 2) * (i + 2));
+            lcm = lcm(lcm, BigInteger.valueOf((i + 2) * (i + 2)));
+        }
+        for (int i = fractions.length; i-- > 0; ) {
+            fractions[i][0] = lcm.divide(BigInteger.valueOf((i + 2) * (i + 2)));
             sum = sum.add(fractions[i][0]);
             fractions[i][1] = sum;
+            if (i + 2 == 25) continue;
+            if (i + 2 == 32) continue;
+            if (i + 2 == 16) continue;
+            System.out.println((i + 2) + ":" + fractions[i][0].mod(BigInteger.TEN.pow(4)));
         }
-
-        return count(fractions, 0, HALF, 0);
+        return count(fractions, 0, lcm.divide(BigInteger.valueOf(2)), 0);
     }
 
-    private int count(BigRational[][] fractions, int i, BigRational cur, int d) {
+    private BigInteger lcm(BigInteger a, BigInteger b) {
+    
+        return a.divide(a.gcd(b)).multiply(b);
+    }
+    
+    private int count(BigInteger[][] fractions, int i, BigInteger cur, int d) {
 
         ++d;
         
-        if (d < 7) System.out.println(d + ", " + i);
+        //if (d < 7) System.out.println(d + ", " + i);
         
-        final int c = cur.signum();
-        
-        if (c == 0) return 1;
+        if (cur.signum() == 0) return 1;
         
         int count = 0;
         
-        for (; i < fractions.length && cur.less(fractions[i][0]); ++i) {
+        for (; i < fractions.length && cur.compareTo(fractions[i][0]) < 0; ++i) {
         }
-        for (; i < fractions.length && !(fractions[i][1].less(cur)); ++i) {
+        for (; i < fractions.length && cur.compareTo(fractions[i][1]) <= 0; ++i) {
+            if (i + 2 == 25) continue;
+            if (i + 2 == 32) continue;
+            if (i + 2 == 16) continue;
             count += count(fractions, i + 1, cur.subtract(fractions[i][0]), d);
         }
 
