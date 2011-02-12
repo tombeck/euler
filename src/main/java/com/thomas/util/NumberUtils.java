@@ -328,6 +328,19 @@ public class NumberUtils {
         return bc;
     }
     
+    public static long nCk(long n, long k) {
+        
+        if (2 * k > n) k = n - k;
+        
+        long bc = 1;
+        
+        for (int i = 1; i <= k; ++i) {
+            bc = (bc * ((n + 1) - i)) / i;
+        }
+        
+        return bc;
+    }
+    
     public static int[] toIntArray(Collection<? extends Number> list) {
         
         final int[] array = new int[list.size()];
