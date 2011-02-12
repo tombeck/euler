@@ -23,7 +23,6 @@
  */
 package com.thomas.problem323;
 
-import static com.thomas.util.NumberUtils.nCk;
 import static com.thomas.util.NumberUtils.round;
 import static java.lang.Math.pow;
 
@@ -44,21 +43,18 @@ public class Problem323 implements Problem {
 
         double e = 0;
         
-        for (int n = 1; ; ++n) {
-            
-            double prev = e;
-            double prob = 0;
-            
-            for (int i = 1; i <= 32; ++i) {
-                prob += pow(pow(0.5, n), i) * pow((1 - pow(0.5, n - 1)), 32 - i) * nCk(32L, i);
-            }
-            
-            e += n * prob;
-            
-            if (round(prev, 10) == round(e, 10)) return round(e, 10);
+        for (int n = 1; n < 100; ++n) {
+            e += n * (p(n) - p(n - 1));
         }
+        
+        return round(e, 10);
     }
 
+    private double p(int n) {
+    
+        return pow(1 - pow(0.5, n), 32);
+    }
+    
     /**
      * @param args
      */
