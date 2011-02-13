@@ -23,6 +23,7 @@
  */
 package com.thomas.util.matrix;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 
 /**
@@ -30,7 +31,7 @@ import java.util.Arrays;
  * @author $Author: $ (last modification)
  * @version $Date: $
  */
-public class IntMatrix {
+public class IntMatrix implements Cloneable {
 
     public static IntMatrix one(int m) {
         
@@ -43,9 +44,10 @@ public class IntMatrix {
         return new IntMatrix(ret);
     }
     
-    private final int[][] mx;
     private final int m;
     private final int n;
+
+    public int[][] mx;
 
     public IntMatrix(int n, int[]... mx) {
 
@@ -121,9 +123,36 @@ public class IntMatrix {
         return tmp.modMultiply(tmp, mod);
     }
     
+    public IntMatrix modPow(BigInteger exp, int mod) {
+        
+        if (exp.equals(BigInteger.ZERO)) return one(this.m);
+        if (exp.equals(BigInteger.ONE)) return this.mod(mod);
+        if (exp.and(BigInteger.ONE).equals(BigInteger.ONE)) return this.modMultiply(this.modPow(exp.subtract(BigInteger.ONE), mod), mod);
+        
+        final IntMatrix tmp = this.modPow(exp.shiftRight(1), mod);
+        
+        return tmp.modMultiply(tmp, mod);
+    }
+    
     public int at(int i, int j) {
         
         return this.mx[i][j];
+    }
+    
+    public IntMatrix clone() {
+    
+        try {
+            
+            final IntMatrix clone = (IntMatrix)super.clone();
+            
+            clone.mx = this.mx.clone();
+            
+            return clone;
+            
+        } catch (CloneNotSupportedException e) {
+            
+            throw new IllegalStateException("IntMatrix inherits Cloneable", e);
+        }
     }
     
     @Override
