@@ -83,9 +83,13 @@ public class IntMatrix {
         final int[][] ret = new int[this.m][other.n];
         
         for (int i = 0; i < this.m; ++i) {
-            for (int j = 0; j < other.n; ++j) {
-                for (int k = 0; k < this.n; ++k) {
-                    ret[i][j] = (int)((ret[i][j] + (long)this.mx[i][k] * other.mx[k][j]) % mod);
+            for (int k = 0; k < this.n; ++k) {
+                if (this.mx[i][k] != 0) {
+                    for (int j = 0; j < other.n; ++j) {
+                        if (other.mx[k][j] != 0) {
+                            ret[i][j] = (int)((ret[i][j] + (long)this.mx[i][k] * other.mx[k][j]) % mod);
+                        }
+                    }
                 }
             }
         }
