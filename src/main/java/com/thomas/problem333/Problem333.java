@@ -23,9 +23,11 @@
  */
 package com.thomas.problem333;
 
+import static com.thomas.util.PrimeUtils.primes;
+import static java.lang.Integer.lowestOneBit;
+
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
-import com.thomas.util.PrimeUtils;
 
 /**
  * @author Thomas Beckmann
@@ -39,49 +41,24 @@ public class Problem333 implements Problem {
     @Override
     public Integer solve() {
 
-        int sum = 5; // 2^1*3^0 + 2^0*3^1
+        int sum = 0;
         
-        for (int q : PrimeUtils.primes(1000000)) {
-            
-            final int count = count(q, Integer.MAX_VALUE, Integer.MAX_VALUE, 0);
-            
-            if (count == 1) {
-                System.out.println(q);
-                sum += q;
-            }
+        for (int q : primes(1000000)) {
+            if (count(q, q + 1, 0) == 1) sum += q;
         }
         
         return sum;
     }
 
-    private int count(int q, int max2, int max3, int count) {
-    
-        for (int m3 = 3; m3 < max3 && m3 <= q; m3 *= 3) {
-            for (int m2 = 2; m2 < max2 && m2 + m3 <= q; m2 <<= 1) {
-                if (m2 + m3 == q) {
-                    if (++count > 1) return count;
-                } else {
-                   
-                    int r = (q - (m2 + m3));
-                    
-                    for (int d3 = 3; d3 < m3; d3 *= 3) {
-                        if (r % d3 == 0) {
-                            for (int d2 = 2; d2 < m2; d2 <<= 1) {
-                                if (r % d2 == 0) {
-                                    
-                                    final int s = r / (d2 * d3);
-                                    
-                                    if (s == 1) {
-                                        if (++count > 1) return count;
-                                    } else {
-                                        if ((count = count(s, m2 / d2, m3 / d3, count)) > 1) return count;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+    private int count(int q, int max, int count) {
+        
+        if (q == 0) return count + 1;
+
+        for (int p2 = lowestOneBit(q), p3 = 1; p3 < max && count < 2; p3 *= 3) {
+            
+            if (p2 * p3 > q) break;
+            
+            count = count(q - p2 * p3, p3, count);
         }
         
         return count;

@@ -153,9 +153,9 @@ public class PrimeUtils {
         final boolean[] sieve = new boolean[max];
         final List<Integer> primes = new ArrayList<Integer>();
         
-        int i = 2;
+        int i = 1;
         
-        for (int q; (q = i * i) < max; ++i) {
+        for (int q = 1; (q += (i++ << 1) + 1) < max; ) {
             if (!sieve[i]) {
                 primes.add(i);
                 for (int j = q; j < max; j += i) sieve[j] = true;
@@ -188,4 +188,9 @@ public class PrimeUtils {
         //
     }
 
+    public static void main(String[] args) {
+    
+        System.out.println(primes(97+1));
+    }
+    
 }
