@@ -33,7 +33,8 @@ import com.thomas.util.Euler.Problem;
 public class Problem341 implements Problem {
 
     /**
-     * > 56098610614277014 in 1800874 ms
+     * 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19
+     * 1  2  2  3  3  4  4  4  5  5  5  6  6  6  6  7  7  7  7
      * 
      * {@inheritDoc}
      */
@@ -41,29 +42,29 @@ public class Problem341 implements Problem {
     public Long solve() {
 
         final long max = 1000000L;
-        final long[] length = new long[10105269];
+        final long[] length = new long[10105257];
 
-        int j = 0;
-        long prev = length[0];
+        long sum = 0;
+
+        long g = 0;
+        long l = 0;
         long n = 1;
         long n3 = 1;
-        long sum = 0;
-        for (int i = 1; n < max && i < length.length; ++i) {
+        for (int j = 0, i = 1; ; ++i) {
+            
             if (i > length[j]) ++j;
-            if ((length[i] = prev += j) >= n3) {
-                sum += i;
+            length[i] = length[i - 1] + j;
+            
+            final long tmp = (n3 - l + i - 1) / i;
+            
+            if (tmp <= j) {
+                sum += g + tmp;
                 n3 += 3 * n * ++n + 1;
+                if (n >= max) return sum;
             }
+            l += (long)j * i;
+            g += j;
         }
-        for (long i = length.length; n < max; ++i) {
-            if (i > length[j]) ++j;
-            if ((prev += j) >= n3) {
-                sum += i;
-                n3 += 3 * n * ++n + 1;
-            }
-        }
-
-        return sum;
     }
 
     /**

@@ -237,9 +237,9 @@ import com.thomas.problem306.Problem306;
 import com.thomas.problem307.Problem307;
 import com.thomas.problem310.Problem310;
 import com.thomas.problem312.Problem312;
-import com.thomas.problem320.Problem320;
 import com.thomas.problem323.Problem323;
 import com.thomas.problem333.Problem333;
+import com.thomas.problem341.Problem341;
 import com.thomas.problem3xx.problem31x.Problem317;
 import com.thomas.problem3xx.problem32x.Problem321;
 import com.thomas.problem60.Problem60;
@@ -572,7 +572,7 @@ public class TestAllProblems {
 //                { new Problem324(), "96972774" }, too slow
 
                 { new Problem333(), "3053105" },
-//                { new Problem341(), "56098610614277014" }, too slow
+                { new Problem341(), "56098610614277014" },
         };
     }
     
