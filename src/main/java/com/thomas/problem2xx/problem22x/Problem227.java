@@ -25,6 +25,8 @@ package com.thomas.problem2xx.problem22x;
 
 import static java.lang.String.format;
 
+import java.util.Locale;
+
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
 
@@ -87,7 +89,7 @@ public class Problem227 implements Problem {
             
             final double tmp = sum;
             
-            if (pn[0] > 0 && (sum += pn[0] * n) == tmp) return format("%.10g", sum);
+            if (pn[0] > 0 && (sum += pn[0] * n) == tmp) return format(Locale.ENGLISH, "%.10g", sum);
 
             pp = pn;
         }
