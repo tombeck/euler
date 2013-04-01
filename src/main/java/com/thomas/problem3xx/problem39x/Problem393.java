@@ -63,8 +63,7 @@ public class Problem393 implements Problem {
         TOP(PerRowDirection.TOP),
         RIGHT(PerRowDirection.DONT_CARE),
         BOTTOM(PerRowDirection.BOTTOM),
-        LEFT(PerRowDirection.DONT_CARE),
-        DONT_CARE(PerRowDirection.DONT_CARE);
+        LEFT(PerRowDirection.DONT_CARE);
 
         final PerRowDirection perRow;
 
@@ -86,32 +85,25 @@ public class Problem393 implements Problem {
             return "[" + (this.occupied ? "1" : "0") + ", leftTo=" + this.leftTo + "]";
         }
 
+        private int hashCode = -1;
+        
         @Override
         public int hashCode() {
 
-            final int prime = 31;
-            int result = 1;
-            result = prime * result
-                    + ((this.leftTo == null) ? 0 : this.leftTo.hashCode());
-            result = prime * result + (this.occupied ? 1231 : 1237);
-            return result;
+            if (this.hashCode == -1) this.hashCode = 31 * (31 + this.leftTo.hashCode()) + (this.occupied ? 1231 : 1237);
+            
+            return this.hashCode;
         }
 
         @Override
         public boolean equals(Object obj) {
 
-            if (this == obj)
-                return true;
-            if (obj == null)
-                return false;
-            if (getClass() != obj.getClass())
-                return false;
-            SquareState other = (SquareState) obj;
-            if (this.leftTo != other.leftTo)
-                return false;
-            if (this.occupied != other.occupied)
-                return false;
-            return true;
+            if (this == obj) return true;
+            if (!(obj instanceof SquareState)) return false;
+
+            final SquareState other = (SquareState) obj;
+            
+            return this.leftTo == other.leftTo && this.occupied == other.occupied;
         }
 
     }
@@ -133,32 +125,25 @@ public class Problem393 implements Problem {
             
         }
         
+        private int hashCode = -1;
+        
         @Override
         public int hashCode() {
 
-            final int prime = 31;
-            int result = 1;
-            result = prime * result
-                    + ((this.leftTo == null) ? 0 : this.leftTo.hashCode());
-            result = prime * result + (this.occupied ? 1231 : 1237);
-            return result;
+            if (this.hashCode == -1) this.hashCode = 31 * (31 + this.leftTo.hashCode()) + (this.occupied ? 1231 : 1237);
+            
+            return this.hashCode;
         }
 
         @Override
         public boolean equals(Object obj) {
 
-            if (this == obj)
-                return true;
-            if (obj == null)
-                return false;
-            if (getClass() != obj.getClass())
-                return false;
-            PerRowSquareState other = (PerRowSquareState) obj;
-            if (this.leftTo != other.leftTo)
-                return false;
-            if (this.occupied != other.occupied)
-                return false;
-            return true;
+            if (this == obj) return true;
+            if (!(obj instanceof PerRowSquareState)) return false;
+
+            final PerRowSquareState other = (PerRowSquareState) obj;
+            
+            return this.leftTo == other.leftTo && this.occupied == other.occupied;
         }
 
         @Override
@@ -189,32 +174,25 @@ public class Problem393 implements Problem {
             
         }
         
+        private int hashCode = -1;
+        
         @Override
         public int hashCode() {
 
-            final int prime = 31;
-            int result = 1;
-            result = prime * result
-                    + ((this.leftTo == null) ? 0 : this.leftTo.hashCode());
-            result = prime * result + (this.occupied ? 1231 : 1237);
-            return result;
+            if (this.hashCode == -1) this.hashCode = 31 * (31 + this.leftTo.hashCode()) + (this.occupied ? 1231 : 1237);
+            
+            return this.hashCode;
         }
 
         @Override
         public boolean equals(Object obj) {
 
-            if (this == obj)
-                return true;
-            if (obj == null)
-                return false;
-            if (getClass() != obj.getClass())
-                return false;
-            TopSquareState other = (TopSquareState) obj;
-            if (this.leftTo != other.leftTo)
-                return false;
-            if (this.occupied != other.occupied)
-                return false;
-            return true;
+            if (this == obj) return true;
+            if (!(obj instanceof TopSquareState)) return false;
+
+            final TopSquareState other = (TopSquareState) obj;
+            
+            return this.leftTo == other.leftTo && this.occupied == other.occupied;
         }
 
         @Override
@@ -269,10 +247,14 @@ public class Problem393 implements Problem {
             }
         }
 
+        private int hashCode = -1;
+        
         @Override
         public int hashCode() {
 
-            return 31 + Arrays.hashCode(this.squares);
+            if (this.hashCode == -1) this.hashCode = 31 + Arrays.hashCode(this.squares);
+            
+            return this.hashCode;
         }
 
         @Override
@@ -310,10 +292,14 @@ public class Problem393 implements Problem {
             }
         }
 
+        private int hashCode = -1;
+        
         @Override
         public int hashCode() {
 
-            return 31 + Arrays.hashCode(this.squares);
+            if (this.hashCode == -1) this.hashCode = 31 + Arrays.hashCode(this.squares);
+            
+            return this.hashCode;
         }
 
         @Override
@@ -363,7 +349,8 @@ public class Problem393 implements Problem {
         row[0].occupied = row[row.length - 1].occupied = true;
         
         findRow(row, row.length - 2, count);
-        
+        System.out.println(count.size());
+       
         final TopSquareState[] squares = new TopSquareState[n];
         final PerRowSquareState[] bottomSquares = new PerRowSquareState[n];
         
