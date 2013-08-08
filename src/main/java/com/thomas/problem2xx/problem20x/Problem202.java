@@ -24,7 +24,8 @@
 
 package com.thomas.problem2xx.problem20x;
 
-import static java.lang.Long.numberOfTrailingZeros;
+import static com.thomas.util.NumberUtils.toLongArray;
+import static com.thomas.util.PrimeUtils.getDistinctPrimeFactors;
 
 import com.thomas.util.Euler;
 import com.thomas.util.Euler.Problem;
@@ -45,35 +46,24 @@ public class Problem202 implements Problem {
         final long n = 12017639147L;
         final long m = (n+3)/2;
                     
+        final long[] primes = toLongArray(getDistinctPrimeFactors(m));
+        
         long sum = 0;
         
-        for (long x = 3 - m%3, y; (y = m - x) > x; x += 3) {
-            if (gcd(x, y) == 1) ++sum;
+        for (long x = 3 - m%3; x < m/2; x += 3) {
+            if (coprime(x, primes)) ++sum;
         }
         
-        return 2 * sum;
+        return 2*sum;
     }
 
-    long gcd(long x, long y) {
-     
-        final long cf2 = numberOfTrailingZeros(x | y);
-     
-        x >>= numberOfTrailingZeros(x);
-        for (;;) {
-            y >>= numberOfTrailingZeros(y);
-            if (x == y) break;
-            if (x > y) {
-                
-                long tmp = x;
-                
-                x = y;
-                y = tmp;
-            }
-            if (x == 1) break;
-            y -= x;
+    boolean coprime(long x, long[] primes) {
+    
+        for (long prime : primes) {
+            if (x % prime == 0) return false;
         }
-     
-        return x << cf2;
+        
+        return true;
     }
 
     /**
