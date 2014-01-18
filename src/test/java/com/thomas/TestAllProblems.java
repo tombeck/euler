@@ -174,6 +174,7 @@ import com.thomas.problem1xx.problem17x.Problem173;
 import com.thomas.problem1xx.problem17x.Problem174;
 import com.thomas.problem1xx.problem17x.Problem175;
 import com.thomas.problem1xx.problem17x.Problem179;
+import com.thomas.problem1xx.problem18x.Problem182;
 import com.thomas.problem1xx.problem18x.Problem183;
 import com.thomas.problem1xx.problem18x.Problem186;
 import com.thomas.problem1xx.problem18x.Problem187;
@@ -471,6 +472,7 @@ public class TestAllProblems {
                 { new Problem179(), "986262" },
                 
                 { new Problem181(), "83735848679360680" },
+                { new Problem182(), "399788195976" },
                 { new Problem183(), "48861552" },
                 
                 { new Problem185(), "4640261571849533" },
