@@ -251,6 +251,7 @@ import com.thomas.problem3xx.problem31x.Problem315;
 import com.thomas.problem3xx.problem31x.Problem317;
 import com.thomas.problem3xx.problem32x.Problem321;
 import com.thomas.problem3xx.problem32x.Problem329;
+import com.thomas.problem3xx.problem33x.Problem336;
 import com.thomas.problem3xx.problem34x.Problem345;
 import com.thomas.problem3xx.problem34x.Problem346;
 import com.thomas.problem3xx.problem34x.Problem349;
@@ -597,6 +598,8 @@ public class TestAllProblems {
                 { new Problem329(), "199740353/29386561536000" },
 
                 { new Problem333(), "3053105" },
+                
+                { new Problem336(), "CAGBIHEFJDK" },
                 
                 { new Problem341(), "56098610614277014" },
                 
