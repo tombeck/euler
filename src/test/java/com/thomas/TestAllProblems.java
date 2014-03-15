@@ -258,6 +258,7 @@ import com.thomas.problem3xx.problem34x.Problem346;
 import com.thomas.problem3xx.problem34x.Problem349;
 import com.thomas.problem3xx.problem35x.Problem351;
 import com.thomas.problem3xx.problem38x.Problem381;
+import com.thomas.problem4xx.problem41x.Problem412;
 import com.thomas.problem4xx.problem41x.Problem414;
 import com.thomas.problem4xx.problem42x.Problem425;
 import com.thomas.problem4xx.problem46x.Problem462;
@@ -618,6 +619,8 @@ public class TestAllProblems {
                 { new Problem381(), "139602943319822" },
                 
 //                { new Problem393(), "112398351350823112" }, too slow
+                
+                { new Problem412(), "38788800" },
                 
                 { new Problem414(), "552506775824935461" },
                 
