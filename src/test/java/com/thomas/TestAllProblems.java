@@ -267,6 +267,7 @@ import com.thomas.problem4xx.problem42x.Problem425;
 import com.thomas.problem4xx.problem42x.Problem429;
 import com.thomas.problem4xx.problem46x.Problem462;
 import com.thomas.problem4xx.problem46x.Problem469;
+import com.thomas.problem4xx.problem49x.Problem491;
 import com.thomas.problem5xx.problem50x.Problem500;
 import com.thomas.problem5xx.problem50x.Problem504;
 import com.thomas.problem60.Problem60;
@@ -644,6 +645,8 @@ public class TestAllProblems {
                 { new Problem462(), "5.5350769703e1512" },
                 
                 { new Problem469(), "0.56766764161831" },
+                
+                { new Problem491(), "194505988824000" },
                 
                 { new Problem500(), "35407281" },
                 
