@@ -37,7 +37,7 @@ public class Problem549 implements Problem {
      * {@inheritDoc}
      */
     @Override
-    public Long solve() throws Exception {
+    public Long solve() {
 
         final int max = 100000000;
         final int[] s = new int[max + 1];
@@ -46,34 +46,23 @@ public class Problem549 implements Problem {
         
         for (int i = 2; i <= max; ++i) {
             if (s[i] == 0) {
-                long p = 1;
-                for (int j = 1; (p *= i) <= max; ++j) {
-                    int f = factorial(i, j);
-                    for (int k = (int)p; k <= max; k += (int)p) {
-                        if (f > s[k]) s[k] = f;
+                int factorial = i;
+                int m_i = i << 1;
+                for (long p = i, p_i = i; p <= max; p *= i) {
+                    for (; p_i < p; m_i += i) {
+                        for (int k = m_i; k % i == 0; k /= i) p_i *= i;
+                        factorial += i;
+                    }
+                    for (int j = (int)p; j <= max; j += p) {
+                        if (factorial > s[j]) s[j] = factorial;
                     }
                 }
             }
             sum += s[i];
         }
-
         return sum;
     }
 
-    int factorial(int prim, int power) {
-        
-        int factorial = prim;
-        
-        for (int c = 1, j = prim << 1; c < power; j += prim) {
-            for (int a = j; a % prim == 0; a /= prim) {
-                ++c;
-            }
-            factorial += prim;
-        }
-        
-        return factorial;
-    }
-    
     /**
      * @param args
      */
